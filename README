@@ -1,0 +1,10 @@
+This is the open source Arecibo client that allows you to record errors on your website.
+
+No docs yet, but listener/app_engine is an App Engine project that you can upload to App Engine and run this application. This is the first commit and will improve as time permits.
+
+Installation:
+-----------------------
+
+- copy local_settings.py.example to local_settings.py. Set whatever key you would like for ARECIBO_PUBLIC_ACCOUNT_NUMBER or ARECIBO_PRIVATE_ACCOUNT_NUMBER. The ARECIBO_PUBLIC_ACCOUNT_NUMBER is what you send from your websites
+
+- copy app.yaml.example to app.yaml and set the application: to match the name of the application you've created on App Engine
