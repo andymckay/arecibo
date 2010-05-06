@@ -1,0 +1,1 @@
+This is the standlone Ruby library for posting errors to Arecibo.... more to come if this works

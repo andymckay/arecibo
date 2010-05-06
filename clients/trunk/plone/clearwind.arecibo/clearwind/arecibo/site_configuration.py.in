@@ -1,0 +1,23 @@
+# some of these values can be set in the plone
+# control panel admin interface, any values set
+# there will be override these values.
+#
+# the idea here is that you can set these as 
+# defaults en-mass through say buildout or 
+# whatever mechanism you'd like
+config = {                                          
+    # your arecibo account number
+    "account": "your account number",
+    # the transport you'd like, we'd default to http
+    "transport": "http",
+    # a dictionary of all the priorities by status so
+    # you can alter the priorities as you would like
+    "priorities": {
+        404: 5,
+        500: 1,
+    },
+    # the default priority for everything else
+    "default-priority": 3,
+    # types you'd like to ignore
+    "ignores": ["Redirect","NotFound"] 
+}

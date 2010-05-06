@@ -1,0 +1,56 @@
+Arecibo
+=======
+
+Contributors: Peter Morris, Andy McKay
+
+This is a plugin to catch errors that occur in your rails sites and forward the errors onto Arecibo.
+For more information see Arecibo at http://www.areciboapp.com. Once it has done this you will have to 
+pass the user to a nice error page of your choosing.
+
+This library is under the BSD license and is useful example of how Arecibo can be extended to Rails. 
+Please change and configure to work with your applications as you see fit, if you'd like to contribute
+code back we'd appreciate at.
+
+Installation
+============
+
+Install the plugin, by adding the code to vendor/plugins.
+
+Add in the following into your environment settings, normally this would be config/environment.rb:
+
+ARECIBO_ACCOUNT_NUMBER = 'youraccountnumber'
+
+Where 'youraccountnumber' is replaced with the account number at: http://www.areciboapp.com/setup/keys/
+ 
+Copy assets/arecibo.rhtml to your app/views directory, you can then have this rendered
+as a result, so if you copy it to app/views/layouts you can add in the following to get a default template after an error:
+
+ARECIBO_RESULT_TEMPLATE = "layouts/arecibo"    
+
+The ARECIBO_RESULT_TEMPLATE variable can be set to any value you'd like to render an error 
+back. You'll get @arecibodata available to you which allows you to show any information you'd like to,
+by default we only show the UID for looking up in Arecibo.
+
+Sending errors
+==============
+
+The default setup for Arecibo catches two kinds of errors, 404 and all other errors. A 404 is passed as priority 5
+and everything else priority 1. These should me altered to suit your needs (see configuration below)
+
+In both cases Rails catches the error and forwards it on Arecibo and then renders an error back to the user.
+If the sending to Arecibo fails, then a log message is written containing the error.
+
+Add the following into your application contoller (controllers/application.rb):
+
+  def rescue_action(exception)
+    report_to_arecibo(exception)
+  end
+
+Contributors and License
+========================
+
+Original version by Peter Morris
+
+Copyright (c) 2008 [Peter Morris / peter.morris@ntlworld.com], released under the MIT license
+
+Altered by Andy McKay, ClearWind Consulting and relicensed under the BSD license.

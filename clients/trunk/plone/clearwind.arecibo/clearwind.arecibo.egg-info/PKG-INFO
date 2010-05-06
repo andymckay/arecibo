@@ -1,0 +1,17 @@
+Metadata-Version: 1.0
+Name: clearwind.arecibo
+Version: 0.3dev-r43
+Summary: Connector from Plone to Arecibo
+Home-page: http://clearwind.ca
+Author: ClearWind Consulting
+Author-email: andy@clearwind.ca
+License: BSD
+Description: This package is an interface to the Arecibo application from ClearWind. It provides an interface for Plone to report its errors. For more information see: http://areciboapp.com and specifically http://www.areciboapp.com/docs/plone/
+        
+        
+        
+        
+Platform: UNKNOWN
+Classifier: Framework :: Plone
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
