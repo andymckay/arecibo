@@ -1,0 +1,29 @@
+.header-wrapper {
+    background-color: black;
+    border-width: 0px 0px 1px 0px;
+    margin-bottom: 1em;
+    height: 31px;
+}
+
+.top-links {
+    padding-top: 0.5em;
+}
+
+.top-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.attributes dt, .attributes dd { margin: 0; padding: 0; } 
+.attributes dt { float: left; width: 10em; }
+
+.footer-wrapper {
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid grey;
+    color: grey;
+}
+
+.footer-wrapper a {
+    color: grey;
+}
