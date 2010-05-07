@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ error.title }}</h2>
+<dl>
+    <dt>URL:</dt>
+    <dd><a href="{{ error.raw }}">{{ error.raw }}</a></dd>
+    <dt>Received:</dt>
+    <dd>{{ error.timestamp }}</dd>
+    {% if error.error_timestamp %}<dt>Occured:</dt>
+    <dd>{{ error.error_timestamp }}</dd>{% endif %}
+    <dt>Priority:</dt>
+    <dd>{{ error.priority }}</dd>
+    <dt>Status:</dt>
+    <dd>{{ error.status }}</dd>
+    <dt>Type:</dt>
+    <dd>{{ error.type }}</dd>
+    <dt>Unique ID:</dt>
+    <dd>{{ error.uid }}</dd>
+    {% if error.user_agent_short %}<dt>Browser:</dt>
+    <dd>{{ error.user_agent_short }}</dd>{% endif %}
+    {% if error.operating_system %}<dt>Operating system:</dt>
+    <dd>{{ error.operating_system }}</dd>{% endif %}
+</dl>
+<h3>Details</h3>
+<dl>
+    {% if error.msg %}<dt>Message</dt>
+    <dd><pre>{{ error.msg }}</pre></dd>{% endif %}
+    {% if error.traceback %}<dt>Traceback</dt>
+    <dd><pre>{{ error.traceback }}</pre></dd>{% endif %}
+    {% if error.request %}<dt>Request</dt>
+    <dd><pre>{{ error.request }}</pre></dd>{% endif %}
+</dl>
+{% endblock %}

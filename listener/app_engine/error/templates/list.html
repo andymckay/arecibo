@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>UID</th>
+            <th>URL</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th>Domain</th>
+    </thead>
+    <tbody>
+        {% for error in page %}
+        <tr>
+            <td class="priority_{{ error.priority }}"><a href="{% url error-view error.id %}">{{ error.timestamp }}</a></td>
+            <td>{{ error.uid }}</td>
+            <td>{{ error.url }}</td>
+            <td>{{ error.status }}</td>                                                            
+            <td>{{ error.type_short }}</td>
+            <td>{{ error.domain }}</td>                   
+        </tr> 
+        {% endfor %}      
+    </tbody>
+    
+</table>
+{% endblock %}
