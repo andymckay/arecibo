@@ -1,6 +1,7 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.http import HttpResponseForbidden
-
+from django.contrib.auth.decorators import user_passes_test
+from django.views.generic.simple import direct_to_template
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
@@ -11,6 +12,19 @@ from app.errors import StatusDoesNotExist
 from email.Utils import parsedate
 from datetime import datetime
 from urlparse import urlparse, urlunparse
+
+@user_passes_test(lambda u: u.is_staff)
+def errors_list(request):
+    page = Error.all()
+    return direct_to_template(request, "list.html", extra_context={"page":page})
+
+@user_passes_test(lambda u: u.is_staff)
+def error_view(request, id):
+    error = Error.get(id)
+    return direct_to_template(request, "view.html", extra_context={"error":error})
+
+###################################################################################################
+# this is the bit that does the posting
 
 def post(request):
     """ Add in a post """ 
@@ -31,6 +45,7 @@ def populate(err, incoming):
             
     # special
     if incoming.has_key("url"):
+        err.raw = incoming["url"]
         parsed = list(urlparse(incoming["url"]))
         err.protocol, err.domain = parsed[0], parsed[1]
         err.query = urlunparse(["",""] + parsed[2:])

@@ -1,7 +1,35 @@
 <html>
+<head>
+	<link rel="stylesheet" href="/media/css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print">    
+	<!--[if lt IE 8]><link rel="stylesheet" href="/media/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="/media/css/site.css" type="text/css" media="screen, projection">
+	<title>Arecibo {% block title %}{% endblock %}</title>
+</head>
 <body>
-    <h1>Arecibo</h1>
+    <div class="header-wrapper">
+        <div class="container">
+            <div class="span-8">
+                <img src="/media/img/arecibo.png" title="arecibo" />
+            </div>
+            <div class="span-8 top-links">
+                {% if user.is_anonymous %}
+                <a href="{% url login %}">Login</a>                
+                {% else %}
+                <a href="{% url error-list %}">List</a>
+                <a href="{% url logout %}">Logout</a>                
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container">
     {% block content %}
     {% endblock %}
+    </div>
+    <div class="footer-wrapper">
+        <div class="container">
+            <p><a href="http://areciboapp.com">Arecibo</a> is an open source project from <a href="http://clearwind.ca">Clearwind Consulting</a>.</p>
+        </div>
+    </div>
 </body>
 </html>

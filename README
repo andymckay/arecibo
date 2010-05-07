@@ -1,10 +1,51 @@
-This is the open source Arecibo client that allows you to record errors on your website.
+This is the open source Arecibo client that allows you to record errors on your website, formed off of: http://areciboapp.com
 
-No docs yet, but listener/app_engine is an App Engine project that you can upload to App Engine and run this application. This is the first commit and will improve as time permits.
+This is an App Engine project that you can upload to App Engine and run this application, then point all your sites to use that system.
 
-Installation:
+Creating an App Engine instance
 -----------------------
 
-- copy local_settings.py.example to local_settings.py. Set whatever key you would like for ARECIBO_PUBLIC_ACCOUNT_NUMBER or ARECIBO_PRIVATE_ACCOUNT_NUMBER. The ARECIBO_PUBLIC_ACCOUNT_NUMBER is what you send from your websites
+- create an App Engine instance at https://appengine.google.com/ (this is free)
 
-- copy app.yaml.example to app.yaml and set the application: to match the name of the application you've created on App Engine
+- the name of your instance is used in the next step, examples could be my-company-arecibo which would give you an App Engine instance at http://my-company-arecibo.appspot.com
+
+Download the App Engine API
+-----------------------
+
+- if you don't already have it, you need to download the App Engine API: http://code.google.com/appengine/downloads.html
+
+Creating your App Engine site
+-----------------------
+
+- grab a copy of this site, from github http://github.com/andymckay/arecibo/, eg: git clone git://github.com/andymckay/arecibo.git
+
+- in the listener/app_engine directory:
+
+    - copy local_settings.py.example to local_settings.py. Set whatever key you would like for ARECIBO_PUBLIC_ACCOUNT_NUMBER or ARECIBO_PRIVATE_ACCOUNT_NUMBER. The ARECIBO_PUBLIC_ACCOUNT_NUMBER is what you send from your websites
+
+    - copy app.yaml.example to app.yaml and set the application: to match the name of the application you've created on App Engine
+
+Deploy your app
+-----------------------
+
+- in the listener/app_engine directory:
+    
+    - appcfg.py update .
+
+Congrats, your Arecibo app has now been deployed.
+
+Logging in users
+-----------------------
+
+- any user with a Google account can login to your Arecibo account, however they cannot view anything  at all until you give them access.
+
+- as the admin go to your App Engine admin console http://code.google.com/appengine/docs/theadminconsole.html, go to your app > datastore viewer > select user from the drop down > find user > and set "is_staff" to True
+
+- if you got Google Apps already for your domain, then you can restrict the login just to your domain in App Engine 
+
+Send errors to your app
+-----------------------
+
+To send errors to the app, you just to send HTTP posts to http://my-company-arecibo.appspot.com/v/1/
+
+The API key must match what you set in local_settings, otherwise Arecibo will just reject the post.

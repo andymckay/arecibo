@@ -15,5 +15,6 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    (r'', include('error.urls'))
+    (r'', include('error.urls')),
+    (r'', include('app.urls'))
 )

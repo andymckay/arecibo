@@ -58,11 +58,11 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'appengine_django.auth.middleware.AuthenticationMiddleware'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.request',
-    'app.context.context'
+    'app.context.context',
 )
 
 ROOT_URLCONF = 'urls'
@@ -73,9 +73,11 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+     'django.contrib.auth',
      'appengine_django',
+     'appengine_django.auth',
      'error',
-     'app',
+     'app'
 )
 
 try:

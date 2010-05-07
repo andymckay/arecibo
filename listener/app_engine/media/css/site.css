@@ -12,6 +12,7 @@
 .top-links a {
     color: white;
     text-decoration: none;
+    padding-right: 2em;
 }
 
 .attributes dt, .attributes dd { margin: 0; padding: 0; } 

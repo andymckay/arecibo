@@ -12,8 +12,9 @@
     </thead>
     <tbody>
         {% for error in page %}
-        <tr>
-            <td class="priority_{{ error.priority }}"><a href="{% url error-view error.id %}">{{ error.timestamp }}</a></td>
+        
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td class="priority_{{ error.priority }}"><a href="{% url error-view error.id %}">{{ error.timestamp|date:"d M, Y g:ia" }}</a></td>
             <td>{{ error.uid }}</td>
             <td>{{ error.url }}</td>
             <td>{{ error.status }}</td>                                                            

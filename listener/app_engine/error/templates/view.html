@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% block title %}| {{ error.title|truncatewords:3}}{% endblock %}
 {% block content %}
 <h2>{{ error.title }}</h2>
-<dl>
+<dl class="attributes">
     <dt>URL:</dt>
-    <dd><a href="{{ error.raw }}">{{ error.raw }}</a></dd>
+    <dd>{% if error.raw %}<a href="{{ error.raw }}">{{ error.raw }}</a>{% else %}-{% endif %}</dd>
     <dt>Received:</dt>
     <dd>{{ error.timestamp }}</dd>
     {% if error.error_timestamp %}<dt>Occured:</dt>
@@ -22,7 +23,7 @@
     <dd>{{ error.operating_system }}</dd>{% endif %}
 </dl>
 <h3>Details</h3>
-<dl>
+<dl class="detail">
     {% if error.msg %}<dt>Message</dt>
     <dd><pre>{{ error.msg }}</pre></dd>{% endif %}
     {% if error.traceback %}<dt>Traceback</dt>
