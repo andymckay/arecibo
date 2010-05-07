@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Welcome to Arecibo.</p>
+{% if user.is_anonymous %}
+    <p><b>Existing user?</b>: <a href="{% url login %}">Login here</a></p>
+    <p><b>New user?</b>: <a href="{% url login %}">Login with your google account</a>, then get the admin to approve {% else %}
+{% if not user.is_staff %}<p class="notice">You have logged in, but the admin has not granted you access yet.</p>{% endif %}
+{% endif %}
+</p>
+{% endblock %}
