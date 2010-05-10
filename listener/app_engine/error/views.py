@@ -15,7 +15,7 @@ from urlparse import urlparse, urlunparse
 
 @user_passes_test(lambda u: u.is_staff)
 def errors_list(request):
-    page = Error.all().order_by("-timestamp")
+    page = Error.all().order("-timestamp")
     return direct_to_template(request, "list.html", extra_context={"page":page})
 
 @user_passes_test(lambda u: u.is_staff)
