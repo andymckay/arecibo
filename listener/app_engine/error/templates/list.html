@@ -3,26 +3,41 @@
 <table>
     <thead>
         <tr>
+            <th>Read</th>
             <th>Date</th>
             <th>UID</th>
-            <th>URL</th>
+            <th>Domain</th>
+            <th>Fragment</th>
             <th>Status</th>
             <th>Type</th>
-            <th>Domain</th>
     </thead>
     <tbody>
-        {% for error in page %}
-        
+        {% for error in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
+            <td>{% if error.read %}{% else %}&bull;{% endif %}</td>
             <td class="priority_{{ error.priority }}"><a href="{% url error-view error.id %}">{{ error.timestamp|date:"d M, Y g:ia" }}</a></td>
             <td>{{ error.uid }}</td>
-            <td>{{ error.url }}</td>
+            <td>{{ error.domain }}</td>                   
+            <td>{{ error.query_short }}</td>
             <td>{{ error.status }}</td>                                                            
             <td>{{ error.type_short }}</td>
-            <td>{{ error.domain }}</td>                   
         </tr> 
         {% endfor %}      
     </tbody>
-    
 </table>
+<div class="pagination">
+    <span class="step-links">
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page.number }}.
+        </span>
+
+        {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

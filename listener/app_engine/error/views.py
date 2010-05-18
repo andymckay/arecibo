@@ -7,7 +7,9 @@ from django.conf import settings
 
 from error.models import Error
 from error.validations import valid_status
+
 from app.errors import StatusDoesNotExist
+from app.paginator import Paginator, get_page
 
 from email.Utils import parsedate
 from datetime import datetime
@@ -15,12 +17,16 @@ from urlparse import urlparse, urlunparse
 
 @user_passes_test(lambda u: u.is_staff)
 def errors_list(request):
-    page = Error.all().order("-timestamp")
+    errors = Error.all().order("-timestamp")
+    paginated = Paginator(errors, 50)
+    page = get_page(request, paginated)
     return direct_to_template(request, "list.html", extra_context={"page":page})
 
 @user_passes_test(lambda u: u.is_staff)
 def error_view(request, id):
     error = Error.get(id)
+    error.read = True
+    error.save()
     return direct_to_template(request, "view.html", extra_context={"error":error})
 
 ###################################################################################################
