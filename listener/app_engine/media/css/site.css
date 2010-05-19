@@ -5,6 +5,10 @@
     height: 31px;
 }
 
+body {
+    font-size: 0.9em;
+}
+
 .top-links {
     padding-top: 0.5em;
 }
@@ -12,7 +16,8 @@
 .top-links a {
     color: white;
     text-decoration: none;
-    padding-right: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .attributes dt, .attributes dd { margin: 0; padding: 0; } 
@@ -27,4 +32,25 @@
 
 .footer-wrapper a {
     color: grey;
+}
+
+.priority_1 {
+    background-color: #F6CECE !important;
+    color: black;
+}
+.priority_2 {
+    background-color: #F6E3CE !important;
+    color: black;
+}
+.priority_3 {
+    background-color: #F5F6CE !important; 
+    color: black;   
+}
+
+pre {
+    font-size: 1.2em;
+}
+
+table.listing tr {
+    cursor: pointer;
 }

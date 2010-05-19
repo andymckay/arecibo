@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<table>
+<table class="listing">
     <thead>
         <tr>
             <th>Read</th>
+            <th>Status</th>
+            <th>Type</th>
             <th>Date</th>
             <th>UID</th>
             <th>Domain</th>
             <th>Fragment</th>
-            <th>Status</th>
-            <th>Type</th>
     </thead>
     <tbody>
         {% for error in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
-            <td>{% if error.read %}{% else %}&bull;{% endif %}</td>
-            <td class="priority_{{ error.priority }}"><a href="{% url error-view error.id %}">{{ error.timestamp|date:"d M, Y g:ia" }}</a></td>
+            <td>{% if error.read %}{% else %}<img src="/media/img/read.png" alt="Unread" />{% endif %}</td>
+            <td class="priority_{{ error.priority }}">{{ error.status }}</td>                                                            
+            <td class="priority_{{ error.priority }}">{{ error.type_short }}</td>
+            <td><a href="{% url error-view error.id %}">{{ error.timestamp|date:"d M, Y g:ia" }}</a></td>
             <td>{{ error.uid }}</td>
             <td>{{ error.domain }}</td>                   
             <td>{{ error.query_short }}</td>
-            <td>{{ error.status }}</td>                                                            
-            <td>{{ error.type_short }}</td>
         </tr> 
         {% endfor %}      
     </tbody>

@@ -25,8 +25,9 @@ def errors_list(request):
 @user_passes_test(lambda u: u.is_staff)
 def error_view(request, id):
     error = Error.get(id)
-    error.read = True
-    error.save()
+    if not error.read:
+        error.read = True
+        error.save()
     return direct_to_template(request, "view.html", extra_context={"error":error})
 
 ###################################################################################################
