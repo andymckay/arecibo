@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import admin
+from django.core.urlresolvers import reverse
 
 from google.appengine.ext import db
 
@@ -54,6 +55,9 @@ class Error(BaseModel):
     def url_short(self): return self._short("url", 20)
     def type_short(self): return self._short("type", 20)
     def query_short(self): return self._short("query", 20)
+    
+    def get_absolute_url(self):
+        return reverse("error-view", args=[self.id,])
     
     @property
     def id(self):

@@ -5,6 +5,9 @@ from django.views.generic.simple import direct_to_template
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
+from django.contrib.syndication.views import Feed
+from django.utils.feedgenerator import Atom1Feed
+
 from error.models import Error
 from error.validations import valid_status
 
@@ -14,6 +17,20 @@ from app.paginator import Paginator, get_page
 from email.Utils import parsedate
 from datetime import datetime
 from urlparse import urlparse, urlunparse
+
+class LatestEntriesFeed(Feed):
+    title = "Arecibo Errors"
+    link = "/list/"
+    description = "Arecibo Errors"
+    feed_type = Atom1Feed
+    subtitle = "Arecibo Errors"
+    
+    def items(self):
+        return Error.all().order("-timestamp")[:20]
+
+    def item_title(self, item): return item.title
+    def item_description(self, item): return item.description
+    def item_pubdate(self, item): return item.timestamp
 
 @user_passes_test(lambda u: u.is_staff)
 def errors_list(request):
