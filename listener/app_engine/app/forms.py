@@ -2,11 +2,11 @@ from django import forms
 
 def as_blue_print(self):
     return self._html_output(u"""
-    <div class="span-12 prepend-1 append-bottom">
+    <div class="span-8">
         %(errors)s
-        <div class="span-3" style="text-align: right">%(label)s</div>
-        <div class="span-9 last">%(field)s</div>
-        <span class="span-9 help clear">%(help_text)s</span>
+        %(label)s<br />
+        %(field)s
+        <span class="help">%(help_text)s</span>
     </div>
     """, u'%s', '', u'%s', False)
 

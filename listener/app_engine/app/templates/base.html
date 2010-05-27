@@ -13,19 +13,20 @@
     
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/media/js/site.js"></script>
+	<link href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css">
 	<title>Arecibo {% block title %}{% endblock %}</title>
 </head>
 <body>
     <div class="header-wrapper">
         <div class="container">
-            <div class="span-8">
+            <div class="span-8 title">
                 <img src="/media/img/arecibo.png" title="arecibo" />
             </div>
             <div class="span-8 top-links">
                 {% if user.is_anonymous %}
-                <a href="{% url login %}">Login</a>                
+                <a href="{% url login %}">Login</a>            
                 {% else %}
-                <a href="{% url error-list %}">List</a>
+                <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>List</a>
                 <a href="{% url logout %}">Logout</a>                
                 {% endif %}
             </div>

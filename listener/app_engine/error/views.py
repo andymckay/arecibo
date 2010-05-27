@@ -38,7 +38,7 @@ def get_filtered(request):
 @user_passes_test(lambda u: u.is_staff)
 def errors_list(request):
     form, queryset = get_filtered(request)
-    paginated = Paginator(queryset, 50)
+    paginated = Paginator(queryset, 1)
     page = get_page(request, paginated)
     return direct_to_template(request, "list.html", extra_context={
         "page": page, 

@@ -6,18 +6,25 @@
 }
 
 body {
-    font-size: 0.9em;
 }
 
-.top-links {
-    padding-top: 0.5em;
+.title {
+    padding-top: 4px;
 }
 
 .top-links a {
     color: white;
     text-decoration: none;
-    padding-left: 1em;
-    padding-right: 1em;
+    position: relative;
+    top: 6px;
+    padding: 10px;
+    border: none;
+}
+
+.selected {
+    background-image: url(/media/img/arrow.png);
+    background-repeat: no-repeat;
+    background-position: 0px 22px;
 }
 
 .attributes dt, .attributes dd { margin: 0; padding: 0; } 
@@ -51,6 +58,15 @@ pre {
     font-size: 1.2em;
 }
 
-table.listing tr {
+table.listing tr td {
     cursor: pointer;
+    border-left: 1px solid lightgrey;    
 }
+
+table.listing thead th {
+    background: whitesmoke;
+    border-left: 1px solid lightgrey;
+    border-collapse: collapse;
+}
+
+h1, h2, h3 { font-family: 'Droid Serif', arial, serif; }

@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="span-18">
+{% if page.object_list %}
 <table class="listing">
     <thead>
         <tr>
@@ -21,14 +23,22 @@
             <td>{{ error.uid }}</td>
             <td>{{ error.domain }}</td>                   
             <td>{{ error.query_short }}</td>
-        </tr> 
+        </tr>
         {% endfor %}      
     </tbody>
 </table>
-<div class="pagination">
+{% else %}
+<p>No errors found. Could be you've not sent any errors yet. Perhaps you've got some filters
+    set in the page, in which case <a href="{% url error-list %}">reset them</a>.</p>
+{% endif %}
+</div>
+<div class="span-5">
+    {% include "filter.html" %}
+</div>
+<div class="pagination clear">
     <span class="step-links">
         {% if page.has_previous %}
-            <a href="?page={{ page.previous_page_number }}">previous</a>
+            <a href="?{{ qs }}&amp;page={{ page.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -36,8 +46,9 @@
         </span>
 
         {% if page.has_next %}
-            <a href="?page={{ page.next_page_number }}">next</a>
+            <a href="?{{ qs }}&amp;page={{ page.next_page_number }}">next</a>
         {% endif %}
     </span>
 </div>
+
 {% endblock %}

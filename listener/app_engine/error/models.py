@@ -9,6 +9,10 @@ from appengine_django.models import BaseModel
 import urlparse               
 import md5
 
+class Group(BaseModel):
+    """ A grouping of errors """
+    uid = db.StringProperty()
+
 class Error(BaseModel):
     # time error was received by this server
     timestamp = db.DateTimeProperty()
@@ -39,7 +43,8 @@ class Error(BaseModel):
     error_timestamp = db.DateTimeProperty()
     request = db.TextProperty()
     username = db.StringProperty()
-    fingerprint = db.StringProperty()
+    
+    group = db.ReferenceProperty(Group)
     
     read = db.BooleanProperty(default=False)
 
@@ -89,31 +94,4 @@ class Error(BaseModel):
 
     @property
     def description(self):
-        return self.msg or ""
-    
-    def calculate_fingerprint(self):
-        """ Given an error, see if we can fingerprint it and find similar ones """
-        keys = ["type", "traceback"]
-        hsh = md5.new()
-        
-        found = False                           
-        for key in keys:  
-            value = getattr(self, key)
-            if value:
-                hsh.update(value.encode("ascii", "ignore"))
-                found = True
-        
-        if found:
-            self.fingerprint = hsh.hexdigest()
-            self.save()
-    
-    def similar_fingerprint(self):
-        """ Find all errors with a similar fingerprint """
-        if self.fingerprint:
-            results = Error.objects.filter(
-                fingerprint=self.fingerprint).\
-                exclude(id=self.id).\
-                order_by("-error_timestamp", "-timestamp")
-            return results
-        else:
-            return []
+        return self.msg or ""    
