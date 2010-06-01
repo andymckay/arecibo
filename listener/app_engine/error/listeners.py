@@ -1,8 +1,6 @@
 import md5
 
-from django.db.models import signals
-
-from app.utils import safe_string
+from app.utils import safe_string, log
 from error.models import Error, Group
 from error import signals
 
@@ -22,6 +20,7 @@ def generate_key(instance):
 def default_grouping(instance, **kw):
     """ Given an error, see if we can fingerprint it and find similar ones """
     # prevent an infinite loop
+    log("Firing signal: default_grouping")
     if instance.group:
         return
         
@@ -38,5 +37,5 @@ def default_grouping(instance, **kw):
 
         instance.group = group
         instance.save()
-    
+
 signals.error_created.connect(default_grouping, sender=Error, dispatch_uid="default_grouping")
