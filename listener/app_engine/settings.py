@@ -77,7 +77,9 @@ INSTALLED_APPS = (
      'appengine_django',
      'appengine_django.auth',
      'error',
-     'app'
+     'app',
+     'notifications',
+     'custom'
 )
 
 try:

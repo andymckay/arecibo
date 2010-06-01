@@ -1,10 +1,11 @@
-from django.db import models
-from django.contrib import admin
 from django.core.urlresolvers import reverse
+
+from datetime import datetime
 
 from google.appengine.ext import db
 
 from appengine_django.models import BaseModel
+from error import signals
 
 import urlparse               
 import md5
@@ -12,6 +13,21 @@ import md5
 class Group(BaseModel):
     """ A grouping of errors """
     uid = db.StringProperty()
+    timestamp = db.DateTimeProperty()
+    
+    def sample(self):
+        try:
+            return Error.all().filter("group = ", self).order("-timestamp")[0]
+        except IndexError:
+            return None
+    
+    def save(self, *args, **kw):
+        created = not hasattr(self, "id")
+        if created:
+            self.timestamp = datetime.now()
+        self.put()
+        if created:
+            signals.group_created.send(sender=self.__class__, instance=self)
 
 class Error(BaseModel):
     # time error was received by this server
@@ -64,6 +80,9 @@ class Error(BaseModel):
     def get_absolute_url(self):
         return reverse("error-view", args=[self.id,])
     
+    def get_similar(self, limit=5):
+        return Error.all().filter("group = ", self.group).filter("__key__ !=", self.key())[:limit]
+    
     @property
     def id(self):
         return str(self.key())
@@ -94,4 +113,12 @@ class Error(BaseModel):
 
     @property
     def description(self):
-        return self.msg or ""    
+        return self.msg or ""
+
+    def save(self):
+        created = not hasattr(self, "id")
+        self.put()
+        if created:
+            signals.error_created.send(sender=self.__class__, instance=self)
+        
+from error import grouping

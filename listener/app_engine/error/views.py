@@ -6,7 +6,7 @@ from django.utils.feedgenerator import Atom1Feed
 
 from google.appengine.ext import db
 
-from error.models import Error
+from error.models import Error, Group
 from error.forms import ErrorForm
 
 from app.paginator import Paginator, get_page
@@ -42,9 +42,20 @@ def errors_list(request):
     page = get_page(request, paginated)
     return direct_to_template(request, "list.html", extra_context={
         "page": page, 
-        "nav": {"selected": "list"},
+        "nav": {"selected": "list", "subnav": "list"},
         "form": form
         })
+        
+@user_passes_test(lambda u: u.is_staff)
+def groups_list(request):
+    queryset = Group.all().order("-timestamp")
+    paginated = Paginator(queryset, 50)
+    page = get_page(request, paginated)
+    return direct_to_template(request, "group.html", extra_context={
+        "page": page, 
+        "nav": {"selected": "list", "subnav": "group"},
+        })
+
 
 @user_passes_test(lambda u: u.is_staff)
 def error_view(request, pk):

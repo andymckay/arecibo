@@ -1,8 +1,4 @@
-from django.db.models import signals
+import django.dispatch
 
-from error.models import Error, Group
-
-def find_or_create_grouping(self, instance, **kw):
-    
-
-signals.post_save(find_or_create_grouping, sender=Error, dispatch_uid="find_or_create_grouping")
+error_created = django.dispatch.Signal(providing_args=["instance",])
+group_created = django.dispatch.Signal(providing_args=["instance",])

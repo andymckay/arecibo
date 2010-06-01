@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="span-18">
+{% if page.object_list %}
+<table class="listing">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Error</th>
+            <th>Users</th>
+            <th>Tried</th>
+            <th>Completed</th>
+            <th>Comments</th>
+    </thead>
+    <tbody>
+        {% for notification in page.object_list %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td>{{ notification.timestamp|date:"d M, Y P" }}</td>
+            <td><a href="{% url error-view notification.error.id %}">{{ notification.title }}</td>                   
+            <td>{{ notification.users }}</td>
+            <td>{{ notification.tried }}</td>
+            <td>{{ notification.completed }}</td>
+            <td>{{ notification.error_msg }}</td>
+        </tr>
+        {% endfor %}      
+    </tbody>
+</table>
+{% else %}
+<p>No notifications found. Could be you've not sent any errors yet and generated 
+    notifications. Or we've cleaned out this list of notifications. Or your
+    notifications are not enabled. More than likely one of those.</p>
+{% endif %}
+</div>
+{% include "pagination.html" %}
+{% endblock %}

@@ -1,6 +1,8 @@
 from app.forms import Form
 from django import forms
 
+from error.models import Error, Group
+
 read_choices = (("", "All"), ("False", 'Read only'), ("True", 'Unread only'))
 priority_choices = [ (r, r) for r in range(1, 11)]
 priority_choices.insert(0, ("", "All"))
@@ -26,7 +28,8 @@ class ErrorForm(Form):
     read = forms.ChoiceField(choices=read_choices, widget=forms.Select, required=False)
     domain = forms.CharField(required=False)
     uid = forms.CharField(required=False)
-            
+    group = forms.CharField(required=False) 
+    
     def as_query(self):
         # remove anything that's empty from going in the query
         data = {}
@@ -37,4 +40,6 @@ class ErrorForm(Form):
             data["read"] = {"False":False, "True":True}.get(data["read"], None)
         if "priority" in data:
             data["priority"] = safe_int(data["priority"])
+        if "group" in data:
+            data["group"] = Group.all().filter("uid = ", data["group"])[0].key()
         return data
