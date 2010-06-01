@@ -1,9 +1,15 @@
+from django.conf import settings
+
+settings.DATABASES['default']['SUPPORTS_TRANSACTIONS'] = True
+
 try:
-    from django.conf import settings
     account = settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER
 except ImportError:
     account = "1231241243"
-    
+  
+import os
+os.environ['SERVER_SOFTWARE'] = "Development"
+
 test_data = {
     "account": account,
     "priority": 4,

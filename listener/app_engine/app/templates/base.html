@@ -27,6 +27,7 @@
                 <a href="{% url login %}">Login</a>            
                 {% else %}
                 <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>List</a>
+                <a href="{% url notification-list %}" {% ifequal nav.selected "notifications" %}class="selected"{% endifequal %}>Notifications</a>
                 <a href="{% url logout %}">Logout</a>                
                 {% endif %}
             </div>

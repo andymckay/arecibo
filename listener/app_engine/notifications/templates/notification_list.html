@@ -16,11 +16,11 @@
         {% for notification in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{ notification.timestamp|date:"d M, Y P" }}</td>
-            <td><a href="{% url error-view notification.error.id %}">{{ notification.title }}</td>                   
-            <td>{{ notification.users }}</td>
-            <td>{{ notification.tried }}</td>
-            <td>{{ notification.completed }}</td>
-            <td>{{ notification.error_msg }}</td>
+            <td><a href="{% url error-view notification.error.id %}">{{ notification.error.title }}</td>                   
+            <td>{% for user in notification.user_list %}{{ user.username }}{% if not forloop.last %},{% endif %}{% endfor %}</td>
+            <td>{{ notification.tried|yesno }}</td>
+            <td>{{ notification.completed|yesno }}</td>
+            <td>{% if notification.error_msg %}{{ notification.error_msg }}{% endif %}</td>
         </tr>
         {% endfor %}      
     </tbody>

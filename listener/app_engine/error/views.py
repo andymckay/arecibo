@@ -3,14 +3,24 @@ from django.views.generic.simple import direct_to_template
 
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
+from django.http import HttpResponse
 
 from google.appengine.ext import db
 
 from error.models import Error, Group
 from error.forms import ErrorForm
+from error.signals import error_created
 
 from app.paginator import Paginator, get_page
 
+# these aren't used directly
+from notifications import listeners
+from error import listeners
+try:
+    from custom import listeners
+except ImportError:
+    pass
+    
 class LatestEntriesFeed(Feed):
     title = "Arecibo Errors"
     link = "/list/"
@@ -24,6 +34,15 @@ class LatestEntriesFeed(Feed):
     def item_title(self, item): return item.title
     def item_description(self, item): return item.description
     def item_pubdate(self, item): return item.timestamp
+
+def send_signal(request, pk):
+    error = Error.get(pk)        
+    if not error.create_signal_sent:
+        error.create_signal_sent = True
+        error.save()
+        error_created.send(sender=error.__class__, instance=error)
+        return HttpResponse("Signal sent")
+    return HttpResponse("Signal not sent")
 
 def get_filtered(request):
     form = ErrorForm(request.GET or None)

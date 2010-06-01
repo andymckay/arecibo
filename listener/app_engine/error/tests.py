@@ -7,13 +7,10 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
-from django.conf import settings
 from django.db import connection
 
 from app.tests import test_data as data
 from error.models import Error, Group
-
-settings.DATABASES['default']['SUPPORTS_TRANSACTIONS'] = True
 
 class ErrorTests(TestCase):
     # test the view for writing errors

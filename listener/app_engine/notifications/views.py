@@ -6,7 +6,7 @@ from django.utils.feedgenerator import Atom1Feed
 
 from google.appengine.ext import db
 
-from notification.models import Notification
+from notifications.models import Notification
 
 from app.paginator import Paginator, get_page
 
@@ -17,5 +17,5 @@ def notifications_list(request):
     page = get_page(request, paginated)
     return direct_to_template(request, "notification_list.html", extra_context={
         "page": page, 
-        "nav": {"selected": "notification",}
+        "nav": {"selected": "notifications"}
         })

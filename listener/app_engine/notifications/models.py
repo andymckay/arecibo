@@ -1,21 +1,25 @@
 from datetime import datetime
-from django.db import models
 
 from appengine_django.models import BaseModel
 from appengine_django.auth.models import User
 
 from google.appengine.ext import db
 
-from error.models import Error
+from error.signals import error_created
 from notifications.signals import notification_created
+from users.utils import approved_users
+from app.utils import log
 
 class Notification(BaseModel):
+    # to do, fix this
+    from error.models import Error
+    
     user = db.ListProperty(str)
     error = db.ReferenceProperty(Error)
     
-    tried = models.BooleanField(default=False)
-    completed = models.BooleanField(default=False)
-    error_msg = models.TextField()
+    tried = db.BooleanProperty(default=False)
+    completed = db.BooleanProperty(default=False)
+    error_msg = db.TextProperty()
     timestamp = db.DateTimeProperty()
     
     def save(self):
@@ -25,5 +29,6 @@ class Notification(BaseModel):
         self.put()
         if created:
             notification_created.send(sender=self.__class__, instance=self)
-    
-from notifications import creating
+
+    def user_list(self):
+        return [ User.get(key) for key in self.user ]

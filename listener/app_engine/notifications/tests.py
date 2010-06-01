@@ -6,14 +6,11 @@ from django.test.client import Client
 
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
-from django.conf import settings
 
 from error.models import Error
 from notifications.models import Notification
 
 from app.tests import test_data
-
-settings.DATABASES['default']['SUPPORTS_TRANSACTIONS'] = True
 
 class ErrorTests(TestCase):
     # test the view for writing errors

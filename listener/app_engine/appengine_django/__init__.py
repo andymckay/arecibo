@@ -527,6 +527,7 @@ def InstallAppengineHelperForDjango(version=None):
     logging.error("Django 1.0 or greater is required!")
     sys.exit(1)
 
+  
   if os.getenv("DEBUG_APPENGINE_DJANGO"):
     logging.getLogger().setLevel(logging.DEBUG)
   else:

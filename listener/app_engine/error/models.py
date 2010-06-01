@@ -3,10 +3,13 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 
 from google.appengine.ext import db
+from google.appengine.api.labs import taskqueue
 
 from appengine_django.models import BaseModel
-from error import signals
+from error.signals import error_created, group_created
+from app.utils import log
 
+import os
 import urlparse               
 import md5
 
@@ -27,7 +30,7 @@ class Group(BaseModel):
             self.timestamp = datetime.now()
         self.put()
         if created:
-            signals.group_created.send(sender=self.__class__, instance=self)
+            group_created.send(sender=self.__class__, instance=self)
 
 class Error(BaseModel):
     # time error was received by this server
@@ -63,6 +66,8 @@ class Error(BaseModel):
     group = db.ReferenceProperty(Group)
     
     read = db.BooleanProperty(default=False)
+
+    create_signal_sent = db.BooleanProperty(default=False)
 
     class Meta:
         app_label = "listener"
@@ -119,6 +124,12 @@ class Error(BaseModel):
         created = not hasattr(self, "id")
         self.put()
         if created:
-            signals.error_created.send(sender=self.__class__, instance=self)
-        
-from error import grouping
+            if os.environ['SERVER_SOFTWARE'].startswith('Dev'):
+                # send the signal, otherwise we have to clicking buttons
+                # to process the queue
+                from error.views import send_signal
+                send_signal(None, self.id)
+            else:
+                # enqueue the send notification
+                # if development
+                taskqueue.add(url=reverse("error-created", args=[self.id,]))
