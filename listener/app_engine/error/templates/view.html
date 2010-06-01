@@ -6,9 +6,9 @@
     <dt>URL:</dt>
     <dd>{% if error.raw %}<a href="{{ error.raw }}">{{ error.raw }}</a>{% else %}-{% endif %}</dd>
     <dt>Received:</dt>
-    <dd>{{ error.timestamp }}</dd>
+    <dd>{{ error.timestamp|date:'d M, Y P' }}</dd>
     {% if error.error_timestamp %}<dt>Occured:</dt>
-    <dd>{{ error.error_timestamp }}</dd>{% endif %}
+    <dd>{{ error.error_timestamp|date:'d M, Y P' }}</dd>{% endif %}
     <dt>Priority:</dt>
     <dd>{{ error.priority }}</dd>
     <dt>Status:</dt>
@@ -31,4 +31,14 @@
     {% if error.request %}<dt>Request</dt>
     <dd><pre>{{ error.request }}</pre></dd>{% endif %}
 </dl>
+{% if error.get_similar %}
+<h3>Similar</h3>
+<ul>
+{% for similar in error.get_similar %}
+        <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> {{ similar.timestamp|date:'d M, Y P' }}</li>
+{% endfor %}
+</ul>
+<p><a href="{% url error-list %}?group={{ error.group.uid }}">&raquo; more</a></p>
+{% endif %}
+
 {% endblock %}

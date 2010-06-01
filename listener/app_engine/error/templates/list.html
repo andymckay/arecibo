@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="span-18">
+{% include "subnav.html" %}
 {% if page.object_list %}
 <table class="listing">
     <thead>
@@ -11,7 +12,7 @@
             <th>Date</th>
             <th>UID</th>
             <th>Domain</th>
-            <th>Fragment</th>
+            <th>Path</th>
     </thead>
     <tbody>
         {% for error in page.object_list %}
@@ -19,7 +20,7 @@
             <td>{% if error.read %}{% else %}<img src="/media/img/read.png" alt="Unread" />{% endif %}</td>
             <td class="priority_{{ error.priority }}">{{ error.status }}</td>                                                            
             <td class="priority_{{ error.priority }}">{{ error.type_short }}</td>
-            <td><a href="{% url error-view error.id %}">{{ error.timestamp|date:"d M, Y g:ia" }}</a></td>
+            <td><a href="{% url error-view error.id %}">{{ error.timestamp|date:"d M, Y P" }}</a></td>
             <td>{{ error.uid }}</td>
             <td>{{ error.domain }}</td>                   
             <td>{{ error.query_short }}</td>
@@ -35,20 +36,5 @@
 <div class="span-5">
     {% include "filter.html" %}
 </div>
-<div class="pagination clear">
-    <span class="step-links">
-        {% if page.has_previous %}
-            <a href="?{{ qs }}&amp;page={{ page.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page.number }}.
-        </span>
-
-        {% if page.has_next %}
-            <a href="?{{ qs }}&amp;page={{ page.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
-
+{% include "pagination.html" %}
 {% endblock %}

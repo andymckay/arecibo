@@ -1,0 +1,4 @@
+<p>
+    {% ifequal nav.subnav 'list' %}List{% else %}<a href="{% url error-list %}">List</a>{% endifequal %}
+    &bull; {% ifequal nav.subnav 'group' %}Group{% else %}<a href="{% url group-list %}">Group</a>{% endifequal %}
+</p>
