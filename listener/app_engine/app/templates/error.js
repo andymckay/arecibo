@@ -1,6 +1,6 @@
 // $Id$
-// Copyright ClearWind Consulting Ltd., 2008-9
-// Version 1.2
+// Copyright ClearWind Consulting Ltd., 2008-10
+// Version 1.3
 // Posts to /v/1/
 
 var arecibo = new Object();
