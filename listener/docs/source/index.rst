@@ -8,7 +8,6 @@ Contents:
    introduction.rst
    quickstart.rst
    server/index.rst
-   server/requirements.rst
    server/installation.rst
    client/index.rst
    client/api.rst
