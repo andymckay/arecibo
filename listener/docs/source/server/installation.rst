@@ -63,13 +63,13 @@ Then alter the file as detailed::
     DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
     SITE_URL = "http://theurl.to.your.arecibo.instance.com"
     
-Line 1: ARECIBO_PUBLIC_ACCOUNT_NUMBER should be a unique id that you'll be using to post to your site. This can be anything you like. Normally a random string 32 characters long.
+*ARECIBO_PUBLIC_ACCOUNT_NUMBER* should be a unique id that you'll be using to post to your site. This can be anything you like. Normally a random string 32 characters long.
 
-Line 2: ARECIBO_PRIVATE_ACCOUNT_NUMBER should be a unique id that you'll be using to read from your site. This can be anything you like. Normally a random string 32 characters long.
+*ARECIBO_PRIVATE_ACCOUNT_NUMBER* should be a unique id that you'll be using to read from your site. This can be anything you like. Normally a random string 32 characters long.
 
-Line 3: DEFAULT_FROM_EMAIL is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created you site with.
+*DEFAULT_FROM_EMAIL* is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created you site with.
 
-Line 4: SITE_URL the full URL (including protocol) that your site is at.
+*SITE_URL* the full URL (including protocol) that your site is at.
 
 An example file might be::
 
@@ -95,11 +95,11 @@ Download and copy over Django so we can be sure we use the version of Django tha
 
 If you don't have the **Python** App Engine SDK you will need to install it at this point.
 
-Uploading to App Engine is a simple as:
+Uploading to App Engine is a simple as::
 
     ~/arecibo/listener/app_engine $ appcfg.py update .
 
-Follow the prompts for your email and password. You should see quite a few messages scroll past. If you get this message at the end, then it's worked and you should be able to visit the site in your browser.::
+Follow the prompts for your email and password. You should see quite a few messages scroll past. If you get these messages at the end, then it's worked and you should be able to visit the site in your browser::
 
     Checking if new version is ready to serve.
     Closing update: new version is ready to start serving.
