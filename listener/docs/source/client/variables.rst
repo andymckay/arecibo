@@ -30,7 +30,6 @@ priority
 **Limit:** empty or between 1 and 10
 
 A number between 1 and 10. The values 1 to 3 are coloured in the web interface, with number 1 being the most important. A user can configure notifications to be sent to them when errors are above a certain priority.
-
 ::
     priority = "3"
     
@@ -42,7 +41,6 @@ ip
 **Limit:** 15 chars
 
 The IP address of the client triggering the error. If you are setting this on your server, be sure to take into account any proxies that might be in the way.
-
 :: 
     ip = "192.168.1.53"
 
@@ -51,7 +49,6 @@ user_agent
 **Limit:** 255 chars
 
 The user agent string that the client sends will provide a great deal of information about the browser, operating system and so on. Please note, however, that this can be easily faked and cannot be relied on 100%.
-
 ::
     user_agent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X..."
 
@@ -60,7 +57,6 @@ url
 **Limit:** 10,000 chars
 
 The full URL making the request at that time. Include any GET parameters in your URL so that these are properly processed.
-
 ::
     url = "http://clearwind.ca/this/url/does/not/exist?test=yes"
 
@@ -69,7 +65,6 @@ uid
 **Limit:** 255 chars
 
 A unique id generated for each error. This uid can be included in an error message to the user. The user can then include this uid when inquiring about an error. A unique id for a simple site could be the output of a timestamp. However, on a large site this can cause confusion when there are concurrent errors; therefore a more complex uid may be necessary. Arecibo does not require this value to be unique, but if there are multiple errors with the same id, the administrator would have to sort out which was which.
-
 ::
     uid = "1256235123.1020"
 
@@ -87,7 +82,6 @@ server
 **Limit:** 1,024 chars, UTF-8 encoding
 
 The name of the server the error is occurring on. This allows you to identify the actual server, useful for when you have a web site balanced across several servers.
-
 ::
     server = "serverA"
 
@@ -96,7 +90,6 @@ msg
 **Limit:** 10,000 chars, UTF-8 encoding
 
 A message that goes along with this error. This could be a more detailed error returned by your application. It could also be your chance to include any other notes you feel relevant to this issue. All HTML is ignored on the server.
-
 ::
     msg = "Lorem ipsum dolor sit amet..."
 
@@ -105,7 +98,6 @@ traceback
 **Limit:** 10,000 chars, UTF-8 encoding
 
 If your application provides a useful stack trace, then here is the opportunity to include it, this is arguably one of the most important elements, so include it if you can. All HTML is ignored and there is a limit to the amount of text sent.
-
 ::
     traceback = "[COMException (0x80040154): Retrieving the COM class factory
        for component with CLSID {4D880EAB-BF35-423A-A859-B1D9F2AC4CC1} failed 
@@ -116,7 +108,6 @@ timestamp
 **Limit:** valid string
 
 The time that the error occurs. The date and time that Arecibo needs is the current time for the GMT time zone. The format is as specified by RFC 2822, for example: Fri, 02 Jan 2009 19:19:51 -0000. As convenience, we also accept a prefix of GMT which is interpreted as -0000.
-
 ::
     var now = new Date;
     timestamp = now.toUTCString();
@@ -126,7 +117,6 @@ request
 **Limit:** 10,000 chars, UTF-8 encoding
 
 Text of all the request variables sent with the request. This is a text area where you can capture any other particular variables you thing might be relevant.
-
 ::
     request = "..."
 
@@ -135,7 +125,6 @@ username
 **Limit:** 255 chars
 
 If your application has a username, this is the user that is currently using the application. If you know specifically that it's an Anonymous user, setting this to "Anonymous" will it make clear that you know there was no user logged in.
-
 ::
     username = "Bob the Builder"
 
