@@ -17,3 +17,10 @@ def safe_string(text, result=""):
         return str(text)
     except (ValueError, AttributeError):
         return result
+
+def _pdb():
+    import pdb, sys 
+    sys.__stdout__.write('\a') 
+    sys.__stdout__.flush() 
+    debugger = pdb.Pdb(stdin=sys.__stdin__, stdout=sys.__stdout__) 
+    debugger.set_trace()

@@ -16,6 +16,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     (r'', include('error.urls')),
+    (r'', include('receiving.urls')),
+    (r'', include('app.urls')),
     (r'^notification/', include('notifications.urls')),
-    (r'', include('app.urls'))
 )

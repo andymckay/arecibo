@@ -79,6 +79,7 @@ INSTALLED_APPS = (
      'error',
      'app',
      'notifications',
+     'receiving',
      'custom'
 )
 

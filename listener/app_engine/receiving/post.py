@@ -41,7 +41,7 @@ def populate(err, incoming):
         ]:
         actual = incoming.get(src, None)
         if actual is not None:
-            setattr(err, dest, actual)
+            setattr(err, dest, str(actual))
 
     try:
         priority = int(incoming.get("priority", 0))

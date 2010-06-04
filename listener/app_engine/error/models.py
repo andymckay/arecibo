@@ -45,7 +45,7 @@ class Error(BaseModel):
     priority = db.IntegerProperty()
     status = db.StringProperty()
     
-    raw = db.LinkProperty()
+    raw = db.StringProperty()
     domain = db.StringProperty()
     server = db.StringProperty()    
     query = db.StringProperty() 

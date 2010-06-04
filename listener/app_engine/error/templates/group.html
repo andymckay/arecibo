@@ -9,7 +9,7 @@
             <th>Most recent</th>
             <th>Status</th>
             <th>Type</th>
-            <th>UID</th>
+            <th>Server</th>
     </thead>
     <tbody>
         {% for group in page.object_list %}
@@ -18,7 +18,7 @@
             {% with group.sample as sample %}
             <td>{{ sample.status }}</td>
             <td>{{ sample.type_short }}</td>
-            <td>{{ sample.uid }}</td>
+            <td>{{ sample.server }}</td>
             {% endwith %}
         </tr>
         {% endfor %}      
