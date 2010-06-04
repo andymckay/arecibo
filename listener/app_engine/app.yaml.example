@@ -7,5 +7,26 @@ handlers:
 - url: /media
   static_dir: media
 
+# lock down these urls
+# this is the task queue for errors
+- url: /send/created/
+  script: main.py
+  login: admin
+
+# the cron job for sending notifications
+# see cron.yaml
+- url: /notification/send/
+  script: main.py
+  login: admin
+
+# the cron job for cleaning out data from notifications
+# see cron.yaml
+- url: /notification/cleanup/
+  script: main.py
+  login: admin
+
 - url: /.*
   script: main.py
+
+inbound_services:
+- mail
