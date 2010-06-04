@@ -1,32 +1,13 @@
 from datetime import datetime
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.http import HttpResponseForbidden
-from django.contrib.auth.decorators import user_passes_test
-from django.views.generic.simple import direct_to_template
-from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from django.conf import settings
-
-from django.contrib.syndication.views import Feed
-from django.utils.feedgenerator import Atom1Feed
 
 from error.models import Error
 from error.validations import valid_status
 from urlparse import urlparse, urlunparse
 from email.Utils import parsedate
 
-##############################################################################
-# this is the bit that does the posting
-
-def post(request):
-    """ Add in a post """ 
-    err = Error()
-    err.ip = request.META.get("REMOTE_ADDR", "")
-    err.user_agent = request.META.get("HTTP_USER_AGENT", "")
-
-    populate(err, request.POST)
-    return HttpResponse("Error recorded")
-    
 def populate(err, incoming):
     """ Populate the error table with the incoming error """
     # special lookup the account    
