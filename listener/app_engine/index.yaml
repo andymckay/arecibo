@@ -9,3 +9,135 @@ indexes:
 # manually, move them above the marker line.  The index.yaml file is
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: end
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: start
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: status
+  - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: group
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: path
+  - name: path_operator
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: path
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: path_operator
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: query
+  - name: query_operator
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: query
+  - name: read
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: query
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: read
+  - name: status
+  - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: read
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: read
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: status
+  - name: query
+
+- kind: Error
+  properties:
+  - name: status
+  - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Notification
+  properties:
+  - name: tried
+  - name: timestamp

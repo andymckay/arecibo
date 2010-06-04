@@ -46,12 +46,12 @@ def send_signal(request, pk):
 
 def get_filtered(request):
     form = ErrorForm(request.GET or None)
-    queryset = db.Query(Error)
     if form.is_valid():
-        for key, value in form.as_query().items():
-            queryset.filter("%s = " % key, value)
-            
-    queryset.order("-timestamp")
+        queryset = form.as_query()
+    else:
+        queryset = db.Query(Error)            
+        queryset.order("-timestamp")
+        
     return form, queryset
 
 @user_passes_test(lambda u: u.is_staff)

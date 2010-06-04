@@ -8,4 +8,7 @@ $(document).ready(function(){
             });
         };
     });
+    $("input.date").dateinput({
+        format: "mm/dd/yyyy"
+    });
 });

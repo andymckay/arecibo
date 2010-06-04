@@ -1,7 +1,12 @@
 cron:
-- description: daily summary job
-  url: /stats/summary
-  schedule: every 24 hours
 - description: notification process
-  url: /notification/send
+  url: /notification/send/
   schedule: every 5 minutes
+
+- description: notification process
+  url: /notification/cleanup/
+  schedule: every 24 hours
+  
+#  - description: daily summary job
+#    url: /stats/summary
+#    schedule: every 24 hours

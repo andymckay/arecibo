@@ -8,8 +8,8 @@
         <tr>
             <th>Unread</th>
             <th>Status</th>
-            <th>Type</th>
-            <th>Date</th>
+            <th>Details</th>
+            <th>Ago</th>
             <th>UID</th>
             <th>Domain</th>
             <th>Path</th>
@@ -19,8 +19,8 @@
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{% if error.read %}{% else %}<img src="/media/img/read.png" alt="Unread" />{% endif %}</td>
             <td class="priority_{{ error.priority }}">{{ error.status }}</td>                                                            
-            <td class="priority_{{ error.priority }}">{{ error.type_short }}</td>
-            <td><a href="{% url error-view error.id %}">{{ error.timestamp|date:"d M, Y P" }}</a></td>
+            <td class="priority_{{ error.priority }}"><a href="{% url error-view error.id %}">{{ error.title_short }}</a></td>
+            <td><abbr title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</abbr></td>
             <td>{{ error.uid }}</td>
             <td>{{ error.domain }}</td>                   
             <td>{{ error.query_short }}</td>

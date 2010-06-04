@@ -75,12 +75,13 @@ class Error(BaseModel):
     def _short(self, field, length):
         value = getattr(self, field)
         if len(value) > length:
-            return "%s.." % value[length-2]
+            return "%s.." % value[:length-2]
         return value
         
     def url_short(self): return self._short("url", 20)
     def type_short(self): return self._short("type", 20)
     def query_short(self): return self._short("query", 20)
+    def title_short(self): return self._short("title", 20)    
     
     def get_absolute_url(self):
         return reverse("error-view", args=[self.id,])

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="span-18">
+<div class="span-24">
 {% if page.object_list %}
 <table class="listing">
     <thead>
         <tr>
-            <th>Timestamp</th>
+            <th>Ago</th>
             <th>Error</th>
             <th>Users</th>
             <th>Tried</th>
@@ -15,9 +15,9 @@
     <tbody>
         {% for notification in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
-            <td>{{ notification.timestamp|date:"d M, Y P" }}</td>
+            <td><abbr title="{{ notification.timestamp|date:"d M, Y P" }}">{{ notification.timestamp|timesince }}</abbr></td>
             <td><a href="{% url error-view notification.error.id %}">{{ notification.error.title }}</td>                   
-            <td>{% for user in notification.user_list %}{{ user.username }}{% if not forloop.last %},{% endif %}{% endfor %}</td>
+            <td><abbr title="{{ notification.user_list|join:', ' }}">{{ notification.user_list.0.username }}{% if notification.user_list.count > 1 %}...{% endif %}</abbr></td>
             <td>{{ notification.tried|yesno }}</td>
             <td>{{ notification.completed|yesno }}</td>
             <td>{% if notification.error_msg %}{{ notification.error_msg }}{% endif %}</td>
