@@ -14,7 +14,7 @@ Configuration
 
 Add the following to settings.py::
 
-ARECIBO_PUBLIC_ACCOUNT_NUMBER = "yourpublicaccountnumber"
+    ARECIBO_PUBLIC_ACCOUNT_NUMBER = "yourpublicaccountnumber"
 
 There are two ways to send errors to Arecibo. You can either add in some middleware or add to your custom error handlers. If you do both you'll likely end up posting everything twice.
 
