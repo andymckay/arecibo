@@ -10,7 +10,7 @@ Contents:
    server/index.rst
    server/installation.rst
    client/index.rst
-   client/api.rst
+   client/post.rst
    client/variables.rst   
 
 Indices and tables
