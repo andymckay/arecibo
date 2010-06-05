@@ -33,9 +33,6 @@ In this example we'll use the public test site:
 
 Sending a HTTP POST in Python is easy using the urllib module. The most minimal request that can be sent just contains the API key, so let's send that as a first example::
 
-    Python 2.4.4 (#1, Feb 18 2007, 22:11:27) 
-    [GCC 4.0.1 (Apple Computer, Inc. build 5250)] on darwin
-    Type "help", "copyright", "credits" or "license" for more information.
     >>> import urllib
     >>> data = {"account":"w3;5qwy45qshtqu46tdtgheq47s.ert6ew45e4i2w65"}
     >>> encoded = urllib.urlencode(data)

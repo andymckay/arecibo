@@ -1,7 +1,7 @@
-Sample Javascript Client
+Sample Javascript (Browser) Client
 ====================================
 
-The JavaScript client is probably the easiest of all the possible clients to set up and we recommend trying it first. It also provides the greatest flexibility in terms of being platform agnostic.
+The JavaScript (Browser) client is probably the easiest of all the possible clients to set up and we recommend trying it first. It also provides the greatest flexibility in terms of being platform agnostic.
 
 To install simply add the following to your *error* page::
 
