@@ -72,6 +72,12 @@ indexes:
 
 - kind: Error
   properties:
+  - name: priority
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
   - name: query
   - name: query_operator
   - name: timestamp

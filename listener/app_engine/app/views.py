@@ -1,5 +1,6 @@
 from urlparse import urlparse
 
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.core.urlresolvers import reverse
@@ -12,6 +13,7 @@ def index(request):
         return HttpResponseRedirect(reverse("error-list"))
     return direct_to_template(request, "index.html")
 
+@user_passes_test(lambda u: u.is_staff)
 def setup(request):
     return direct_to_template(request, "setup.html", extra_context={
         "nav": {"selected": "setup"}

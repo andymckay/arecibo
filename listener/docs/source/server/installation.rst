@@ -68,7 +68,7 @@ Then alter the file as detailed::
     DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
     SITE_URL = "http://theurl.to.your.arecibo.instance.com"
     
-*ARECIBO_PUBLIC_ACCOUNT_NUMBER* and *ARECIBO_PRIVATE_ACCOUNT_NUMBER* should be unique id that you'll be using to post to your site. This can be anything you like. Normally a random string 32 characters long.
+*ARECIBO_PUBLIC_ACCOUNT_NUMBER* and *ARECIBO_PRIVATE_ACCOUNT_NUMBER* should be unique id that you'll be using to post to your site. This is used in URLs, so try to avoid / and unicode, any combination of 32 letters and numbers normally works.
 
 *DEFAULT_FROM_EMAIL* is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created you site with.
 

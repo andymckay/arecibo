@@ -6,12 +6,17 @@
 <dd>{{ public_key }}
     <p class="help">Use this in your error reporting</p>
 </dd>
-<dt>Private key</dt>
-<dd>{{ private_key }}</dd>
 <dt>URL for posting</dt>
-<dd>{{ site_url }}{% url error-post %}</dd>
+<dd>{{ site_url }}{% url error-post %}
+    <p class="help">Use this in your libraries for posting</p>
+    </dd>
 <dt>E-mail for posting</dt>
-<dd>string@appid.appspotmail.com (<a href="http://code.google.com/appengine/docs/python/mail/receivingmail.html">more details</a>)</dd>
+<dd>string@appid.appspotmail.com 
+    <p class="help">Where to send email (<a href="http://code.google.com/appengine/docs/python/mail/receivingmail.html">more details</a>)</dd>
+<dt>Private key</dt>
+<dd>{{ private_key }}
+    <p class="help">This is for reading API and RSS</p>
+    </dd>
 </dl>
 <p>For logs and admin, use <a href="http://appspot.com">Google App Engine console</a>.</p>
 

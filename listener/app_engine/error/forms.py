@@ -58,6 +58,9 @@ class ErrorForm(Form):
     def filter_end(self, value, args):
         return "timestamp <= :%d" % (len(args)+1), [value,]
 
+    def handle_priority(self, value):
+        return safe_int(value)
+
     def filter_query(self, value, args):
         self.inequality = "query,"        
         x = len(args)
@@ -87,7 +90,7 @@ class ErrorForm(Form):
                 gql.append(" %s = :%s " % (k, counter))  
                 args.append(v)             
                 counter += 1
-                
+            
         conditions = " AND ".join(gql)
         if conditions: conditions = "WHERE %s" % conditions
         conditions = "SELECT * FROM Error %s ORDER BY %s timestamp DESC" % (conditions, self.inequality)

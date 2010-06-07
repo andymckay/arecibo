@@ -1,8 +1,6 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.simple import direct_to_template
 
-from django.contrib.syndication.views import Feed
-from django.utils.feedgenerator import Atom1Feed
 from django.http import HttpResponse
 
 from google.appengine.ext import db
@@ -20,20 +18,6 @@ try:
     from custom import listeners
 except ImportError:
     pass
-    
-class LatestEntriesFeed(Feed):
-    title = "Arecibo Errors"
-    link = "/list/"
-    description = "Arecibo Errors"
-    feed_type = Atom1Feed
-    subtitle = "Arecibo Errors"
-    
-    def items(self):
-        return Error.all().order("-timestamp")[:20]
-
-    def item_title(self, item): return item.title
-    def item_description(self, item): return item.description
-    def item_pubdate(self, item): return item.timestamp
 
 def send_signal(request, pk):
     error = Error.get(pk)        

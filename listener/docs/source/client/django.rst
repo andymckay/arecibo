@@ -5,9 +5,11 @@ This is a specific Arecibo installation for Django.
 Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Check out the Django client from git.
+Install django_arecibo from pypi::
 
-Place *clients/trunk/django* into project your Django application, or anywhere on the path that Django can find it.
+    pip django_arecibo
+
+This will pull down the arecibo library as well.
 
 Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +53,7 @@ Add into this your post to Arecibo so it reads::
 
     from django.template import RequestContext, loader
     from django.http import HttpResponse
-    from arecibo.wrapper import post
+    from django_arecibo.wrapper import post
 
     def application_error(request):                     
         t = loader.get_template('500.html')
