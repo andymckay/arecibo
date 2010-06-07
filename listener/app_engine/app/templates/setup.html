@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Setup</h2>
+<p>The following are your API keys:</p>
+<dl>
+<dt>Public key</dt>
+<dd>{{ public_key }}
+    <p class="help">Use this in your error reporting</p>
+</dd>
+<dt>Private key</dt>
+<dd>{{ private_key }}</dd>
+</dl>
+
+{% endblock %}

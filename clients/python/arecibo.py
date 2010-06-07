@@ -11,15 +11,19 @@ except ImportError:
     
 from urllib import urlencode
 from urlparse import urlparse
-from socket import gethostname, getdefaulttimeout, setdefaulttimeout
+try:
+    from socket import gethostname, getdefaulttimeout, setdefaulttimeout
+except ImportError:
+    # App Engine doesn't have these
+    # so here are a some replacements
+    def gethostname(): return "unknown"
+    def getdefaulttimeout(): return 60
+    def setdefaulttimeout(num): pass
+
 from email.Utils import formatdate
 
 import smtplib
 import simplejson
-
-posturl = "http://www.areciboapp.com/v/1/"
-postaddress = "arecibo@clearwind.ca"
-url = urlparse(posturl)
 
 keys = ["account", "ip", "priority", "uid", 
     "type", "msg", "traceback", "user_agent", 
@@ -29,11 +33,13 @@ keys = ["account", "ip", "priority", "uid",
 required = [ "account", ]
 
 class post:
-    def __init__(self):
+    def __init__(self, url, address):
         self._data = {}
         self.transport = "http"
         self.smtp_server = "localhost"
         self.smtp_from = "noreply@clearwind.ca"
+        self.post_url = urlparse(url)
+        self.post_address = address
         self.set("server", gethostname())
         self.set("timestamp", formatdate())
         
@@ -80,9 +86,9 @@ class post:
     
     def _send_http(self):
         if self.transport == "https" and has_https:
-            h = HTTPSConnection(url[1])
+            h = HTTPSConnection(self.post_url[1])
         else:
-            h = HTTPConnection(url[1])
+            h = HTTPConnection(self.post_url[1])
         headers = {
             "Content-type": 'application/x-www-form-urlencoded; charset="utf-8"',
             "Accept": "text/plain"}
@@ -90,7 +96,7 @@ class post:
         oldtimeout = getdefaulttimeout()
         try:
             setdefaulttimeout(10)
-            h.request("POST", url[2], data, headers)
+            h.request("POST", self.post_url[2], data, headers)
 
             reply = h.getresponse()
             if reply.status != 200:
@@ -99,8 +105,7 @@ class post:
             setdefaulttimeout(oldtimeout)
             
 if __name__=='__main__':
-    new = post()
-    #new.transport = "https"
+    new = post(url="http://test-areciboapp.appspot.com")
     new.set("account", "YOUR KEY HERE")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")

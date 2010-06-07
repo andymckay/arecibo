@@ -18,7 +18,9 @@ from app.utils import log
 @user_passes_test(lambda u: u.is_staff)
 def notifications_list(request):
     queryset = Notification.all().order("-timestamp")
-    paginated = Paginator(queryset, 50)
+    # this number doesn't need to be high and its quite an expensive
+    # page to generate
+    paginated = Paginator(queryset, 10)
     page = get_page(request, paginated)
     return direct_to_template(request, "notification_list.html", extra_context={
         "page": page, 

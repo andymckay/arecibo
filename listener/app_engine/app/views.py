@@ -12,6 +12,11 @@ def index(request):
         return HttpResponseRedirect(reverse("error-list"))
     return direct_to_template(request, "index.html")
 
+def setup(request):
+    return direct_to_template(request, "setup.html", extra_context={
+        "nav": {"selected": "setup"}
+        })
+
 def javascript_client(request):
     return direct_to_template(request, "error.js", extra_context={"domain":urlparse(settings.SITE_URL)[1]})
 

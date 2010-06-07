@@ -10,6 +10,7 @@ Contents:
    quickstart.rst
    server/index.rst
    server/installation.rst
+   server/useraccess.rst
    client/index.rst
    client/post.rst
    client/variables.rst 

@@ -71,3 +71,7 @@ table.listing thead th {
 }
 
 h1, h2, h3 { font-family: 'Droid Serif', arial, serif; }
+
+.help {
+    color: grey;
+}

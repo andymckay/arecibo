@@ -6,7 +6,7 @@ Requirements
 
 You will require a App Engine application. You can create a free one at http://appengine.google.com/.
 
-So you can push to to the server you will need a copy of the **Python** App Engine SDK installed, you can get that here: http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python.
+To deploy you copy of Arecibo to App Engine you will need a copy of the SDK. You can get the *Python* version of the App Engine SDK here: http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python.
 
 You will need git to check out Arecibo from github: http://git-scm.com/.
 
@@ -17,10 +17,15 @@ Installation steps
 
 The following are done on Mac OS X. Other operating systems may vary.
 
-1. Create an App Engine instance
+1 a. Create an App Engine instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 At http://appengine.google.com/ create a new App Engine application. Give your new App Engine installation a unique name. This is the **app name** that we will be using in later steps.
+
+1 b. Install the Google App Engine SDK
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install the Google App Engine SDK. If you already have it installed, you can skip this step.
 
 2. Download Arecibo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,7 +54,7 @@ Alter the first line of *app.yaml*::
 
     application: your_application_error
 
-Replacing *your_application_error* with the unique name of your application from step 1.
+Replacing *your_application_error* with the **app name** of your application from step 1.
 
 Second *local_settings.py*::
 
@@ -63,9 +68,7 @@ Then alter the file as detailed::
     DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
     SITE_URL = "http://theurl.to.your.arecibo.instance.com"
     
-*ARECIBO_PUBLIC_ACCOUNT_NUMBER* should be a unique id that you'll be using to post to your site. This can be anything you like. Normally a random string 32 characters long.
-
-*ARECIBO_PRIVATE_ACCOUNT_NUMBER* should be a unique id that you'll be using to read from your site. This can be anything you like. Normally a random string 32 characters long.
+*ARECIBO_PUBLIC_ACCOUNT_NUMBER* and *ARECIBO_PRIVATE_ACCOUNT_NUMBER* should be unique id that you'll be using to post to your site. This can be anything you like. Normally a random string 32 characters long.
 
 *DEFAULT_FROM_EMAIL* is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created you site with.
 
@@ -82,7 +85,7 @@ An example file might be::
 4. Copy over Django
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Download and copy over Django so we can be sure we use the version of Django that is compatible, not the the one that comes by default::
+Download and copy over Django (this is not included for licensing reasons). Then we can be sure we use the version of Django that is compatible, not the the one that comes by default with App Engine::
 
     ~/arecibo/listener/app_engine $ wget http://media.djangoproject.com/releases/1.2/Django-1.2.1.tar.gz
     ..

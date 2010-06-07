@@ -137,6 +137,12 @@ indexes:
   - name: timestamp
     direction: desc
 
+- kind: Error
+  properties:
+  - name: uid
+  - name: timestamp
+    direction: desc
+
 - kind: Notification
   properties:
   - name: tried

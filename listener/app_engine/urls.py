@@ -20,3 +20,6 @@ urlpatterns = patterns('',
     (r'', include('app.urls')),
     (r'^notification/', include('notifications.urls')),
 )
+
+handler404 = 'app.errors.not_found_error'
+handler500 = 'app.errors.application_error'

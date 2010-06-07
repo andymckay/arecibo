@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from google.appengine.api import memcache
 from appengine_django.models import BaseModel
 from appengine_django.auth.models import User
 
@@ -31,4 +32,13 @@ class Notification(BaseModel):
             notification_created.send(sender=self.__class__, instance=self)
 
     def user_list(self):
-        return [ User.get(key) for key in self.user ]
+        users = []
+        for key in self.user:
+            data = memcache.get(key)
+            if data:
+                users.append(data)
+            else:
+                user = User.get(key)
+                users.append(user)
+                memcache.set(key, user, 60)
+        return users
