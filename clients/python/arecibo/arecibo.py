@@ -31,15 +31,16 @@ keys = ["account", "ip", "priority", "uid",
     "request", "username"]
     
 required = [ "account", ]
+default_route = "/v/1/"
 
 class post:
-    def __init__(self, url, address):
+    def __init__(self):
         self._data = {}
         self.transport = "http"
         self.smtp_server = "localhost"
         self.smtp_from = "noreply@clearwind.ca"
-        self.post_url = urlparse(url)
-        self.post_address = address
+        self.url = None
+        self.smtp_to = None
         self.set("server", gethostname())
         self.set("timestamp", formatdate())
         
@@ -49,6 +50,11 @@ class post:
         if key not in keys:
             raise ValueError, "Unknown value: %s" % key
         self._data[key] = value
+
+    def server(self, url=None, email=None):
+        """ Sets the URL or address so we know where to post the error """
+        if url: self.url = urlparse(url)
+        if email: self.smtp_to = email
 
     def send(self):
         """ Sends the data to the arecibo server """
@@ -69,26 +75,28 @@ class post:
         key = self.transport.lower()
         assert key in ["http", "smtp", "https"]
         if key in ["http", "https"]:
+            assert self.url, "No URL is set to post the error to."
             self._send_http()
         elif key == "smtp":
+            assert self.smtp_to, "No destination email is set to post the error to."
             self._send_smtp()
     
     def _msg_body(self):
         body = simplejson.dumps(self._data)
-        msg = "From: %s\r\nTo: %s\r\n\r\n%s" % (self.smtp_from, postaddress, body)
+        msg = "From: %s\r\nTo: %s\r\n\r\n%s" % (self.smtp_from, self.smtp_to, body)
         return msg
             
     def _send_smtp(self):
         msg = self._msg_body()
         s = smtplib.SMTP(self.smtp_server)
-        s.sendmail(self.smtp_from, postaddress, msg)
+        s.sendmail(self.smtp_from, self.smtp_to, msg)
         s.quit()
     
     def _send_http(self):
         if self.transport == "https" and has_https:
-            h = HTTPSConnection(self.post_url[1])
+            h = HTTPSConnection(self.url[1])
         else:
-            h = HTTPConnection(self.post_url[1])
+            h = HTTPConnection(self.url[1])
         headers = {
             "Content-type": 'application/x-www-form-urlencoded; charset="utf-8"',
             "Accept": "text/plain"}
@@ -96,17 +104,22 @@ class post:
         oldtimeout = getdefaulttimeout()
         try:
             setdefaulttimeout(10)
-            h.request("POST", self.post_url[2], data, headers)
+            h.request("POST", default_route, data, headers)
 
             reply = h.getresponse()
             if reply.status != 200:
                 raise ValueError, "%s (%s)" % (reply.read(), reply.status)
+            print reply.read()
         finally:                                            
             setdefaulttimeout(oldtimeout)
             
 if __name__=='__main__':
-    new = post(url="http://test-areciboapp.appspot.com")
-    new.set("account", "YOUR KEY HERE")
+    new = post()
+    #new.server(url="http://areciboapp.appspot.com")
+    new.transport = "smtp"
+    new.smtp_server = "smtp.telus.net"
+    new.server(email="your server")
+    new.set("account", "your account number")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
     new.set("url", "http://badapp.org/-\ufffdwe-cant-lose")

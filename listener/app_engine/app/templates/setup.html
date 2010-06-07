@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Setup</h2>
-<p>The following are your API keys:</p>
 <dl>
 <dt>Public key</dt>
 <dd>{{ public_key }}
@@ -9,6 +8,11 @@
 </dd>
 <dt>Private key</dt>
 <dd>{{ private_key }}</dd>
+<dt>URL for posting</dt>
+<dd>{{ site_url }}{% url error-post %}</dd>
+<dt>E-mail for posting</dt>
+<dd>string@appid.appspotmail.com (<a href="http://code.google.com/appengine/docs/python/mail/receivingmail.html">more details</a>)</dd>
 </dl>
+<p>For logs and admin, use <a href="http://appspot.com">Google App Engine console</a>.</p>
 
 {% endblock %}

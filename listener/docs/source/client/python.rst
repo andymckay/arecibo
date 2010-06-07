@@ -5,6 +5,18 @@ The Python client allows you to easily send errors either via HTTP. The Python c
 
     from arecibo import post
     arecibo = post()
+    arecibo.server(url="http://yoursite/")
+    arecibo.set("account", "yourpublicaccountnumber")
+    arecibo.set("status", "403")
+    arecibo.set("url", "http://badapp.org")
+    arecibo.send()
+
+This will do a HTTP POST to the server. If you'd like to do an email:
+
+    from arecibo import post
+    arecibo = post()
+    arecibo.server(email="your.server@someserver.com")
+    arecibo.transport = "smtp" # not necessary for http
     arecibo.set("account", "yourpublicaccountnumber")
     arecibo.set("status", "403")
     arecibo.set("url", "http://badapp.org")
@@ -13,7 +25,9 @@ The Python client allows you to easily send errors either via HTTP. The Python c
 Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tested on Python 2.4 and 2.5, however any 2.x version of Python is likely to be sufficient. Permission to make a HTTP post to the Arecibo server is needed. 
+* Tested on Python 2.4, 2.5 and 2.6, however any 2.x version of Python is likely to be sufficient. Permission to make a HTTP post to the Arecibo server is needed.
+
+* The simplejson library is included for compatibility with versions of Python before 2.6.
 
 Notes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
