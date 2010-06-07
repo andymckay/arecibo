@@ -6,16 +6,16 @@ Requirements
 
 You will require a App Engine application. You can create a free one at http://appengine.google.com/.
 
-So you can push to to the server you will need a copy of the **Python** App Engine SDK installed, you can get that here: http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python
+So you can push to to the server you will need a copy of the **Python** App Engine SDK installed, you can get that here: http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python.
 
-You will need git to check out Arecibo from github: http://git-scm.com/
+You will need git to check out Arecibo from github: http://git-scm.com/.
 
 You will need the current version of Django. At the time of writing, we are supporting Django 1.2.1: http://www.djangoproject.com/download/1.2.1/tarball/ - the chances are any later version will work.
 
 Installation steps
 ------------------------------------------------
 
-The following are done on Mac OS X. Other operating system may vary.
+The following are done on Mac OS X. Other operating systems may vary.
 
 1. Create an App Engine instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
