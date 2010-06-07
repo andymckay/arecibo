@@ -11,6 +11,8 @@ from email.Utils import parsedate
 def populate(err, incoming):
     """ Populate the error table with the incoming error """
     # special lookup the account    
+    from app.utils import _pdb
+    _pdb()
     uid = incoming.get("account", "")
     if not uid:
         raise ValueError, "Missing the required account number."

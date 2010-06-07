@@ -1,6 +1,8 @@
 Sample Plone client
 =======================================
 
+*Note*: this has not been updated to the newest version of Arecibo which means it will try and contact the main site. You'll need to alter it to point your server.
+
 This is a specific Arecibo implementation for Plone.
 
 Installation

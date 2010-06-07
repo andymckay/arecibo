@@ -10,7 +10,7 @@ The PHP client allows you to easily send errors via HTTP. The PHP client can be 
         "status" => "403",
         "url" => "http://badphpapp.org"
     );
-    post($fields);
+    post("http://yoursevers/v/1/", $fields);
     ?>
 
 Requirements

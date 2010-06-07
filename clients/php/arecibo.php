@@ -1,6 +1,5 @@
 <?php 
-function post($data) {
-    $url = "http://www.areciboapp.com/v/1/";
+function post($url, $data) {
     $ch = curl_init();
     $data_string = http_build_query($data);
     curl_setopt($ch, CURLOPT_URL, $url);  

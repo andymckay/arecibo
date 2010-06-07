@@ -1,13 +1,13 @@
 require 'arecibo'
 
 dict = {
-  :account => 'yournumber',
+  :account => 'youraccount number',
   :priority => 1,
   :url => "http://badapp.org",
-  :uid => "123124123123",
+  :uid => "sefsef",
   :ip => "127.0.0.1",
-  :type => "ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει",
+  :type => "sdfs",
   :server => "Test Script"
 }
-p = Arecibo.new(dict)
+p = Arecibo.new("http://yourservername/v/1/", dict)
 p.send

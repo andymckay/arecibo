@@ -2,10 +2,10 @@ require 'net/http'
 require 'uri'
 
 class Arecibo
-  def initialize data
+  def initialize(url, data)
     @data = data
     # where errors are going
-    @arecibo_url = URI.parse('http://www.areciboapp.com/v/1/')
+    @arecibo_url = URI.parse(url)
     # the length of time to wait for a server to respond
     @timeout = 10
   end

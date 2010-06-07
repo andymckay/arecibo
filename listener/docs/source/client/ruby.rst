@@ -10,10 +10,10 @@ The Ruby client allows you to easily send errors via HTTP. The Ruby client can b
         :url => "http://badapp.org",
         :uid => "123124123123",
         :ip => "127.0.0.1",
-        :type => "ὕαλον ϕαγεῖν δύναμαι· τοῦτο οὔ με βλάπτει",
+        :type => "An error",
         :server => "Test Script"        
     }
-    p = Arecibo.new(dict)
+    p = Arecibo.new("http://yoursite/v/1/", dict)
     p.send
 
 Requirements
