@@ -63,6 +63,9 @@ class post:
 
         self._send()
 
+    def as_json(self):
+        return simplejson.dumps(self._data)
+
     # private
     def _data_encoded(self):
         data = {}
@@ -82,8 +85,7 @@ class post:
             self._send_smtp()
     
     def _msg_body(self):
-        body = simplejson.dumps(self._data)
-        msg = "From: %s\r\nTo: %s\r\n\r\n%s" % (self.smtp_from, self.smtp_to, body)
+        msg = "From: %s\r\nTo: %s\r\n\r\n%s" % (self.smtp_from, self.smtp_to, self.as_json())
         return msg
             
     def _send_smtp(self):

@@ -5,7 +5,7 @@ This is a specific Arecibo installation for Django.
 Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Check out the Rails client from git.
+Check out the Django client from git.
 
 Place *clients/trunk/django* into project your Django application, or anywhere on the path that Django can find it.
 

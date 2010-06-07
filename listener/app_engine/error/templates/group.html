@@ -10,6 +10,7 @@
             <th>Status</th>
             <th>Type</th>
             <th>Server</th>
+            <th>Path</th>
     </thead>
     <tbody>
         {% for group in page.object_list %}
@@ -19,6 +20,7 @@
             <td>{{ sample.status }}</td>
             <td>{{ sample.type_short }}</td>
             <td>{{ sample.server }}</td>
+            <td>{{ sample.query_short }}</td>
             {% endwith %}
         </tr>
         {% endfor %}      

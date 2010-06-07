@@ -68,7 +68,7 @@ def errors_list(request):
 @user_passes_test(lambda u: u.is_staff)
 def groups_list(request):
     queryset = Group.all().order("-timestamp")
-    paginated = Paginator(queryset, 50)
+    paginated = Paginator(queryset, 10)
     page = get_page(request, paginated)
     return direct_to_template(request, "group.html", extra_context={
         "page": page, 
