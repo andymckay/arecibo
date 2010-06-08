@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     (r'', include('error.urls')),
     (r'', include('receiving.urls')),
     (r'', include('app.urls')),
+    (r'', include('users.urls')),    
     (r'^notification/', include('notifications.urls')),
 )
 

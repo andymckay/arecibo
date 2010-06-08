@@ -66,4 +66,7 @@ def error_view(request, pk):
     if not error.read:
         error.read = True
         error.save()
-    return direct_to_template(request, "view.html", extra_context={"error":error})
+    return direct_to_template(request, "view.html", extra_context={
+        "error":error,
+        "nav": {"selected": "list"},
+        })

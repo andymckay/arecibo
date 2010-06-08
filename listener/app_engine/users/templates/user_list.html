@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="span-24">
+<h2>Users</h2>
+<div class="subnav">
+    <p><a href="{% url setup %}">URLs and keys</a> &bull; Users</p>
+</div>
+{% if page.object_list %}
+<table class="listing">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Allowed</th>
+    </thead>
+    <tbody>
+        {% for object in page.object_list %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td>{{ object.first_name|default:"" }} {{ object.last_name|default:"" }}</td>
+            <td>{{ object.email }} {% ifequal object.key user.key %}(<b>this is you</b>){% endifequal %}</td>
+            <td><a href="{% url user-change object.key %}">{{ object.is_staff|yesno|capfirst }}</td>
+        </tr>
+        {% endfor %}      
+    </tbody>
+</table>
+<p class="help">It's possible to lock yourself out of this site. If so use the <a href="http://appspot.com">Google App Engine console</a>.</p>
+{% else %}
+<p>No users found, which is a worry, how did you get here?</p>
+{% endif %}
+</div>
+{% include "pagination.html" %}
+{% endblock %}

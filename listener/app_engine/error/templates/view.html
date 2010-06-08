@@ -2,6 +2,7 @@
 {% block title %}| {{ error.title|truncatewords:3}}{% endblock %}
 {% block content %}
 <h2>{{ error.title }}</h2>
+<p><a href="{% url error-list %}">&laquo; Error list</a></p>
 <dl class="attributes">
     <dt>URL:</dt>
     <dd>{% if error.raw %}<a href="{{ error.raw }}">{{ error.raw }}</a>{% else %}-{% endif %}</dd>
@@ -11,12 +12,16 @@
     <dd>{{ error.error_timestamp|date:'d M, Y P' }}</dd>{% endif %}
     {% if error.priority %}<dt>Priority:</dt>
     <dd>{{ error.priority }}</dd>{% endif %}
-    <dt>Status:</dt>
-    <dd>{{ error.status }}</dd>
+    {% if error.status %}<dt>Status:</dt>
+    <dd>{{ error.status }}</dd>{% endif %}
     {% if error.type %}<dt>Type:</dt>
     <dd>{{ error.type }}</dd>{% endif %}
-    <dt>Unique ID:</dt>
-    <dd>{{ error.uid }}</dd>
+    {% if error.server %}<dt>Server:</dt>
+    <dd>{{ error.server }}</dd>{% endif %}
+    {% if error.server %}<dt>Server:</dt>
+    <dd>{{ error.server }}</dd>{% endif %}
+    {% if error.uid %}<dt>Unique ID:</dt>
+    <dd>{{ error.uid }}</dd>{% endif %}
     {% if error.user_agent_short %}<dt>Browser:</dt>
     <dd>{{ error.user_agent_short }}</dd>{% endif %}
     {% if error.operating_system %}<dt>Operating system:</dt>

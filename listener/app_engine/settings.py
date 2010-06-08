@@ -80,6 +80,7 @@ INSTALLED_APPS = (
      'app',
      'notifications',
      'receiving',
+     'users',
      'custom'
 )
 

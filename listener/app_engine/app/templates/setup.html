@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Setup</h2>
+<div class="subnav">
+    <p>URLs and keys &bull; <a href="{% url user-list %}">Users</a></p>
+</div>
 <dl>
 <dt>Public key</dt>
 <dd>{{ public_key }}
     <p class="help">Use this in your error reporting</p>
 </dd>
 <dt>URL for posting</dt>
-<dd>{{ site_url }}{% url error-post %}
+<dd><a href="{{ site_url }}/feed/{{ private_key }}/">{{ site_url }}{% url error-post %}</a>
     <p class="help">Use this in your libraries for posting</p>
     </dd>
 <dt>E-mail for posting</dt>
@@ -17,7 +20,10 @@
 <dd>{{ private_key }}
     <p class="help">This is for reading API and RSS</p>
     </dd>
+<dt>RSS Feed</dt>
+<dd><a href="{{ site_url }}/feed/{{ private_key }}/">{{ site_url }}/feed/{{ private_key }}/</a></dd>
 </dl>
+
 <p>For logs and admin, use <a href="http://appspot.com">Google App Engine console</a>.</p>
 
 {% endblock %}

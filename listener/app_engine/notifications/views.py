@@ -2,9 +2,7 @@ import sys
 from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.syndication.views import Feed
 from django.views.generic.simple import direct_to_template
-from django.utils.feedgenerator import Atom1Feed
 from django.http import HttpResponse
 
 from google.appengine.ext import db
