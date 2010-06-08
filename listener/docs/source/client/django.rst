@@ -7,7 +7,7 @@ Installation
 
 Install django_arecibo from pypi::
 
-    pip django_arecibo
+    pip install django_arecibo
 
 This will pull down the arecibo library as well.
 
@@ -17,6 +17,11 @@ Configuration
 Add the following to settings.py::
 
     ARECIBO_PUBLIC_ACCOUNT_NUMBER = "yourpublicaccountnumber"
+    ARECIBO_SERVER_URL = "http://url.to.your.server"
+
+Optionally if you want to use email
+
+    ARECIBO_SERVER_EMAIL = "email@to.your.server"
 
 There are two ways to send errors to Arecibo. You can either add in some middleware or add to your custom error handlers. If you do both you'll likely end up posting everything twice.
 
@@ -25,7 +30,7 @@ Adding to your middleware
 
 Django has a middleware layer to handle errors from views. This means that url routing errors (for example) that do not reach a view, do not get processed. Add in the following line to the middleware in Django::
 
-    arecibo.middleware.AreciboMiddleware
+    django_arecibo.middleware.AreciboMiddleware
 
 So that it would look something like this::
 
@@ -33,7 +38,7 @@ So that it would look something like this::
       'django.middleware.common.CommonMiddleware',
       'django.contrib.sessions.middleware.SessionMiddleware',
       'django.contrib.auth.middleware.AuthenticationMiddleware', 
-      'arecibo.middleware.AreciboMiddleware',
+      'django_arecibo.middleware.AreciboMiddleware',
     )
     
 Adding to your custom views

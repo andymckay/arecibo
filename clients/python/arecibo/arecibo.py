@@ -111,7 +111,6 @@ class post:
             reply = h.getresponse()
             if reply.status != 200:
                 raise ValueError, "%s (%s)" % (reply.read(), reply.status)
-            print reply.read()
         finally:                                            
             setdefaulttimeout(oldtimeout)
             

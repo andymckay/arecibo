@@ -6,7 +6,7 @@ cron:
 - description: notification process
   url: /notification/cleanup/
   schedule: every 24 hours
-  
-#  - description: daily summary job
-#    url: /stats/summary
-#    schedule: every 24 hours
+
+- description: daily summary
+  url: /stats/generate/
+  schedule: every 24 hours

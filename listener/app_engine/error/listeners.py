@@ -38,4 +38,4 @@ def default_grouping(instance, **kw):
         instance.group = group
         instance.save()
 
-signals.error_created.connect(default_grouping, sender=Error, dispatch_uid="default_grouping")
+signals.error_created.connect(default_grouping, dispatch_uid="default_grouping")

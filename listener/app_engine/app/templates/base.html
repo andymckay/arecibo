@@ -30,6 +30,7 @@
                 {% else %}
                 <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>List</a>
                 <a href="{% url notification-list %}" {% ifequal nav.selected "notifications" %}class="selected"{% endifequal %}>Notifications</a>
+                <a href="{% url stats-view %}" {% ifequal nav.selected "stats" %}class="selected"{% endifequal %}>Stats</a>
                 <a href="{% url setup %}" {% ifequal nav.selected "setup" %}class="selected"{% endifequal %}>Setup</a>
                 <a href="{% url logout %}">Logout</a>                
                 {% endif %}

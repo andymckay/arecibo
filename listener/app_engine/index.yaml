@@ -141,6 +141,11 @@ indexes:
   properties:
   - name: status
   - name: timestamp
+
+- kind: Error
+  properties:
+  - name: status
+  - name: timestamp
     direction: desc
 
 - kind: Error
@@ -153,3 +158,9 @@ indexes:
   properties:
   - name: tried
   - name: timestamp
+
+- kind: Stats
+  properties:
+  - name: completed
+  - name: date
+    direction: desc

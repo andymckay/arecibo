@@ -69,9 +69,6 @@ class Error(BaseModel):
 
     create_signal_sent = db.BooleanProperty(default=False)
 
-    class Meta:
-        app_label = "listener"
-
     def _short(self, field, length):
         value = getattr(self, field)
         if len(value) > length:
@@ -120,12 +117,12 @@ class Error(BaseModel):
     @property
     def description(self):
         return self.msg or ""
-
+        
     def save(self):
         created = not hasattr(self, "id")
         self.put()
         if created:
-            if os.environ['SERVER_SOFTWARE'].startswith('Dev'):
+            if os.environ.get('SERVER_SOFTWARE', '').startswith('Dev'):
                 # send the signal, otherwise we have to clicking buttons
                 # to process the queue
                 from error.views import send_signal
