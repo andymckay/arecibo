@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 
 from google.appengine.ext import db
+from google.appengine.api import datastore_errors
 from google.appengine.api.labs import taskqueue
 
 from appengine_django.models import BaseModel
@@ -84,8 +85,11 @@ class Error(BaseModel):
         return reverse("error-view", args=[self.id,])
     
     def get_similar(self, limit=5):
-        return Error.all().filter("group = ", self.group).filter("__key__ !=", self.key())[:limit]
-    
+        try:
+            return Error.all().filter("group = ", self.group).filter("__key__ !=", self.key())[:limit]
+        except datastore_errors.Error:
+            return []
+            
     @property
     def id(self):
         return str(self.key())

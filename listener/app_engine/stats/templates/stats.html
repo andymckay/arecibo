@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="span-18">
+<h2>Stats</h2>
+<p class="help">These stats are generated at the end of every day.</p>
+<h3>Total number of errors per day</h3>
+<div id="total"></div>
+<h3>Total number of errors by status per day</h3>
+<div id="status"></div>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+   google.load("visualization", "1", {packages:["areachart"]});
+   function drawTotalChart() {
+     var data = new google.visualization.DataTable();
+     data.addColumn('string', 'Day');
+     data.addColumn('number', 'Total');
+     data.addRows({{ stats|length }});
+     {% for day in stats %}
+         data.setValue({{ forloop.counter0 }}, 0, '{{ day.object.date|date:"d M, Y" }}');
+         data.setValue({{ forloop.counter0 }}, 1, {{ day.stats.total|default:0 }});
+     {% endfor %}
+     var chart = new google.visualization.AreaChart(document.getElementById('total'));
+     chart.draw(data, {width: 600, height: 400, legend: 'bottom', title: ''});
+   }
+   google.setOnLoadCallback(drawTotalChart);
+   function drawStatusChart() {
+     var data = new google.visualization.DataTable();
+     data.addColumn('string', 'Day');
+     data.addColumn('number', '500');
+     data.addColumn('number', '404');
+     data.addColumn('number', '403');
+
+     data.addRows({{ stats|length }});
+     {% for day in stats %}
+         data.setValue({{ forloop.counter0 }}, 0, '{{ day.object.date|date:"d M, Y" }}');
+         data.setValue({{ forloop.counter0 }}, 1, {{ day.stats.status.500|default:0 }});
+         data.setValue({{ forloop.counter0 }}, 2, {{ day.stats.status.404|default:0 }});
+         data.setValue({{ forloop.counter0 }}, 3, {{ day.stats.status.403|default:0 }});
+
+     {% endfor %}
+     var chart = new google.visualization.AreaChart(document.getElementById('status'));
+     chart.draw(data, {width: 600, height: 400, legend: 'bottom', title: ''});
+   }
+   google.setOnLoadCallback(drawStatusChart);
+</script>
+</div>
+{% endblock %}

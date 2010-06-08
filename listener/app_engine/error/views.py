@@ -59,7 +59,6 @@ def groups_list(request):
         "nav": {"selected": "list", "subnav": "group"},
         })
 
-
 @user_passes_test(lambda u: u.is_staff)
 def error_view(request, pk):
     error = Error.get(pk)

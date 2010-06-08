@@ -1,9 +1,16 @@
 from exceptions import Exception
 
-class AccountDoesNotExist(Exception): pass
-class OldUID(Exception): pass
 class StatusDoesNotExist(Exception): pass
-class RSSDisabled(Exception): pass
-class CSVDisabled(Exception): pass
-class JSONDisabled(Exception): pass
-class XMLDisabled(Exception): pass
+
+from django.template import RequestContext, loader
+from django.http import HttpResponse
+
+def not_found_error(request):                     
+    t = loader.get_template('404.html')
+    c = RequestContext(request)
+    return HttpResponse(t.render(c), status=404)
+    
+def application_error(request):                     
+    t = loader.get_template('500.html')
+    c = RequestContext(request)
+    return HttpResponse(t.render(c), status=500)

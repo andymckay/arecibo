@@ -63,3 +63,13 @@ class ErrorTests(TestCase):
         assert len(Error.all()[1].get_similar()) == 1
         assert len(Error.all()[1].get_similar()) == 1
         
+    def testBrowser(self):
+        c = Client()
+        assert not Error.all().count()        
+        ldata = data.copy()
+        ldata["user_agent"] = "Mozilla/5.0 (compatible; Konqueror/3.5; Linux; X11; de) KHTML/3.5.2 (like Gecko) Kubuntu 6.06 Dapper"
+        res = c.post(reverse("error-post"), ldata)
+        assert Error.all().count() == 1
+        assert Error.all()[0].user_agent_short == "Konqueror"
+        assert Error.all()[0].user_agent_parsed == True
+        assert Error.all()[0].operating_system == "Linux"
