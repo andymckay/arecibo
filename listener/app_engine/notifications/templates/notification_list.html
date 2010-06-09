@@ -16,17 +16,17 @@
         {% for notification in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td><abbr title="{{ notification.timestamp|date:"d M, Y P" }}">{{ notification.timestamp|timesince }}</abbr></td>
-            <td><a href="{% url error-view notification.error.id %}">{{ notification.error.title }}</td>                   
+            <td><a href="{% url error-view notification.error.id %}">{{ notification.error.title }}</td>
             <td>{% with notification.user_list as list %}<abbr title="{{ list|join:', ' }}">{{ list.0.username }}{% if list.count > 1 %}...{% endif %}{% endwith %}</abbr></td>
             <td>{{ notification.tried|yesno }}</td>
             <td>{{ notification.completed|yesno }}</td>
             <td>{% if notification.error_msg %}{{ notification.error_msg }}{% endif %}</td>
         </tr>
-        {% endfor %}      
+        {% endfor %}
     </tbody>
 </table>
 {% else %}
-<p>No notifications found. Could be you've not sent any errors yet and generated 
+<p>No notifications found. Could be you've not sent any errors yet and generated
     notifications. Or we've cleaned out this list of notifications. Or your
     notifications are not enabled. More than likely one of those.</p>
 {% endif %}

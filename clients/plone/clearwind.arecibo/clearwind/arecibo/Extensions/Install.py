@@ -15,13 +15,13 @@ def uninstall(self):
 
 def install(self, reinstall=False):
     """ We still have to do this? """
-    
+
     portal_quickinstaller = getToolByName(self, 'portal_quickinstaller')
     portal_setup = getToolByName(self, 'portal_setup')
 
     sm = self.getSiteManager()
 
-    if not sm.queryUtility(IAreciboConfiguration, 
+    if not sm.queryUtility(IAreciboConfiguration,
         name='Arecibo_config'):
         sm.registerUtility(AreciboConfiguration(),
                            IAreciboConfiguration,

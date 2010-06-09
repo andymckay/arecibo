@@ -17,13 +17,13 @@
         {% for error in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{% if error.read %}{% else %}<img src="/media/img/read.png" title="Unread" />{% endif %}</td>
-            <td class="priority_{{ error.priority }}">{{ error.status }}</td>                                                            
+            <td class="priority_{{ error.priority }}">{{ error.status }}</td>
             <td class="priority_{{ error.priority }}"><a href="{% url error-view error.id %}">{{ error.title_short }}</a></td>
             <td><abbr title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</abbr></td>
-            <td>{{ error.domain }}</td>                   
+            <td>{{ error.domain }}</td>
             <td>{{ error.query_short }}</td>
         </tr>
-        {% endfor %}      
+        {% endfor %}
     </tbody>
 </table>
 {% else %}

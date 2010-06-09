@@ -9,22 +9,22 @@ def generate_key(instance):
     keys = ["type", "server", "msg", "status",]
     hsh = None
 
-    for key in keys:  
+    for key in keys:
         value = safe_string(getattr(instance, key))
         if value:
             if not hsh:
                 hsh = md5.new()
             hsh.update(value.encode("ascii", "ignore"))
-    
+
     return hsh
-    
+
 def default_grouping(instance, **kw):
     """ Given an error, see if we can fingerprint it and find similar ones """
     # prevent an infinite loop
     log("Firing signal: default_grouping")
     if instance.group:
         return
-        
+
     hsh = generate_key(instance)
     if hsh:
         digest = hsh.hexdigest()
@@ -54,7 +54,7 @@ def default_browser_parsing(instance, **kw):
         if b:
             instance.user_agent_short = b.name()
             instance.operating_system = b.platform()
-    
+
     instance.user_agent_parsed = True
     instance.save()
 

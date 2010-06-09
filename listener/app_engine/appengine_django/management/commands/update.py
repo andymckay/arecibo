@@ -31,7 +31,7 @@ def run_appcfg():
 
   # Reset the logging level to WARN as appcfg will spew tons of logs on INFO
   logging.getLogger().setLevel(logging.WARN)
-  
+
   # Note: if we decide to change the name of this command to something other
   #       than 'update' we will have to munge the args to replace whatever
   #       we called it with 'update'

@@ -8,7 +8,7 @@ try:
     has_https = True
 except ImportError:
     pass
-    
+
 from urllib import urlencode
 from urlparse import urlparse
 from socket import gethostname, getdefaulttimeout, setdefaulttimeout
@@ -21,11 +21,11 @@ posturl = "http://www.areciboapp.com/v/1/"
 postaddress = "arecibo@clearwind.ca"
 url = urlparse(posturl)
 
-keys = ["account", "ip", "priority", "uid", 
-    "type", "msg", "traceback", "user_agent", 
+keys = ["account", "ip", "priority", "uid",
+    "type", "msg", "traceback", "user_agent",
     "url", "status", "server", "timestamp",
     "request", "username"]
-    
+
 required = [ "account", ]
 
 class post:
@@ -36,7 +36,7 @@ class post:
         self.smtp_from = "noreply@clearwind.ca"
         self.set("server", gethostname())
         self.set("timestamp", formatdate())
-        
+
     # public
     def set(self, key, value):
         """ Sets the variable named key, with the value """
@@ -66,18 +66,18 @@ class post:
             self._send_http()
         elif key == "smtp":
             self._send_smtp()
-    
+
     def _msg_body(self):
         body = simplejson.dumps(self._data)
         msg = "From: %s\r\nTo: %s\r\n\r\n%s" % (self.smtp_from, postaddress, body)
         return msg
-            
+
     def _send_smtp(self):
         msg = self._msg_body()
         s = smtplib.SMTP(self.smtp_server)
         s.sendmail(self.smtp_from, postaddress, msg)
         s.quit()
-    
+
     def _send_http(self):
         if self.transport == "https" and has_https:
             h = HTTPSConnection(url[1])
@@ -95,9 +95,9 @@ class post:
             reply = h.getresponse()
             if reply.status != 200:
                 raise ValueError, "%s (%s)" % (reply.read(), reply.status)
-        finally:                                            
+        finally:
             setdefaulttimeout(oldtimeout)
-            
+
 if __name__=='__main__':
     new = post()
     #new.transport = "https"
@@ -106,17 +106,17 @@ if __name__=='__main__':
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
     new.set("url", "http://badapp.org/-\ufffdwe-cant-lose")
     new.set("uid", "123124123123")
-    new.set("ip", "127.0.0.1")    
+    new.set("ip", "127.0.0.1")
     new.set("type", "Test from python")
     new.set("status", "403")
-    new.set("server", "Test Script") 
+    new.set("server", "Test Script")
     new.set("request", """This is the bit that goes in the request""")
     new.set("username", "Jimbob")
     new.set("msg", """
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
-labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
-esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
 culpa qui officia deserunt mollit anim id est laborum
 """)
     new.set("traceback", """Traceback (most recent call last):

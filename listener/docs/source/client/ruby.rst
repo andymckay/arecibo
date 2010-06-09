@@ -11,7 +11,7 @@ The Ruby client allows you to easily send errors via HTTP. The Ruby client can b
         :uid => "123124123123",
         :ip => "127.0.0.1",
         :type => "An error",
-        :server => "Test Script"        
+        :server => "Test Script"
     }
     p = Arecibo.new("http://yoursite/v/1/", dict)
     p.send

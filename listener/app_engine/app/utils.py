@@ -8,7 +8,7 @@ try:
     from functools import update_wrapper, wraps
 except ImportError:
     from django.utils.functional import update_wrapper, wraps  # Python 2.3, 2.4 fallback.
-    
+
 def log(msg):
     logging.info(" Arecibo: %s" % msg)
 
@@ -23,7 +23,7 @@ def safe_string(text, result=""):
         return str(text)
     except (ValueError, AttributeError):
         return result
-        
+
 def has_private_key(view_func):
     """ Will check that the person accessing the page is doing so with the private URL """
     def wrapper(*args, **kwargs):
@@ -34,8 +34,8 @@ def has_private_key(view_func):
     return wraps(view_func)(wrapper)
 
 def _pdb():
-    import pdb, sys 
-    sys.__stdout__.write('\a') 
-    sys.__stdout__.flush() 
-    debugger = pdb.Pdb(stdin=sys.__stdin__, stdout=sys.__stdout__) 
+    import pdb, sys
+    sys.__stdout__.write('\a')
+    sys.__stdout__.flush()
+    debugger = pdb.Pdb(stdin=sys.__stdin__, stdout=sys.__stdout__)
     debugger.set_trace()

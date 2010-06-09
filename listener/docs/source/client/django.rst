@@ -37,10 +37,10 @@ So that it would look something like this::
     MIDDLEWARE_CLASSES = (
       'django.middleware.common.CommonMiddleware',
       'django.contrib.sessions.middleware.SessionMiddleware',
-      'django.contrib.auth.middleware.AuthenticationMiddleware', 
+      'django.contrib.auth.middleware.AuthenticationMiddleware',
       'django_arecibo.middleware.AreciboMiddleware',
     )
-    
+
 Adding to your custom views
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -49,7 +49,7 @@ Django has a 404 or 500 error handler that can be overridden. We can use this to
     from django.template import RequestContext, loader
     from django.http import HttpResponse
 
-    def application_error(request):                     
+    def application_error(request):
         t = loader.get_template('500.html')
         c = RequestContext(request)
         return HttpResponse(t.render(c), status=500)
@@ -60,7 +60,7 @@ Add into this your post to Arecibo so it reads::
     from django.http import HttpResponse
     from django_arecibo.wrapper import post
 
-    def application_error(request):                     
+    def application_error(request):
         t = loader.get_template('500.html')
         uid = post(request, 500)
         c = RequestContext(request, {"uid": uid})

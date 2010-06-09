@@ -20,7 +20,7 @@ except ImportError:
     pass
 
 def send_signal(request, pk):
-    error = Error.get(pk)        
+    error = Error.get(pk)
     if not error.create_signal_sent:
         error.create_signal_sent = True
         error.save()
@@ -33,9 +33,9 @@ def get_filtered(request):
     if form.is_valid():
         queryset = form.as_query()
     else:
-        queryset = db.Query(Error)            
+        queryset = db.Query(Error)
         queryset.order("-timestamp")
-        
+
     return form, queryset
 
 @user_passes_test(lambda u: u.is_staff)
@@ -44,18 +44,18 @@ def errors_list(request):
     paginated = Paginator(queryset, 50)
     page = get_page(request, paginated)
     return direct_to_template(request, "list.html", extra_context={
-        "page": page, 
+        "page": page,
         "nav": {"selected": "list", "subnav": "list"},
         "form": form
         })
-        
+
 @user_passes_test(lambda u: u.is_staff)
 def groups_list(request):
     queryset = Group.all().order("-timestamp")
     paginated = Paginator(queryset, 10)
     page = get_page(request, paginated)
     return direct_to_template(request, "group.html", extra_context={
-        "page": page, 
+        "page": page,
         "nav": {"selected": "list", "subnav": "group"},
         })
 

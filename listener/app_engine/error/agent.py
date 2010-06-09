@@ -60,7 +60,7 @@ class Browser(object):
     def values(self):
         if self.lazy_flag: self.parse()
         return self.cap.values()
-    
+
 
     def __len__(self):
         return len(self.cap)
@@ -160,7 +160,7 @@ class Browser(object):
     def is_mobile(self):
         return self.get("ismobiledevice") == True
 
-    
+
     def name(self):
         return self.get("browser")
 
@@ -192,7 +192,7 @@ class BrowserCapabilities(object):
                 log("...succeeded")
                 raw = data.content
                 memcache.set(key, raw, 60 * 60 * 24 * 7)
-                
+
             else:
                 log("...failed")
                 # try again in 1 hour if there was a problem
@@ -200,13 +200,13 @@ class BrowserCapabilities(object):
                 raw = ""
         else:
             log("Using cached browser capabilities")
-            
-        
+
+
         string = StringIO(raw)
-        
+
         cfg = ConfigParser()
         read_ok = cfg.readfp(string)
-         
+
         self.sections = []
         self.items = {}
         self.browsers = {}
@@ -248,13 +248,13 @@ class BrowserCapabilities(object):
                     parent = items.get("parent")
                 if browser.get("browser") != "Default Browser":
                     b = Browser(browser)
-                    self.cache[useragent] = b 
+                    self.cache[useragent] = b
                     return b
         self.cache[useragent] = None
 
 
     __call__ = query
-    
+
 def get():
     key = "browser-capabilities-parsed"
     parsed = memcache.get(key)
@@ -263,7 +263,7 @@ def get():
         # that should be one week (1 min > 1 hour > 1 day > 1 week)
         memcache.set(key, parsed, 60 * 60 * 24 * 7)
     return parsed
-        
+
 
 def test():
     bc = cached()

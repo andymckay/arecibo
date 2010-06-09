@@ -16,7 +16,7 @@ The PHP client allows you to easily send errors via HTTP. The PHP client can be 
 Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Tested on PHP 5.2.6. 
+* Tested on PHP 5.2.6.
 
 * If using the http client, permission to make a HTTP post to the Arecibo server is needed.
 

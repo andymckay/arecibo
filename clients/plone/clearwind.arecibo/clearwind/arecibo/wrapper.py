@@ -1,5 +1,5 @@
 import sys
-import os 
+import os
 from lib.arecibo import post, postaddress
 from App.config import getConfiguration
 from AccessControl import getSecurityManager
@@ -14,14 +14,14 @@ headers = ['HOME', 'HTTP_ACCEPT', 'HTTP_ACCEPT_ENCODING', \
          'PATH_INFO', 'QUERY_STRING', 'REQUEST_METHOD', 'SCRIPT_NAME', \
          'SERVER_NAME', 'SERVER_PORT', 'SERVER_PROTOCOL', 'SERVER_SOFTWARE']
 
-try:                          
+try:
     import site_configuation
     from site_configuration import config
     log("Arecibo configuration read from: %s" % os.path.abspath(site_configuration.__file__))
-except:                  
-    # please don't override this here, look in site_configuration.py for a chance to 
+except:
+    # please don't override this here, look in site_configuration.py for a chance to
     # overload this, details are there too
-    config = {                                          
+    config = {
         "account": "",
         "transport": "http",
         "priorities": {
@@ -51,54 +51,54 @@ def arecibo(context, **kw):
     cfg = get(context)
     if kw.get("error_type") in cfg["ignores"]:
         return
-         
-    if not cfg["account"]: 
+
+    if not cfg["account"]:
         msg = "There is no account number configured so that the error can be sent to Arecibo"
         log.error('Arecibo: %s', msg)
         return
-        
+
     req = context.REQUEST
     error = post()
-    
+
     mail_possible = not not context.MailHost.smtp_host
     if mail_possible and cfg["transport"] == "smtp":
         error.transport = "smtp"
-       
+
     if kw.get("error_type") == 'NotFound':
         status = 404
     elif kw.get("error_type") == 'Unauthorized':
         status = 403
     else:
         status = 500
-    
+
     priority = cfg["priorities"].get(status, cfg["default-priority"])
-    
+
     error.set("account", cfg["account"])
     error.set("priority", priority)
     error.set("user_agent", req.get('HTTP_USER_AGENT', ""))
-    
+
     if req.get("QUERY_STRING"):
         error.set("url", "%s?%s" % (req['ACTUAL_URL'], req['QUERY_STRING']))
     else:
         error.set("url", req['ACTUAL_URL'])
 
     if kw.get("error_log_id"):
-        error.set("uid", kw.get("error_log_id")) 
-    
-    error.set("ip", req.get("X_FORWARDED_FOR", req.get('REMOTE_ADDR', '')))   
+        error.set("uid", kw.get("error_log_id"))
+
+    error.set("ip", req.get("X_FORWARDED_FOR", req.get('REMOTE_ADDR', '')))
     error.set("type", kw.get("error_type"))
     error.set("status", status)
     error.set("request", "\n".join([ "%s: %s" % (k, req[k]) for k in headers if req.get(k)]))
-    
+
     if status != 404:
         # lets face it the 404 tb is not useful
         error.set("traceback", kw.get("error_tb"))
-    
+
     usr = getSecurityManager().getUser()
     error.set("username", "%s (%s)" % (usr.getId(), usr.getUserName()))
     error.set("msg", kw.get("error_msg"))
 
-    if error.transport == "http":    
+    if error.transport == "http":
         try:
             error.send()
         except ConflictError:

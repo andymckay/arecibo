@@ -6,7 +6,7 @@ Any user with a Google account can login to your Arecibo account, however they c
 
 * Login, if needed as the Google user who has access to administer the site.
 
-* Go to *your app* > *datastore viewer* > *user* 
+* Go to *your app* > *datastore viewer* > *user*
 
 * Find the user you'd like to give access to, click on them
 

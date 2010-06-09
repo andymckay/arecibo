@@ -21,7 +21,7 @@ def notifications_list(request):
     paginated = Paginator(queryset, 10)
     page = get_page(request, paginated)
     return direct_to_template(request, "notification_list.html", extra_context={
-        "page": page, 
+        "page": page,
         "nav": {"selected": "notifications"}
         })
 
@@ -32,7 +32,7 @@ def notifications_cleanup(request):
     queryset = Notification.all().filter("tried = ", True).filter("timestamp < ", expired)
     for notification in queryset:
         notification.delete()
-    
+
     return HttpResponse("Cron job completed")
 
 class Holder:
@@ -44,7 +44,7 @@ class Holder:
 def notifications_send(request):
     log("Firing cron: notifications_send")
     notifications = Notification.all().filter("tried = ", False)
-    
+
     # batch up the notifications for the user
     holders = {}
     for notif in notifications:
@@ -54,10 +54,10 @@ def notifications_send(request):
                 holder = Holder()
                 holder.user = user
                 holders[key] = holder
-                 
+
             holders[key].objs.append(notif.error)
             holders[key].notifs.append(notif)
-    
+
     for user_id, holder in holders.items():
         try:
             send_error_email(holder)
@@ -73,5 +73,5 @@ def notifications_send(request):
                 notification.completed = True
                 notification.error_msg = data
                 notification.save()
-            
+
     return HttpResponse("Cron job completed")

@@ -28,7 +28,7 @@ def run_appcfg():
 
   # We don't really want to use that one though, it just executes this one
   from google.appengine.tools import appcfg
-  
+
   # Reset the logging level to WARN as appcfg will spew tons of logs on INFO
   logging.getLogger().setLevel(logging.WARN)
 

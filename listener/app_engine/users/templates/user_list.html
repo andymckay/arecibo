@@ -21,7 +21,7 @@
             <td>{{ object.email }} {% ifequal object.key user.key %}(<b>this is you</b>){% endifequal %}</td>
             <td><a href="{% url user-change object.key %}">{{ object.is_staff|yesno|capfirst }}</td>
         </tr>
-        {% endfor %}      
+        {% endfor %}
     </tbody>
 </table>
 <p class="help">It's possible to lock yourself out of this site. If so use the <a href="http://appspot.com">Google App Engine console</a>.</p>

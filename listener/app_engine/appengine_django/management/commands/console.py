@@ -29,7 +29,7 @@ def auth_func():
 
 class Command(BaseCommand):
   """ Start up an interactive console backed by your app using remote_api """
-  
+
   help = 'Start up an interactive console backed by your app using remote_api.'
 
   def run_from_argv(self, argv):
@@ -39,11 +39,11 @@ class Command(BaseCommand):
     else:
       host = '%s.appspot.com' % app_id
 
-    remote_api_stub.ConfigureRemoteDatastore(app_id, 
+    remote_api_stub.ConfigureRemoteDatastore(app_id,
                                              '/remote_api',
                                              auth_func,
                                              host)
-      
-    code.interact('App Engine interactive console for %s' % (app_id,), 
+
+    code.interact('App Engine interactive console for %s' % (app_id,),
                   None,
                   locals())

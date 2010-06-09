@@ -18,8 +18,8 @@ urlpatterns = patterns('',
     (r'', include('error.urls')),
     (r'', include('receiving.urls')),
     (r'', include('app.urls')),
-    (r'', include('users.urls')),    
-    (r'^stats/', include('stats.urls')),    
+    (r'', include('users.urls')),
+    (r'^stats/', include('stats.urls')),
     (r'^notification/', include('notifications.urls')),
 )
 

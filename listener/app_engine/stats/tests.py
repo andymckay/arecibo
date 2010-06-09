@@ -24,8 +24,8 @@ class StatsTests(TestCase):
     # test the view for writing errors
     def setUp(self):
         for error in Error.all(): error.delete()
-        
-    def testCount(self):        
+
+    def testCount(self):
         for x in range(0, 1110):
             Error().save()
         assert count() == 1110
@@ -33,6 +33,6 @@ class StatsTests(TestCase):
             err = Error()
             err.priority = 4
             err.save()
-        assert count(["priority = ", 4]) == 5            
+        assert count(["priority = ", 4]) == 5
         assert count(["priority = ", None]) == 1110
-        assert count() == 1115        
+        assert count() == 1115

@@ -23,7 +23,7 @@ def user_list(request):
     paginated = Paginator(queryset, 10)
     page = get_page(request, paginated)
     return direct_to_template(request, "user_list.html", extra_context={
-        "page": page, 
+        "page": page,
         "nav": {"selected": "setup"}
         })
 

@@ -9,17 +9,17 @@ from google.appengine.ext import db
 from app.utils import has_private_key
 from error.models import Error
 from error.views import get_filtered
-    
+
 class base(Feed):
     title = "Arecibo Errors"
     link = "/list/"
     description = "Arecibo Errors"
     subtitle = "Arecibo Errors"
-    
+
     def __init__(self, *args, **kw):
         res = Feed.__init__(self, *args, **kw)
         self.request = None
-        
+
     def items(self):
         form, queryset = get_filtered(self.request)
         return queryset[:20]

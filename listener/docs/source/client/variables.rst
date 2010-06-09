@@ -32,8 +32,8 @@ priority
 A number between 1 and 10. The values 1 to 3 are coloured in the web interface, with number 1 being the most important. A user can configure notifications to be sent to them when errors are above a certain priority.
 ::
     priority = "3"
-    
-    
+
+
 A standard a 404 "Page not found" could be priority 5. They could occur regularly and there may not be much you can do about them. However, if a "Page not found" has a referer from your site, then you could assign priority of 3, since this is something you may be able to fix. A 500 "Server Error" could be priority 1.
 
 ip
@@ -41,7 +41,7 @@ ip
 **Limit:** 15 chars
 
 The IP address of the client triggering the error. If you are setting this on your server, be sure to take into account any proxies that might be in the way.
-:: 
+::
     ip = "192.168.1.53"
 
 user_agent
@@ -100,7 +100,7 @@ traceback
 If your application provides a useful stack trace, then here is the opportunity to include it, this is arguably one of the most important elements, so include it if you can. All HTML is ignored and there is a limit to the amount of text sent.
 ::
     traceback = "[COMException (0x80040154): Retrieving the COM class factory
-       for component with CLSID {4D880EAB-BF35-423A-A859-B1D9F2AC4CC1} failed 
+       for component with CLSID {4D880EAB-BF35-423A-A859-B1D9F2AC4CC1} failed
        due to the following error: 80040154.]"
 
 timestamp

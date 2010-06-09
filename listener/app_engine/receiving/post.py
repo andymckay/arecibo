@@ -10,13 +10,13 @@ from email.Utils import parsedate
 
 def populate(err, incoming):
     """ Populate the error table with the incoming error """
-    # special lookup the account    
+    # special lookup the account
     uid = incoming.get("account", "")
     if not uid:
         raise ValueError, "Missing the required account number."
     if str(uid) != settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER:
         raise ValueError, "Account number does not match"
-            
+
     # special
     if incoming.has_key("url"):
         err.raw = incoming["url"]
@@ -49,13 +49,13 @@ def populate(err, incoming):
         priority = 0
     err.priority = min(priority, 10)
 
-    # possibly utf-8 encoding            
+    # possibly utf-8 encoding
     for src, dest in [
         ("type", "type"),
         ("msg", "msg"),
         ("server", "server"),
-        ("traceback", "traceback"),                        
-        ("request", "request"),                        
+        ("traceback", "traceback"),
+        ("request", "request"),
         ("username", "username")
         ]:
         actual = incoming.get(src, None)
@@ -64,7 +64,7 @@ def populate(err, incoming):
                 setattr(err, dest, actual.encode("utf-8"))
             except UnicodeDecodeError:
                 err.errors += "Encoding error on the %s field, ignored.\n" % src
-    
+
     # timestamp handling
     if incoming.has_key("timestamp"):
         tmstmp = incoming["timestamp"].strip()
@@ -77,6 +77,6 @@ def populate(err, incoming):
                 err.error_timestamp = final
             except ValueError, msg:
                 err.errors += 'Date error on the field "%s", ignored.\n' % msg
-    
+
     err.timestamp = datetime.now()
     err.save()

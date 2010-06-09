@@ -17,7 +17,7 @@ class Form(forms.Form):
 class ModelForm(forms.ModelForm):
     def as_custom(self):
         return as_blue_print(self)
-        
+
 from django.utils.html import conditional_escape
 from django.utils.encoding import smart_unicode, StrAndUnicode, force_unicode
 from django.utils.safestring import mark_safe

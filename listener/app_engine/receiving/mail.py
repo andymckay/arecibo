@@ -23,15 +23,15 @@ def parse(content_type, body):
 
 def post(request):
     """ Add in a post """
-    log("Processing email message") 
+    log("Processing email message")
     mailobj = mail.InboundEmailMessage(request.raw_post_data)
     found = False
-    
-    for content_type, body in mailobj.bodies("text/plain"): 
+
+    for content_type, body in mailobj.bodies("text/plain"):
         found = parse(content_type, body)
-    for content_type, body in mailobj.bodies("text/html"): 
+    for content_type, body in mailobj.bodies("text/html"):
         found = parse(content_type, body)
-        
+
     if not found:
         log("No contents found in the message.")
 

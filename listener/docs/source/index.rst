@@ -5,7 +5,7 @@ Contents:
 
 .. toctree::
    :maxdepth: 1
-   
+
    introduction.rst
    quickstart.rst
    server/index.rst
@@ -13,7 +13,7 @@ Contents:
    server/useraccess.rst
    client/index.rst
    client/post.rst
-   client/variables.rst 
+   client/variables.rst
    client/javascript.rst
    client/python.rst
    client/ruby.rst

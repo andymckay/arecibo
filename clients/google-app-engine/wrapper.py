@@ -14,7 +14,7 @@ from urlparse import urljoin, urlparse, urlunparse
 import logging
 import traceback
 import sys
-import time 
+import time
 
 def get_host(request):
     """Returns the HTTP host using the environment or request headers."""
@@ -30,7 +30,7 @@ def get_host(request):
         if server_port != (request.is_secure() and 443 or 80):
             host = '%s:%s' % (host, server_port)
     return host
-    
+
 def getpath(request):
     location = request.get_full_path()
     if not ':' in location:
@@ -40,15 +40,15 @@ def getpath(request):
     return location
 
 def post(request, status, **kw):
-    exc_info = sys.exc_info() 
+    exc_info = sys.exc_info()
 
     path = request.get_full_path()
     if _is_ignorable_404(path):
         return
-    
+
     if request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS:
         return
-        
+
     data = {
         "account": settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER,
         "url": getpath(request),
@@ -59,35 +59,35 @@ def post(request, status, **kw):
         "status": status,
         "uid": time.time(),
         "user_agent": request.META.get('HTTP_USER_AGENT'),
-        "server": "Google App Engine"     
+        "server": "Google App Engine"
     }
 
     # it could be the site does not have the standard django auth
     # setup and hence no reques.user
     try:
-        data["username"] = request.user.username, 
+        data["username"] = request.user.username,
         # this will be "" for Anonymous
     except AttributeError:
         pass
 
     data.update(kw)
-            
+
     # a 404 has some specific formatting of the error that
     # can be useful
     if status == 404:
         msg = ""
-        for m in exc_info[1]:                             
+        for m in exc_info[1]:
             tried = "\n".join(m["tried"])
             msg = "Failed to find %s, tried: \n\t%s" % (m["path"], tried)
         data["msg"] = msg
-                                                                   
-    # if we don't get a priority, make create one   
+
+    # if we don't get a priority, make create one
     if not data.get("priority"):
         if status == 500:
             data["priority"] = 1
-        else: 
+        else:
             data["priority"] = 5
-        
+
     try:
         if getattr(settings, "ARECIBO_TRANSPORT", None):
             try:
@@ -100,15 +100,15 @@ def post(request, status, **kw):
                 to=settings.ARECIBO_SERVER_EMAIL,
                 subject="Error",
                 body=simplejson.dumps(data))
-        else:                
+        else:
             udata = urlencode(data)
             headers = {'Content-Type': 'application/x-www-form-urlencoded', "Accept": "text/plain"}
             url = list(urlparse(settings.ARECIBO_SERVER_URL))
             if url[2] != "/v/1/": url[2] = "/v/1/"
             result = urlfetch.fetch(
-                url=urlunparse(url), 
-                payload=udata, 
-                method=urlfetch.POST, 
+                url=urlunparse(url),
+                payload=udata,
+                method=urlfetch.POST,
                 headers=headers)
 
     except:
@@ -118,6 +118,5 @@ def post(request, status, **kw):
         exctype, value = sys.exc_info()[:2]
         msg = "There was an error posting that error to Arecibo via smtp %s, %s" % (exctype, value)
         logging.error("Arecibo: %s", msg)
-        
+
     return data["uid"]
-      
