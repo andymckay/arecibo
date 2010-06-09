@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>
+            Arecibo JavaScript Client Test Page
+        </title>
+    </head>
+    <body>
+        <p>
+            <strong>NOTE:</strong> This page assumes you have a local
+            AppEngine server running locally. Configure your arecibo install
+            accordingly.
+        </p>
+
+        <script src="http://127.0.0.1:8080/lib/error.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            arecibo.account = '8B807E1E95664441A8BF0ABC9E861D2D';
+            arecibo.registerGlobalHandler();
+        </script>
+
+        <script>
+            function foo() {
+                alert("About to fail!");
+                bar(); // This will trigger an exception;
+            }
+
+            foo();
+        </script>
+        <p>Check your Arecibo server - you should have an error listed</p>
+    </body>
+</html>

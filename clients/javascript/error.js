@@ -25,7 +25,7 @@ arecibo.addInput = function(form, doc, name, value) {
     tmp.setAttribute("type", "text");
     tmp.setAttribute("name", name);
     tmp.setAttribute("value", value);
-    form.appendChild(tmp);    
+    form.appendChild(tmp);
 };
 
 arecibo.addTextArea = function(form, doc, name, value) {
@@ -36,7 +36,7 @@ arecibo.addTextArea = function(form, doc, name, value) {
     tmp.setAttribute("type", "text");
     tmp.setAttribute("name", name);
     tmp.innerHTML = value;
-    form.appendChild(tmp);    
+    form.appendChild(tmp);
 };
 
 arecibo.createForm = function() {
@@ -44,12 +44,12 @@ arecibo.createForm = function() {
         var iframe = window.frames.error.document;
     } catch(e) {
         return;
-    } 
+    }
     if (arecibo.loaded) { return; }
     arecibo.loaded = true;
     var form = iframe.createElement("form");
     var host = (("https:" == document.location.protocol) ? "https://" : "http://");
-    form.setAttribute("action", host + "{{ domain }}/v/1/"); 
+    form.setAttribute("action", host + "{{ domain }}/v/1/");
     form.setAttribute("method", "post");
 
     var now = new Date;
@@ -63,14 +63,14 @@ arecibo.createForm = function() {
     arecibo.addInput(form, iframe, "username", arecibo.username);
     arecibo.addInput(form, iframe, "timestamp", now.toUTCString());
     if (typeof(arecibo.url) == "undefined") {
-        arecibo.addInput(form, iframe, "url", window.location);        
+        arecibo.addInput(form, iframe, "url", window.location);
     } else {
-        arecibo.addInput(form, iframe, "url", arecibo.url);        
+        arecibo.addInput(form, iframe, "url", arecibo.url);
     }
     arecibo.addInput(form, iframe, "type", arecibo.type);
     arecibo.addTextArea(form, iframe, "traceback", arecibo.traceback);
     arecibo.addTextArea(form, iframe, "request", arecibo.request);
-    
+
     iframe.body.appendChild(form);
     form.submit();
 };
@@ -87,4 +87,23 @@ arecibo.postLoad = function() {
 
 arecibo.run = function() {
     arecibo.register(window, "load", arecibo.postLoad);
+};
+
+arecibo.registerGlobalHandler = function() {
+    /*
+        NOTE: Currently this will only work on Firefox and Internet Explorer.
+
+        Safari and Chrome have open feature requests for global error handlers:
+
+        https://bugs.webkit.org/show_bug.cgi?id=8519
+        http://code.google.com/p/chromium/issues/detail?id=7771
+    */
+
+    window.onerror = function(msg, url, ln, stack) {
+        arecibo.msg = url + " at line " + ln + ": " + msg;
+        arecibo.traceback = stack;
+        arecibo.url = url;
+
+        arecibo.postLoad();
+    };
 };
