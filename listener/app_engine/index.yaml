@@ -163,4 +163,3 @@ indexes:
   properties:
   - name: completed
   - name: date
-    direction: desc
