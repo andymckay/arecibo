@@ -6,9 +6,16 @@ max_fetch = 1000
 
 def count(*filters):
     count = 0
-    query = Error.all(keys_only=True).order('timestamp').order('__key__')
+    query = Error.all(keys_only=True)
+    found_timestamp = False
     for k, v in filters:
+        if "timestamp" in k:
+            found_timestamp = True
         query = query.filter(k, v)
+    
+    if found_timestamp:
+        query = query.order('timestamp')
+    query = query.order('__key__')
     
     while count % max_fetch == 0:
         current_count = query.count()

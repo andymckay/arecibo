@@ -9,7 +9,8 @@ except ImportError:
     from django.utils.functional import update_wrapper, wraps  # Python 2.3, 2.4 fallback.
 
 def log(msg):
-    logging.info(" Arecibo: %s" % msg)
+    if settings.DEBUG:
+        logging.info(" Arecibo: %s" % msg)
 
 def safe_int(key, result=None):
     try:

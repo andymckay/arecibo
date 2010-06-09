@@ -85,6 +85,8 @@ INSTALLED_APPS = (
      'custom'
 )
 
+TEST_RUNNER = "app.test_runner.AreciboRunner"
+
 try:
     from local_settings import *
 except ImportError:

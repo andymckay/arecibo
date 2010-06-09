@@ -119,10 +119,10 @@ class Error(BaseModel):
     def description(self):
         return self.msg or ""
     
-    def save(self):
+    def save(self, *args, **kw):
         created = not hasattr(self, "id")
         self.put()
-        if created:
+        if created and not "dont_send_signals" in kw:
             if os.environ.get('SERVER_SOFTWARE', '').startswith('Dev'):
                 # send the signal, otherwise we have to clicking buttons
                 # to process the queue

@@ -195,10 +195,7 @@ class BrowserCapabilities(object):
         string = StringIO(raw)
         
         cfg = ConfigParser()
-        read_ok = cfg.readfp(string)
-        if not read_ok:
-            log("Getting browser capabilities failed")
-            return
+        cfg.readfp(string)
         
         self.sections = []
         self.items = {}

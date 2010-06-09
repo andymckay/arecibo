@@ -43,7 +43,7 @@ class ErrorTests(TestCase):
     def testGroup(self):
         c = Client()
         c.post(reverse("error-post"), data)
-        assert Group.all().count() == 1
+        assert Group.all().count() == 1, "Got %s groups, not 1" % Group.all().count()
         c.post(reverse("error-post"), data)
         assert Group.all().count() == 1
         new_data = data.copy()

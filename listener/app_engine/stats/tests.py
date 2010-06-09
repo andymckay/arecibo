@@ -13,26 +13,19 @@ from app import tests
 from error.models import Error, Group
 from stats.utils import count
 
-from error.signals import error_created
-from error.listeners import default_grouping
-from notifications.listeners import default_notification
-
-error_created.disconnect(default_grouping, dispatch_uid="default_grouping")
-error_created.disconnect(default_notification, dispatch_uid="default_notification")
-
 class StatsTests(TestCase):
     # test the view for writing errors
     def setUp(self):
         for error in Error.all(): error.delete()
-        
-    def testCount(self):        
+    
+    def testCount(self):
         for x in range(0, 1110):
-            Error().save()
+            Error().save(dont_send_signals=True)
         assert count() == 1110
         for x in range(0, 5):
-            err = Error()
+            err = Error(dont_send_signals=True)
             err.priority = 4
             err.save()
-        assert count(["priority = ", 4]) == 5            
+        assert count(["priority = ", 4]) == 5
         assert count(["priority = ", None]) == 1110
         assert count() == 1115        
