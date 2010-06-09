@@ -176,7 +176,7 @@ class BrowserCapabilities(object):
         # if the data isn't there, download it
         if raw is None:
             log("Fetching from browser capabilities")
-            data = fetch("http://browsers.garykeith.com/stream.asp?BrowsCapINI")
+            data = fetch("http://www.areciboapp.com/static/browscap.ini")
             if data.status_code == 200:
                 # that should be one week (1 min > 1 hour > 1 day > 1 week)
                 log("...succeeded")
