@@ -1,10 +1,11 @@
 {% extends "base.html" %}
-{% block content %}
+{% block subnav %}
 <div class="span-24">
-<h2>Users</h2>
-<div class="subnav">
     <p><a href="{% url setup %}">URLs and keys</a> &bull; Users</p>
 </div>
+{% endblock %}
+{% block content %}
+<div class="span-24">
 {% if page.object_list %}
 <table class="listing">
     <thead>

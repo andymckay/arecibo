@@ -1,4 +1,5 @@
-<p>
+<div class="span-24">
     {% ifequal nav.subnav 'list' %}List{% else %}<a href="{% url error-list %}">List</a>{% endifequal %}
     &bull; {% ifequal nav.subnav 'group' %}Group{% else %}<a href="{% url group-list %}">Group</a>{% endifequal %}
-</p>
+    &bull; <a href="{{ site_url }}/feed/{{ private_key }}/{% if qs %}?{{ qs }}{% endif %}">RSS feed</a>
+</div>

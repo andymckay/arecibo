@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% block content %}
-<h2>Setup</h2>
-<div class="subnav">
+{% block subnav %}
+<div class="span-24">
     <p>URLs and keys &bull; <a href="{% url user-list %}">Users</a></p>
 </div>
+{% endblock %}
+{% block content %}
 <dl>
 <dt>Public key</dt>
 <dd>{{ public_key }}
@@ -21,7 +22,8 @@
     <p class="help">This is for reading API and RSS</p>
     </dd>
 <dt>RSS Feed</dt>
-<dd><a href="{{ site_url }}/feed/{{ private_key }}/">{{ site_url }}/feed/{{ private_key }}/</a></dd>
+<dd><a href="{{ site_url }}/feed/{{ private_key }}/">{{ site_url }}/feed/{{ private_key }}/</a>
+    <p class="help">You can also filter the RSS feed by any of the filters.</p></dd>
 </dl>
 
 <p>For logs and admin, use <a href="http://appspot.com">Google App Engine console</a>.</p>

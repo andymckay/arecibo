@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="span-18">
-<h2>Stats</h2>
-<p class="help">These stats are generated at the end of every day.</p>
+<div class="span-24">
 <h3>Total number of errors per day</h3>
-<div id="total"></div>
+<div id="total" style="height: 400px;"></div>
 <h3>Total number of errors by status per day</h3>
-<div id="status"></div>
+<div id="status" style="height: 400px;"></div>
+<p class="help">These stats are generated at the end of every day.</p>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
    google.load("visualization", "1", {packages:["areachart"]});

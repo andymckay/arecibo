@@ -1,7 +1,7 @@
 {% extends "base.html" %}
+{% block subnav %}{% include "subnav.html" %}{% endblock %}
 {% block content %}
 <div class="span-18">
-{% include "subnav.html" %}
 {% if page.object_list %}
 <table class="listing">
     <thead>
@@ -35,4 +35,5 @@
     {% include "filter.html" %}
 </div>
 {% include "pagination.html" %}
+
 {% endblock %}
