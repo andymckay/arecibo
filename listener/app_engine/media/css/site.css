@@ -64,7 +64,6 @@ body {
 }
 
 pre {
-    font-size: 1.2em;
     font-family:  Monaco, Courier, monospaced;
     white-space: pre-wrap; /* css-3 */
     white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */

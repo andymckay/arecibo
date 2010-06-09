@@ -5,10 +5,8 @@ from django.views.generic.simple import direct_to_template
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 
-from google.appengine.ext import db
 from google.appengine.api.labs import taskqueue
 
-from app.utils import log
 from stats.utils import count
 from stats.models import Stats
 
@@ -16,7 +14,7 @@ registered = {}
 
 def intervals(date):
     return [
-        ["timestamp >= ", datetime(date.year, date.month, date.day, 0, 0, 0)], 
+        ["timestamp >= ", datetime(date.year, date.month, date.day, 0, 0, 0)],
         ["timestamp <= ", datetime(date.year, date.month, date.day, 23, 59, 59)]
     ]
 
@@ -24,7 +22,7 @@ def start(request):
     date = (datetime.today() - timedelta(days=1)).date()
     create(date)
     return HttpResponse("total started")
-    
+
 def create(date):
     existing = Stats.all().filter("date = ", date)
     if not existing:
@@ -40,7 +38,7 @@ def create(date):
     data = dict([(key, None) for key in keys])
     stats.set_stats(data)
     stats.save()
-    
+
 def get_action(request, action, pk):
     stats = Stats.get(pk)
     current = stats.get_stats()

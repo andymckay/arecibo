@@ -1,14 +1,11 @@
-from django.core.urlresolvers import reverse
 from django.utils import simplejson
 
 from datetime import datetime
 
 from google.appengine.ext import db
-from google.appengine.api.labs import taskqueue
 
 from appengine_django.models import BaseModel
 from stats.signals import stats_completed
-from app.utils import log
 
 class Stats(BaseModel):
     """ A series of stats for a date """
@@ -16,16 +13,16 @@ class Stats(BaseModel):
     timestamp = db.DateTimeProperty()
     stats = db.TextProperty()
     completed = db.BooleanProperty(default=False)
-
+    
     @property
     def id(self):
         return str(self.key())
-
+    
     def save(self, *args, **kw):
         created = not hasattr(self, "id")
         if created:
             self.timestamp = datetime.now()
-            
+        
         if not self.completed and self.complete():
             self.completed = True
             self.put()

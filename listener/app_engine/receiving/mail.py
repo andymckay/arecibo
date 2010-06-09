@@ -1,10 +1,9 @@
-from django.utils.simplejson import loads, dumps
-from django.core.exceptions import ObjectDoesNotExist
+from django.utils.simplejson import loads
 from django.http import HttpResponse
 
 from error.models import Error
 
-from app.utils import _pdb, log
+from app.utils import log
 from google.appengine.api import mail
 from receiving.post import populate
 
@@ -23,16 +22,16 @@ def parse(content_type, body):
 
 def post(request):
     """ Add in a post """
-    log("Processing email message") 
+    log("Processing email message")
     mailobj = mail.InboundEmailMessage(request.raw_post_data)
     found = False
     
-    for content_type, body in mailobj.bodies("text/plain"): 
+    for content_type, body in mailobj.bodies("text/plain"):
         found = parse(content_type, body)
-    for content_type, body in mailobj.bodies("text/html"): 
+    for content_type, body in mailobj.bodies("text/html"):
         found = parse(content_type, body)
-        
+    
     if not found:
         log("No contents found in the message.")
-
+    
     return HttpResponse("message parsed")

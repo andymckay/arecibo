@@ -1,4 +1,7 @@
 from django import forms
+from django.utils.html import conditional_escape
+from django.utils.encoding import force_unicode
+from django.utils.safestring import mark_safe
 
 def as_blue_print(self):
     return self._html_output(u"""
@@ -17,13 +20,10 @@ class Form(forms.Form):
 class ModelForm(forms.ModelForm):
     def as_custom(self):
         return as_blue_print(self)
-        
-from django.utils.html import conditional_escape
-from django.utils.encoding import smart_unicode, StrAndUnicode, force_unicode
-from django.utils.safestring import mark_safe
 
 def as_div(self):
-    if not self: return u''
+    if not self:
+        return u''
     template = "%s"
     errors = ''.join([u'<p class="error">%s</p>' % conditional_escape(force_unicode(e)) for e in self])
     template = template % errors

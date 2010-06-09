@@ -1,11 +1,11 @@
-error_msg = """Arecibo is notifying you of the following errors: 
+error_msg = """Arecibo is notifying you of the following errors:
 --------------------
 
-%s  
+%s
 --------------------
-You are receiving this because it's the email address set for your account at %s. 
+You are receiving this because it's the email address set for your account at %s.
 
-Please remember I'm just a bot and don't really exist, so replying to this email will 
+Please remember I'm just a bot and don't really exist, so replying to this email will
 not do you any good I'm afraid.
 """
 

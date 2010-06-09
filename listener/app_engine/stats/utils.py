@@ -7,17 +7,17 @@ max_fetch = 1000
 def count(*filters):
     count = 0
     query = Error.all(keys_only=True).order('timestamp').order('__key__')
-    for k, v in filters: 
+    for k, v in filters:
         query = query.filter(k, v)
-
+    
     while count % max_fetch == 0:
         current_count = query.count()
         if current_count == 0:
             break
         count += current_count
-
+        
         if current_count == max_fetch:
             last_key = query.fetch(1, max_fetch - 1)[0]
             query = query.filter('__key__ > ', last_key)
-
+    
     return count

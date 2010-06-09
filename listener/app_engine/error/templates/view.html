@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}| {{ error.title|truncatewords:3}}{% endblock %}
+{% block subnav %}{% include "subnav.html" %}{% endblock %}
 {% block content %}
 <h2>{{ error.title }}</h2>
-<p><a href="{% url error-list %}">&laquo; Error list</a></p>
 <dl class="attributes">
     <dt>URL:</dt>
     <dd>{% if error.raw %}<a href="{{ error.raw }}">{{ error.raw }}</a>{% else %}-{% endif %}</dd>

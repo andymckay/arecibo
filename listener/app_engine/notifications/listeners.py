@@ -1,6 +1,4 @@
-import django.dispatch
-
-from app.utils import safe_string, log
+from app.utils import log
 from notifications.models import Notification
 from users.utils import approved_users
 
@@ -14,7 +12,7 @@ def default_notification(instance, **kw):
     # http://github.com/andymckay/arecibo/issues/issue/4
     if instance.priority > 5:
         return
-
+    
     notification = Notification()
     notification.error = instance
     notification.user = [ str(u.key()) for u in approved_users() ]

@@ -1,21 +1,21 @@
 from django import forms
 
 from app.forms import Form
-from app.utils import safe_int, log
+from app.utils import safe_int
 
 from google.appengine.ext import db
 
-from error.models import Error, Group
+from error.models import Group
 
 read_choices = (("", "All"), ("False", 'Read only'), ("True", 'Unread only'))
 priority_choices = [ (r, r) for r in range(1, 11)]
 priority_choices.insert(0, ("", "All"))
 
-status_choices = ['100', '101', '102', '200', '201', '202', '203', 
-'204', '205', '206', '207', '226', '300', '301', '302', '303', '304', 
-'305', '307', '400', '401', '402', '403', '404', '405', '406', '407', 
+status_choices = ['100', '101', '102', '200', '201', '202', '203',
+'204', '205', '206', '207', '226', '300', '301', '302', '303', '304',
+'305', '307', '400', '401', '402', '403', '404', '405', '406', '407',
 '408', '409', '410', '411', '412', '413', '414', '415', '416', '417',
-'422', '423', '424', '426', '500', '501', '502', '503', '504', '505', 
+'422', '423', '424', '426', '500', '501', '502', '503', '504', '505',
 '507', '510']
 status_choices = [ (r, r) for r in status_choices ]
 status_choices.insert(0, ("", "All"))
@@ -26,17 +26,17 @@ class ErrorForm(Form):
     priority = forms.ChoiceField(choices=priority_choices, widget=forms.Select, required=False)
     status = forms.ChoiceField(choices=status_choices, widget=forms.Select, required=False)
     read = forms.ChoiceField(choices=read_choices, widget=forms.Select, required=False)
-    start = forms.DateField(required=False, label="Start date", 
+    start = forms.DateField(required=False, label="Start date",
         widget=forms.DateInput(attrs={"class":"date",}))
-    end = forms.DateField(required=False, label="End date", 
+    end = forms.DateField(required=False, label="End date",
         widget=forms.DateInput(attrs={"class":"date",}))
     query = forms.CharField(required=False, label="Path")
     domain = forms.CharField(required=False)
     uid = forms.CharField(required=False)
-    group = forms.CharField(required=False) 
+    group = forms.CharField(required=False)
     
     inequality = ""
-
+    
     def clean(self):
         data = {}
         for k, v in self.cleaned_data.items():
@@ -51,24 +51,24 @@ class ErrorForm(Form):
     
     def handle_read(self, value):
         return {"False":False, "True":True}.get(value, None)
-
+    
     def filter_start(self, value, args):
         return "timestamp >= :%d" % (len(args)+1), [value,]
     
     def filter_end(self, value, args):
         return "timestamp <= :%d" % (len(args)+1), [value,]
-
+    
     def handle_priority(self, value):
         return safe_int(value)
-
+    
     def filter_query(self, value, args):
-        self.inequality = "query,"        
+        self.inequality = "query,"
         x = len(args)
         return "query >= :%d AND query < :%d" % (x+1, x+2), [value, value + u"\ufffd"]
-
+    
     def handle_group(self, value):
         return Group.all().filter("uid = ", value)[0].key()
-        
+    
     def as_query(self):
         """ This is getting a bit complicated """
         args, gql = [], []
@@ -87,10 +87,10 @@ class ErrorForm(Form):
                 args.extend(newargs)
                 counter += len(newargs)
             else:
-                gql.append(" %s = :%s " % (k, counter))  
-                args.append(v)             
+                gql.append(" %s = :%s " % (k, counter))
+                args.append(v)
                 counter += 1
-            
+        
         conditions = " AND ".join(gql)
         if conditions: conditions = "WHERE %s" % conditions
         conditions = "SELECT * FROM Error %s ORDER BY %s timestamp DESC" % (conditions, self.inequality)

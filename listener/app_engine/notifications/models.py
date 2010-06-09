@@ -6,10 +6,7 @@ from appengine_django.auth.models import User
 
 from google.appengine.ext import db
 
-from error.signals import error_created
 from notifications.signals import notification_created
-from users.utils import approved_users
-from app.utils import log
 
 class Notification(BaseModel):
     # to do, fix this
@@ -30,7 +27,7 @@ class Notification(BaseModel):
         self.put()
         if created:
             notification_created.send(sender=self.__class__, instance=self)
-
+    
     def user_list(self):
         users = []
         for key in self.user:
