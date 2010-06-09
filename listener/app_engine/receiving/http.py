@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from error.models import Error
 
+from app.utils import render_plain
 from receiving.post import populate
 
 def post(request):
@@ -10,4 +11,4 @@ def post(request):
     err.user_agent = request.META.get("HTTP_USER_AGENT", "")
     
     populate(err, request.POST)
-    return HttpResponse("Error recorded")
+    return render_plain("Error recorded")

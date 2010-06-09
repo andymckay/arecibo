@@ -9,6 +9,7 @@ from error.models import Error, Group
 from error.forms import ErrorForm
 from error.signals import error_created
 
+from app.utils import render_plain
 from app.paginator import Paginator, get_page
 
 # these aren't used directly
@@ -25,8 +26,8 @@ def send_signal(request, pk):
         error.create_signal_sent = True
         error.save()
         error_created.send(sender=error.__class__, instance=error)
-        return HttpResponse("Signal sent")
-    return HttpResponse("Signal not sent")
+        return render_plain("Signal sent")
+    return render_plain("Signal not sent")
 
 def get_filtered(request):
     form = ErrorForm(request.GET or None)

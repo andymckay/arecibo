@@ -7,6 +7,8 @@ from django.http import HttpResponse
 
 from google.appengine.api.labs import taskqueue
 
+from app.utils import render_plain
+
 from stats.utils import count
 from stats.models import Stats
 
@@ -21,23 +23,21 @@ def intervals(date):
 def start(request):
     date = (datetime.today() - timedelta(days=1)).date()
     create(date)
-    return HttpResponse("total started")
+    return render_plain("total started")
 
 def create(date):
     existing = Stats.all().filter("date = ", date)
-    if not existing:
-        stats = Stats()
-    else:
+    try:
         stats = existing[0]
+    except IndexError:
+        stats = Stats()
     stats.date = date
-    stats.save()
-    keys = []
-    for key in registered.keys():
-        taskqueue.add(url=reverse("stats-action", kwargs={"action":key, "pk":stats.id}))
-        keys.append(key)
-    data = dict([(key, None) for key in keys])
+    data = dict([(key, None) for key in registered.keys()])
     stats.set_stats(data)
     stats.save()
+    
+    for key in registered.keys():
+        taskqueue.add(url=reverse("stats-action", kwargs={"action":key, "pk":stats.id}))
 
 def get_action(request, action, pk):
     stats = Stats.get(pk)
@@ -47,7 +47,7 @@ def get_action(request, action, pk):
     current[action] = registered[action](stats)
     stats.set_stats(current)
     stats.save()
-    return HttpResponse("total done: %s" % current)
+    return render_plain("total done: %s" % current)
 
 def get_total(stats):
     return count(*intervals(stats.date))
@@ -65,7 +65,7 @@ registered["status"] = get_status
 
 @user_passes_test(lambda u: u.is_staff)
 def view(request):
-    stats = Stats.all().filter("completed = ", True).order("-date")[:30]
+    stats = Stats.all().filter("completed = ", True).order("date")[:30]
     stats = [ {"object":s, "stats":s.get_stats()} for s in stats ]
     return direct_to_template(request, "stats.html", {
         "stats": stats,

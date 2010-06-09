@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 from error.models import Error
 
-from app.utils import log
+from app.utils import log, render_plain
 from google.appengine.api import mail
 from receiving.post import populate
 
@@ -34,4 +34,4 @@ def post(request):
     if not found:
         log("No contents found in the message.")
     
-    return HttpResponse("message parsed")
+    return render_plain("message parsed")

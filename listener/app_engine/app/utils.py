@@ -1,7 +1,7 @@
 # general utils
 import logging
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 
 try:
     from functools import update_wrapper, wraps
@@ -16,6 +16,9 @@ def safe_int(key, result=None):
         return int(key)
     except (ValueError, AttributeError):
         return result
+
+def render_plain(msg):
+    return HttpResponse(msg, mimetype="text/plain")
 
 def safe_string(text, result=""):
     try:

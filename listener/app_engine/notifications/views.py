@@ -3,13 +3,12 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.simple import direct_to_template
-from django.http import HttpResponse
 
 from notifications.models import Notification
 from notifications.email import send_error_email
 
 from app.paginator import Paginator, get_page
-from app.utils import log
+from app.utils import log, render_plain
 
 @user_passes_test(lambda u: u.is_staff)
 def notifications_list(request):
@@ -31,7 +30,7 @@ def notifications_cleanup(request):
     for notification in queryset:
         notification.delete()
     
-    return HttpResponse("Cron job completed")
+    return render_plain("Cron job completed")
 
 class Holder:
     def __init__(self):
@@ -72,4 +71,4 @@ def notifications_send(request):
                 notification.error_msg = data
                 notification.save()
     
-    return HttpResponse("Cron job completed")
+    return render_plain("Cron job completed")
