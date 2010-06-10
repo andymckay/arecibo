@@ -90,5 +90,5 @@ from django.test import TestCase
 class ErrorTests(TestCase):
     # test the view for writing errors
     def testBasic(self):
-        result = parse_404(sample_404_body)
-        result = parse_500(sample_500_body)
+        result = parse_404(sample_404_body, "")
+        result = parse_500(sample_500_body, "")
