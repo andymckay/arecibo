@@ -11,15 +11,15 @@ from notifications.signals import notification_created
 class Notification(BaseModel):
     # to do, fix this
     from error.models import Error
-    
+
     user = db.ListProperty(str)
     error = db.ReferenceProperty(Error)
-    
+
     tried = db.BooleanProperty(default=False)
     completed = db.BooleanProperty(default=False)
     error_msg = db.TextProperty()
     timestamp = db.DateTimeProperty()
-    
+
     def save(self):
         created = not hasattr(self, "id")
         if created:

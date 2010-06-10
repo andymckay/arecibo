@@ -89,10 +89,49 @@ arecibo.run = function() {
     arecibo.register(window, "load", arecibo.postLoad);
 };
 
+arecibo.recordException = function(e) {
+    arecibo.msg = e.toString();
+    arecibo.type = e.name;
+
+    var line;
+
+    if (e.line) { // WebKit
+        line = e.line;
+    } else if (e.lineNumber) { // Mozilla
+        line = e.lineNumber;
+    }
+
+    if (e.sourceURL) { // Webkit
+        arecibo.url = e.sourceURL;
+    } else if (e.fileName) { // Mozilla
+        arecibo.url = e.fileName;
+    } else {
+        arecibo.url = window.location;
+    }
+
+    if (line) {
+        arecibo.msg = arecibo.url + " line " + line + ": " + arecibo.msg;
+    }
+
+    // Currently Mozilla only:
+    if (e.stack) arecibo.traceback = e.stack;
+
+    arecibo.postLoad();
+};
+
 arecibo.registerGlobalHandler = function() {
+    /*
+        NOTE: Currently this will only work on Firefox and Internet Explorer.
+
+        Safari and Chrome have open feature requests for global error handlers:
+
+        https://bugs.webkit.org/show_bug.cgi?id=8519
+        http://code.google.com/p/chromium/issues/detail?id=7771
+    */
+
     window.onerror = function(msg, url, ln, stack) {
         arecibo.msg = url + " at line " + ln + ": " + msg;
-        arecibo.traceback = stack;
+        arecibo.traceback = stack; // NOTE: This will only be available on Firefox
         arecibo.url = url;
 
         arecibo.postLoad();

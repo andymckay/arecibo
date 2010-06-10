@@ -3,7 +3,7 @@ from wrapper import post
 
 class AreciboMiddleware(object):
     def process_exception(self, request, exception):
-        """ This is middleware to process a request 
+        """ This is middleware to process a request
         and pass the value off to Arecibo. """
         # we keep the 404 check in there case
         if isinstance(exception, Http404):

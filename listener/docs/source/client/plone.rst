@@ -17,7 +17,7 @@ Under zcml add::
 
 Re-run buildout and restart Plone. Then
 
-* Go to your Add/Remove Products and install Arecibo. 
+* Go to your Add/Remove Products and install Arecibo.
 
 * Then enter your Arecibo public API key.
 

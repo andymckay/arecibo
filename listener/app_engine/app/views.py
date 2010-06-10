@@ -1,3 +1,4 @@
+import os
 from urlparse import urlparse
 
 from django.contrib.auth.decorators import user_passes_test
@@ -16,7 +17,8 @@ def index(request):
 @user_passes_test(lambda u: u.is_staff)
 def setup(request):
     return direct_to_template(request, "setup.html", extra_context={
-        "nav": {"selected": "setup"}
+        "nav": {"selected": "setup"},
+        "app_id": os.environ.get("APPLICATION_ID"),
         })
 
 def javascript_client(request):

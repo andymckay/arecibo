@@ -6,6 +6,7 @@ max_fetch = 1000
 
 def count(*filters):
     count = 0
+    
     query = Error.all(keys_only=True)
     found_timestamp = False
     for k, v in filters:

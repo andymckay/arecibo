@@ -423,7 +423,7 @@ def ModifyAvailableCommands():
   management.get_commands()
   # Replace startapp command which is set by previous call to get_commands().
   from appengine_django.management.commands.startapp import ProjectCommand
-  management._commands['startapp'] = ProjectCommand(project_directory) 
+  management._commands['startapp'] = ProjectCommand(project_directory)
   RemoveCommands(management._commands)
   logging.debug("Removed incompatible Django manage.py commands")
 
@@ -527,7 +527,7 @@ def InstallAppengineHelperForDjango(version=None):
     logging.error("Django 1.0 or greater is required!")
     sys.exit(1)
 
-  
+
   if os.getenv("DEBUG_APPENGINE_DJANGO"):
     logging.getLogger().setLevel(logging.DEBUG)
   else:

@@ -1,6 +1,6 @@
 from zope.formlib import form
 from Products.Five.formlib import formbase
-from plone.app.controlpanel.form import ControlPanelForm 
+from plone.app.controlpanel.form import ControlPanelForm
 from clearwind.arecibo.interfaces import IAreciboConfiguration
 
 from zope.i18nmessageid import MessageFactory

@@ -59,7 +59,7 @@ Replacing *your_application_error* with the **app name** of your application fro
 Second *local_settings.py*::
 
     ~/arecibo/listener/app_engine $ cp local_settings.py.example local_settings.py
-    
+
 Then alter the file as detailed::
 
     ARECIBO_PUBLIC_ACCOUNT_NUMBER = "your_public_account_number_here"
@@ -67,7 +67,7 @@ Then alter the file as detailed::
 
     DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
     SITE_URL = "http://theurl.to.your.arecibo.instance.com"
-    
+
 *ARECIBO_PUBLIC_ACCOUNT_NUMBER* and *ARECIBO_PRIVATE_ACCOUNT_NUMBER* should be unique id that you'll be using to post to your site. This is used in URLs, so try to avoid / and unicode, any combination of 32 letters and numbers normally works.
 
 *DEFAULT_FROM_EMAIL* is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created you site with.
@@ -89,10 +89,10 @@ Download and copy over Django (this is not included for licensing reasons). Then
 
     ~/arecibo/listener/app_engine $ wget http://media.djangoproject.com/releases/1.2/Django-1.2.1.tar.gz
     ..
-    ~/arecibo/listener/app_engine $ tar zxf Django-1.2.1.tar.gz 
+    ~/arecibo/listener/app_engine $ tar zxf Django-1.2.1.tar.gz
     ~/arecibo/listener/app_engine $ mv Django-1.2.1/django .
     ~/arecibo/listener/app_engine $ rm -rf Django-1.2.1*
-    
+
 5. Upload to App Engine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

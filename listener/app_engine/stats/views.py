@@ -17,7 +17,7 @@ registered = {}
 def start(request):
     date = (datetime.today() - timedelta(days=1)).date()
     create(date)
-    return render_plain("total started")
+    return HttpResponse("total started")
 
 def create(date):
     existing = Stats.all().filter("date = ", date)

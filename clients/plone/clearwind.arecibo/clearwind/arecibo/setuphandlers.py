@@ -9,7 +9,7 @@ def setupSkins(portal):
         portal_skins = getToolByName(portal, "portal_skins")
         if name not in portal_skins.objectIds():
             createDirectoryView(portal_skins, location, name)
-    
+
         skins = portal_skins.getSkinSelections()
         for skin in skins:
             path = portal_skins.getSkinPath(skin)
@@ -22,10 +22,10 @@ def setupSkins(portal):
                 path.insert(pos, name)
                 path = ", ".join(path)
                 portal_skins.addSkinSelection(skin, path)
-    
-    add(portal, "arecibo", "clearwind.arecibo:skins")    
 
-def importVarious(context): 
+    add(portal, "arecibo", "clearwind.arecibo:skins")
+
+def importVarious(context):
     if context.readDataFile("clearwind.arecibo.txt") is None:
         return
     portal = context.getSite()

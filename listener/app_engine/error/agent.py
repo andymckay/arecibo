@@ -80,45 +80,35 @@ class Browser(object):
             l.append("css2")
         return l
     
-    
     def supports_tables(self):
         return self.supports("frames")
     
     def supports_iframes(self):
         return self.supports("iframes")
     
-    
     def supports_frames(self):
         return self.supports("frames")
-    
     
     def supports_java(self):
         return self.supports("javaapplets")
     
-    
     def supports_javascript(self):
         return self.supports("javascript")
-    
     
     def supports_vbscript(self):
         return self.supports("vbscript")
     
-    
     def supports_activex(self):
         return self.supports("activexcontrols")
-    
     
     def supports_cookies(self):
         return self.supports("cookies")
     
-    
     def supports_wap(self):
         return self.supports("wap")
     
-    
     def css_version(self):
         return self.get("css", 0)
-    
     
     def version(self):
         major = self.get("majorver")
@@ -138,7 +128,6 @@ class Browser(object):
             else:
                 return (None, None)
     
-    
     def dom_version(self):
         return self.get("w3cdomversion", 0)
     
@@ -146,17 +135,14 @@ class Browser(object):
     def is_bot(self):
         return self.get("crawler") == True
     
-    
     def is_mobile(self):
         return self.get("ismobiledevice") == True
-    
     
     def name(self):
         return self.get("browser")
     
     def platform(self):
         return self.get("platform")
-
 
 class BrowserCapabilities(object):
     
@@ -182,7 +168,6 @@ class BrowserCapabilities(object):
                 log("...succeeded")
                 raw = data.content
                 memcache.set(key, raw, 60 * 60 * 24 * 7)
-            
             else:
                 log("...failed")
                 # try again in 1 hour if there was a problem
@@ -191,9 +176,7 @@ class BrowserCapabilities(object):
         else:
             log("Using cached browser capabilities")
         
-        
         string = StringIO(raw)
-        
         cfg = ConfigParser()
         cfg.readfp(string)
         

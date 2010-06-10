@@ -11,7 +11,7 @@
     margin-bottom: 1em;
     border-bottom: 1px solid lightgrey;
     height: 20px;
-} 
+}
 
 body {
 }
@@ -35,7 +35,7 @@ body {
     background-position: 0px 22px;
 }
 
-.attributes dt, .attributes dd { margin: 0; padding: 0; } 
+.attributes dt, .attributes dd { margin: 0; padding: 0; }
 .attributes dt { float: left; width: 10em; }
 
 .footer-wrapper {
@@ -59,8 +59,8 @@ body {
     color: black;
 }
 .priority_3 {
-    background-color: #F5F6CE !important; 
-    color: black;   
+    background-color: #F5F6CE !important;
+    color: black;
 }
 
 pre {
@@ -74,7 +74,7 @@ pre {
 
 table.listing tr td {
     cursor: pointer;
-    border-left: 1px solid lightgrey;    
+    border-left: 1px solid lightgrey;
 }
 
 table.listing thead th {

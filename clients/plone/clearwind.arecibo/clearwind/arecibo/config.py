@@ -10,6 +10,6 @@ class AreciboConfiguration(SimpleItem):
     implements(IAreciboConfiguration)
     account_number = FieldProperty(IAreciboConfiguration['account_number'])
     transport = FieldProperty(IAreciboConfiguration['transport'])
-    
+
 def form_adapter(context):
     return getUtility(IAreciboConfiguration, name='Arecibo_config', context=context)

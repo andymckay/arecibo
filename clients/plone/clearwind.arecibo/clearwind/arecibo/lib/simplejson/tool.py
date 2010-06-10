@@ -1,7 +1,7 @@
 r"""
 Using simplejson from the shell to validate and
 pretty-print::
-    
+
     $ echo '{"json":"obj"}' | python -msimplejson
     {
         "json": "obj"

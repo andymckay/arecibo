@@ -28,4 +28,4 @@ class StatsTests(TestCase):
             err.save()
         assert count(["priority = ", 4]) == 5
         assert count(["priority = ", None]) == 1110
-        assert count() == 1115        
+        assert count() == 1115

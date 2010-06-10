@@ -21,7 +21,7 @@ from google.appengine.api import users
 
 def login_required(function):
   """Implementation of Django's login_required decorator.
-  
+
   The login redirect URL is always set to request.path
   """
   def login_required_wrapper(request, *args, **kw):

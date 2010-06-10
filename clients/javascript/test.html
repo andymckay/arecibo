@@ -17,13 +17,24 @@
         <script src="http://127.0.0.1:8080/lib/error.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" charset="utf-8">
             arecibo.account = '8B807E1E95664441A8BF0ABC9E861D2D';
-            arecibo.registerGlobalHandler();
+        </script>
+
+        <script type="text/javascript" charset="utf-8">
+            alert("Testing exception handler");
+            try {
+                try_catch_test();
+            } catch (e) {
+                arecibo.recordException(e);
+            }
         </script>
 
         <script>
+            alert("Testing global event handler");
+
+            arecibo.registerGlobalHandler();
+
             function foo() {
-                alert("About to fail!");
-                bar(); // This will trigger an exception;
+                global_exc_test(); // This will trigger an exception;
             }
 
             foo();
