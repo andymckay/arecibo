@@ -6,6 +6,8 @@ from django.conf import settings
 
 from app.utils import log, render_plain
 from google.appengine.api import mail
+from receiving.post import populate
+from error.models import Error
 
 mapping_404_key = {
     "Referrer":"request",
@@ -36,10 +38,11 @@ mapping_500_value = {
     "server_protocol": parse_http
 }
 
-def parse_404(body):
-    body = body.replace("=\n", "")
+def parse_404(body, subject):
+    domain = subject.split(" on ")[-1]
+    body = body.decode().replace("=\n", "")
     lines = body.split("\n")
-    data = {}
+    data = {"status": 404, "priority": 5}
     for line in lines:
         if not line: continue
         key, value = line.split(":", 1)
@@ -49,11 +52,17 @@ def parse_404(body):
         if key in mapping_404_value:
             value = mapping_404_value[key] % value
         data[key] = value
+    try:
+        data["url"] = "http://%s%s" % (domain, data["url"])
+        # note we have to assume this
+    except KeyError:
+        pass
     return data
 
-def parse_500(body):
-    data = {"traceback":[], "request":[]}
-    data["traceback"], data["request"] = body.split("\n\n<")
+def parse_500(body, subject):
+    # subject is not needed
+    data = {"traceback":[], "request":[], "status": 500, "priority": 1}
+    data["traceback"], data["request"] = body.decode().split("\n\n<")
     for key, regex in mapping_500_key.items():
         match = regex.search(data["request"])
         if match:
@@ -69,8 +78,10 @@ def parse_500(body):
             )
     except KeyError:
         pass
-    data["request"]
-    data["traceback"]
+    try:
+        data["type"], data["message"] = data["traceback"].strip().split("\n")[-1].split(": ", 2)
+    except ValueError:
+        pass
     return data
 
 def post(request):
@@ -78,12 +89,20 @@ def post(request):
     log("Processing email message")
     mailobj = mail.InboundEmailMessage(request.raw_post_data)
     to = mailobj.to
-    key = to.split("-", 1)[1]
+    key = to.split("-", 1)[1].split("@")[0]
     if key != settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER:
         log("To address does not match account number")
+        return
     
     for content_type, body in mailobj.bodies("text/plain"):
-        result = parse_500(body)
-        # do something with the result
+        if mailobj.subject.find(" Broken ") > -1:
+            log("Trying to parse body using 404 parser")
+            result = parse_404(body, mailobj.subject)
+        else:
+            log("Trying to parse body using 500 parser")
+            result = parse_500(body, mailobj.subject)
+        err = Error()
+        result["account"] = key
+        populate(err, result)
     
     return render_plain("message parsed")

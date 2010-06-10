@@ -10,7 +10,7 @@ def default_notification(instance, **kw):
     
     # todo, this will be changed to lookup a user profile as per
     # http://github.com/andymckay/arecibo/issues/issue/4
-    if instance.priority > 5:
+    if instance.priority >= 5:
         return
     
     notification = Notification()

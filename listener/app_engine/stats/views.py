@@ -14,12 +14,6 @@ from stats.models import Stats
 
 registered = {}
 
-def intervals(date):
-    return [
-        ["timestamp >= ", datetime(date.year, date.month, date.day, 0, 0, 0)],
-        ["timestamp <= ", datetime(date.year, date.month, date.day, 23, 59, 59)]
-    ]
-
 def start(request):
     date = (datetime.today() - timedelta(days=1)).date()
     create(date)
@@ -50,14 +44,13 @@ def get_action(request, action, pk):
     return render_plain("total done: %s" % current)
 
 def get_total(stats):
-    return count(*intervals(stats.date))
+    return count(["timestamp = ", stats.date],)
 
 def get_status(stats):
-    times = intervals(stats.date)
     return {
-        "500":count(("status = ", "500"), *times),
-        "404":count(("status = ", "404"), *times),
-        "403":count(("status = ", "403"), *times),
+        "500":count(["status = ", "500"], ["timestamp = ", stats.date]),
+        "404":count(["status = ", "404"], ["timestamp = ", stats.date]),
+        "403":count(["status = ", "403"], ["timestamp = ", stats.date]),
     }
 
 registered["total"] = get_total

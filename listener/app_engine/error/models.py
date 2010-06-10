@@ -33,6 +33,7 @@ class Group(BaseModel):
 class Error(BaseModel):
     # time error was received by this server
     timestamp = db.DateTimeProperty()
+    timestamp_date = db.DateProperty()
     
     ip = db.StringProperty()
     user_agent = db.StringProperty()

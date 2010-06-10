@@ -78,4 +78,5 @@ def populate(err, incoming):
                 err.errors += 'Date error on the field "%s", ignored.\n' % msg
     
     err.timestamp = datetime.now()
+    err.timestamp_date = datetime.now().date()
     err.save()
