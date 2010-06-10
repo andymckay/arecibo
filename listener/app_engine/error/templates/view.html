@@ -27,7 +27,14 @@
     {% if error.uid %}<dt>Unique ID:</dt>
     <dd>{{ error.uid }}</dd>{% endif %}
     {% if error.user_agent %}<dt>Browser:</dt>
-    <dd><abbr title="{{ error.user_agent }}">{{ error.user_agent_short }}</dd>{% endif %}
+    <dd>
+        {% if error.user_agent_short %}
+            <abbr title="{{ error.user_agent }}">{{ error.user_agent_short }}
+        {% else %}
+            {{ error.user_agent }}
+        {% endif %}
+    </dd>
+    {% endif %}
     {% if error.operating_system %}<dt>Operating system:</dt>
     <dd>{{ error.operating_system }}</dd>{% endif %}
 </dl>
