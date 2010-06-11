@@ -1,38 +1,30 @@
+body { 
+    padding:0px!important; /*this padding hack fixes things */
+    margin: 0px;
+}
+
 .header-wrapper {
     background-color: black;
-    border-width: 0px 0px 1px 0px;
-    margin-bottom: 1em;
-    height: 31px;
+    height: 33px;
+}
+
+.header-wrapper .container {
+    height: 33px;
 }
 
 .subnav-wrapper {
-    background-color: white;
-    border-width: 0px 0px 1px 0px;
     margin-bottom: 1em;
+    margin-top: 0.5em;
     border-bottom: 1px solid lightgrey;
     height: 20px;
+    background-color: white;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DEDEDE));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #FFFFFF 100%);
 }
 
-body {
-}
 
 .title {
     padding-top: 4px;
-}
-
-.top-links a {
-    color: white;
-    text-decoration: none;
-    position: relative;
-    top: 6px;
-    padding: 10px;
-    border: none;
-}
-
-.selected {
-    background-image: url(/media/img/arrow.png);
-    background-repeat: no-repeat;
-    background-position: 0px 22px;
 }
 
 .attributes dt, .attributes dd { margin: 0; padding: 0; }
@@ -50,20 +42,15 @@ body {
     color: grey;
 }
 
-.priority_1 {
-    background-color: #F6CECE !important;
-    color: black;
-}
-.priority_2 {
-    background-color: #F6E3CE !important;
-    color: black;
-}
-.priority_3 {
-    background-color: #F5F6CE !important;
-    color: black;
-}
+
 
 pre {
+    padding-top: 0;
+    margin-top: 0;
+    font-family:  Monaco, Courier, monospaced;
+}
+
+pre.wrapped {
     font-family:  Monaco, Courier, monospaced;
     white-space: pre-wrap; /* css-3 */
     white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
@@ -72,18 +59,37 @@ pre {
     word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
+table.listing td {
+}
+
 table.listing tr td {
     cursor: pointer;
-    border-left: 1px solid lightgrey;
 }
 
 table.listing thead th {
-    background: whitesmoke;
-    border-left: 1px solid lightgrey;
+    background-color: #EBEBEB;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EBEBEB), to(#DEDEDE));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #EBEBEB 100%);
     border-collapse: collapse;
+    text-shadow:2px 2px 2px white;
 }
 
-h1, h2, h3 { font-family: 'Droid Serif', arial, serif; }
+table.listing tr.even td {
+    background-color: #e5ecf9;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e5ecf9), to(#ebf0fa));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#ebf0fa, #e5ecf9 100%);
+}
+
+table.listing tr:hover td {
+    background-color: #FAF1B4;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAF1B4), to(#f0e390));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#f0e390, #FAF1B4 100%);
+}
+
+h1, h2, h3 { 
+    font-family: 'Droid Serif', arial, serif;
+    border-bottom: 1px solid lightgrey;
+}
 
 .help {
     color: grey;
@@ -91,4 +97,43 @@ h1, h2, h3 { font-family: 'Droid Serif', arial, serif; }
 
 .subnav {
     border-bottom: 2px solid lightgrey;
+}
+
+a {
+    color: rgb(65, 131, 196);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(65, 131, 196);
+    text-decoration: underline;
+}
+
+.top-links {
+    padding-top: 8px;
+}
+
+.top-links a {
+    color: lightgrey;
+    text-decoration: none;
+    border: 0px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 25px;
+    z-index: 100;
+}
+
+.top-links a.selected {
+    color: white;
+    text-decoration: underline;    
+}
+
+.top-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+label, dt {
+    color: grey;
 }

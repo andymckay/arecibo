@@ -48,6 +48,13 @@ indexes:
 - kind: Error
   properties:
   - name: group
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: group
   - name: timestamp
     direction: desc
 

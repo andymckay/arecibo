@@ -8,6 +8,19 @@ $(document).ready(function(){
             });
         };
     });
+    $("pre").each(function() {
+        $(this).before('<a href="" class="unwrap">Unwrap</a><br />');
+    });
+    $(".unwrap").live("click", function() {
+        $(this).parent().find("pre").addClass("wrapped");
+        $(this).removeClass().addClass("wrap").text("Wrap");
+        return false;
+    });
+    $(".wrap").live("click", function() {
+        $(this).parent().find("pre").removeClass();
+        $(this).removeClass().addClass("unwrap").text("Unwrap");
+        return false;
+    })
     $("input.date").dateinput({
         format: "mm/dd/yyyy"
     });
