@@ -15,7 +15,7 @@ from stats.models import Stats
 registered = {}
 
 def start(request):
-    days = safe_int(request.GET.get("days", None))
+    days = safe_int(request.GET.get("days", 1))
     if not days:
         days = 1
     date = (datetime.today() - timedelta(days=days)).date()
