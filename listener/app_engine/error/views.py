@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.simple import direct_to_template
 
-from django.http import HttpResponse
-
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from google.appengine.ext import db
 
 from error.models import Error, Group
@@ -44,6 +44,8 @@ def errors_list(request):
     form, queryset = get_filtered(request)
     paginated = Paginator(queryset, 50)
     page = get_page(request, paginated)
+    if request.GET.get("lucky"):
+        return HttpResponseRedirect(reverse("error-view", args=[page.object_list[0].id,]))
     return direct_to_template(request, "list.html", extra_context={
         "page": page,
         "nav": {"selected": "list", "subnav": "list"},

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block subnav %}
 <div class="span-24">
-    <p>URLs and keys &bull; <a href="{% url user-list %}">Users</a></p>
+    <p><a href="{% url setup %}" class="selected">URLs and keys</a> &bull; <a href="{% url user-list %}">Users</a></p>
 </div>
 {% endblock %}
 {% block content %}

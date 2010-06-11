@@ -157,6 +157,11 @@ indexes:
 
 - kind: Error
   properties:
+  - name: status
+  - name: timestamp_date
+
+- kind: Error
+  properties:
   - name: uid
   - name: timestamp
     direction: desc

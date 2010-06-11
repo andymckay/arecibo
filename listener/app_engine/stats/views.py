@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 from google.appengine.api.labs import taskqueue
 
-from app.utils import render_plain
+from app.utils import render_plain, safe_int
 
 from stats.utils import count
 from stats.models import Stats
@@ -15,7 +15,10 @@ from stats.models import Stats
 registered = {}
 
 def start(request):
-    date = (datetime.today() - timedelta(days=1)).date()
+    days = safe_int(request.GET.get("days", None))
+    if not days:
+        days = 1
+    date = (datetime.today() - timedelta(days=days)).date()
     create(date)
     return HttpResponse("total started")
 
@@ -44,13 +47,13 @@ def get_action(request, action, pk):
     return render_plain("total done: %s" % current)
 
 def get_total(stats):
-    return count(["timestamp = ", stats.date],)
+    return count(["timestamp_date = ", stats.date],)
 
 def get_status(stats):
     return {
-        "500":count(["status = ", "500"], ["timestamp = ", stats.date]),
-        "404":count(["status = ", "404"], ["timestamp = ", stats.date]),
-        "403":count(["status = ", "403"], ["timestamp = ", stats.date]),
+        "500":count(["status = ", "500"], ["timestamp_date = ", stats.date]),
+        "404":count(["status = ", "404"], ["timestamp_date = ", stats.date]),
+        "403":count(["status = ", "403"], ["timestamp_date = ", stats.date]),
     }
 
 registered["total"] = get_total

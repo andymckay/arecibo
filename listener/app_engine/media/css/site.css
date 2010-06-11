@@ -14,14 +14,21 @@ body {
 
 .subnav-wrapper {
     margin-bottom: 1em;
-    margin-top: 0.5em;
+    padding-top: 0.5em;
     border-bottom: 1px solid lightgrey;
     height: 20px;
-    background-color: white;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#DEDEDE));
-    background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #FFFFFF 100%);
+    background-color: #EBEBEB;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EBEBEB), to(#DEDEDE));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #EBEBEB 100%);
 }
 
+.subnav-wrapper a {
+    text-shadow: 1px 1px 1px white;
+}
+
+.subnav-wrapper a.selected {
+    text-decoration: underline;
+}
 
 .title {
     padding-top: 4px;
@@ -31,7 +38,6 @@ body {
 .attributes dt { float: left; width: 10em; }
 
 .footer-wrapper {
-    margin-top: 5em;
     font-size: 90%;
     padding-top: 1em;
     border-top: 1px solid grey;
@@ -41,8 +47,6 @@ body {
 .footer-wrapper a {
     color: grey;
 }
-
-
 
 pre {
     padding-top: 0;
@@ -66,12 +70,19 @@ table.listing tr td {
     cursor: pointer;
 }
 
+.content-wrapper .container {
+    background-image: url("/media/img/logo-opacity.png");
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    padding-bottom: 3em;
+}
+
 table.listing thead th {
     background-color: #EBEBEB;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EBEBEB), to(#DEDEDE));
     background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #EBEBEB 100%);
     border-collapse: collapse;
-    text-shadow:2px 2px 2px white;
+    text-shadow: 1px 1px 1px white;
 }
 
 table.listing tr.even td {
@@ -136,4 +147,12 @@ a:hover {
 
 label, dt {
     color: grey;
+}
+
+.notice a, .success a {
+    color: rgb(65, 131, 196);;
+}
+
+.success h2, .notice h2 {
+    border: none;
 }
