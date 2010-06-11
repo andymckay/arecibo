@@ -1,7 +1,11 @@
 Sample Python Client
 ====================================
 
-The Python client allows you to easily send errors either via HTTP. The Python client can be used independently, or as part of a greater implementation. Quick example::
+The Python client allows you to easily send errors either via HTTP. The Python client can be used independently, or as part of a greater implementation. First get the arecibo library::
+
+    pip install arecibo
+
+Quick example::
 
     from arecibo import post
     arecibo = post()
@@ -11,7 +15,7 @@ The Python client allows you to easily send errors either via HTTP. The Python c
     arecibo.set("url", "http://badapp.org")
     arecibo.send()
 
-This will do a HTTP POST to the server. If you'd like to do an email:
+This will do a HTTP POST to the server. If you'd like to do an email::
 
     from arecibo import post
     arecibo = post()
