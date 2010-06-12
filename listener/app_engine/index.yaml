@@ -167,6 +167,14 @@ indexes:
 
 - kind: Error
   properties:
+  - name: domain
+  - name: priority
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
   - name: read
   - name: status
   - name: timestamp
