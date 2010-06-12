@@ -103,3 +103,9 @@ In *custom/listeners.py*, add the following:
             instance.save()
 
     user_created.connect(make_staff, dispatch_uid="make_staff")
+    
+Customising templates
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you would like to customise a template, then place it in custom templates. The easiest way to do this is to find 
+the template you'd like to customise, copy it into that folder and then make your changes.

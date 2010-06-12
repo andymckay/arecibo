@@ -20,6 +20,7 @@ Contents:
    client/plone.rst
    client/django.rst
    client/rails.rst
+   release.rst
 
 Indices and tables
 ==================
