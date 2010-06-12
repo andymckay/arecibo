@@ -9,3 +9,4 @@ There are two main components to Arecibo:
 
 * server, this is your instance of Arecibo that you can use to receive errors.
 
+The best way to get a feel for what Arecibo does, is to give the demo server a try. The details of the demo server are at http://www.areciboapp.com/demo

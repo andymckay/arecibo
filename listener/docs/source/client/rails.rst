@@ -12,12 +12,16 @@ Check out the Rails client from git.
 
 Place *clients/trunk/rails/* into your vendor/plugins directory.
 
-Add in the following two lines into your Rails environment settings, normally this would be config/environment.rb::
+Add in the following two lines into your Rails environment settings, normally this would be config/environment.rb:
+
+.. code-block:: ruby
 
     ARECIBO_ACCOUNT_NUMBER = 'yourpublicaccount'
     ARECIBO_RESULT_TEMPLATE = "layouts/arecibo"
 
-Add the following into your application controller (controllers/application.rb)::
+Add the following into your application controller (controllers/application.rb):
+
+.. code-block:: ruby
 
     def rescue_action(exception)
       report_to_arecibo(exception)

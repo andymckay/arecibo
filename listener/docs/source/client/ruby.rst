@@ -1,7 +1,9 @@
 Sample Ruby Client
 ====================================
 
-The Ruby client allows you to easily send errors via HTTP. The Ruby client can be used independently, or as part of a greater implementation. Quick example::
+The Ruby client allows you to easily send errors via HTTP. The Ruby client can be used independently, or as part of a greater implementation. Quick example:
+
+.. code-block:: ruby
 
     require 'arecibo'
     dict = {

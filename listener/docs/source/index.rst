@@ -7,10 +7,9 @@ Contents:
    :maxdepth: 1
 
    introduction.rst
-   quickstart.rst
-   server/index.rst
    server/installation.rst
    server/useraccess.rst
+   server/customisation.rst
    client/index.rst
    client/post.rst
    client/variables.rst

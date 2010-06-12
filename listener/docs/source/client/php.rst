@@ -1,7 +1,9 @@
 Sample PHP Client
 ====================================
 
-The PHP client allows you to easily send errors via HTTP. The PHP client can be used independently, or as part of a greater implementation. Quick example::
+The PHP client allows you to easily send errors via HTTP. The PHP client can be used independently, or as part of a greater implementation. Quick example.
+
+.. code-block:: php
 
     <?php
     include("arecibo.php");

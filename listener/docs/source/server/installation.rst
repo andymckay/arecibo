@@ -1,6 +1,8 @@
 App Engine Installation
 ====================================
 
+The default version of Arecibo runs on App Engine and this documentation covers how to install your own Arecibo server on App Engine.
+
 Requirements
 ----------------------------
 
@@ -70,7 +72,7 @@ Then alter the file as detailed::
 
 *ARECIBO_PUBLIC_ACCOUNT_NUMBER* and *ARECIBO_PRIVATE_ACCOUNT_NUMBER* should be unique id that you'll be using to post to your site. This is used in URLs, so try to avoid / and unicode, any combination of 32 letters and numbers normally works.
 
-*DEFAULT_FROM_EMAIL* is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created you site with.
+*DEFAULT_FROM_EMAIL* is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created your App Engine site with. For documentation on how to send email from App Engine, see here: http://code.google.com/appengine/docs/python/mail/
 
 *SITE_URL* the full URL (including protocol) that your site is at.
 

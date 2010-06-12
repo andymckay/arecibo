@@ -15,15 +15,15 @@
 
 body {
     font-family: sans-serif;
-    font-size: 100%;
-    background-color: #11303d;
+    font-size: 90%;
+    background-color: white;
     color: #000;
     margin: 0;
     padding: 0;
 }
 
 div.document {
-    background-color: #1c4e63;
+    background-color: white;
 }
 
 div.documentwrapper {
@@ -42,7 +42,6 @@ div.body {
 }
 
 div.footer {
-    color: #ffffff;
     width: 100%;
     padding: 9px 0 9px 0;
     text-align: center;
@@ -55,34 +54,28 @@ div.footer a {
 }
 
 div.related {
-    background-color: #133f52;
+    background-color: #EBEBEB;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EBEBEB), to(#DEDEDE));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #EBEBEB 100%);
     line-height: 30px;
     color: #ffffff;
 }
 
-div.related a {
-    color: #ffffff;
-}
 
 div.sphinxsidebar {
 }
 
 div.sphinxsidebar h3 {
     font-family: 'Trebuchet MS', sans-serif;
-    color: #ffffff;
     font-size: 1.4em;
     font-weight: normal;
     margin: 0;
     padding: 0;
 }
 
-div.sphinxsidebar h3 a {
-    color: #ffffff;
-}
 
 div.sphinxsidebar h4 {
     font-family: 'Trebuchet MS', sans-serif;
-    color: #ffffff;
     font-size: 1.3em;
     font-weight: normal;
     margin: 5px 0 0 0;
@@ -90,7 +83,6 @@ div.sphinxsidebar h4 {
 }
 
 div.sphinxsidebar p {
-    color: #ffffff;
 }
 
 div.sphinxsidebar p.topless {
@@ -104,13 +96,12 @@ div.sphinxsidebar ul {
 }
 
 div.sphinxsidebar a {
-    color: #98dbcc;
 }
 
 div.sphinxsidebar input {
-    border: 1px solid #98dbcc;
     font-family: sans-serif;
     font-size: 1em;
+    border: 1px solid grey;
 }
 
 
@@ -134,6 +125,10 @@ a:hover {
 
 /* -- body styles ----------------------------------------------------------- */
 
+div.body {
+    border-left: 1px solid lightgrey;
+}
+
 div.body h1,
 div.body h2,
 div.body h3,
@@ -141,9 +136,7 @@ div.body h4,
 div.body h5,
 div.body h6 {
     font-family: 'Trebuchet MS', sans-serif;
-    background-color: #f2f2f2;
     font-weight: normal;
-    color: #20435c;
     border-bottom: 1px solid #ccc;
     margin: 20px -20px 10px -20px;
     padding: 3px 0 3px 10px;
@@ -164,7 +157,6 @@ a.headerlink {
 }
 
 a.headerlink:hover {
-    background-color: #c60f0f;
     color: white;
 }
 
@@ -218,12 +210,13 @@ p.admonition-title:after {
 
 pre {
     padding: 5px;
-    background-color: #eeffcc;
+    background-color: whitesmoke;
     color: #333333;
     line-height: 120%;
-    border: 1px solid #ac9;
+    border: 1px solid grey;
     border-left: none;
     border-right: none;
+    font-family:  Monaco, Courier, monospaced;
 }
 
 tt {
@@ -252,4 +245,19 @@ div.viewcode-block:target {
     background-color: #f4debf;
     border-top: 1px solid #ac9;
     border-bottom: 1px solid #ac9;
+}
+
+a {
+    color: rgb(65, 131, 196) !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: rgb(65, 131, 196) !important;
+    text-decoration: underline !important;
+}
+
+div.related a {
+    text-shadow: 1px 1px 1px white;
 }
