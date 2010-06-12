@@ -152,10 +152,10 @@ class User(BaseModel):
         raise SiteProfileNotAvailable
     return self._profile_cache
   
-  def save(self, *args, **kw):
+  def save(self):
     if not hasattr(self, "id"):
       user_created.send(sender=self.__class__, instance=self)
-    return super(User, self).save(self, *args, **kw)
+    return super(User, self).save()
 
 class Group(BaseModel):
   """Group model not fully implemented yet."""

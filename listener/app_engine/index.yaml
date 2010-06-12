@@ -20,7 +20,46 @@ indexes:
 - kind: Error
   properties:
   - name: domain
+  - name: priority
+  - name: read
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: priority
+  - name: read
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: priority
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
   - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: read
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: read
   - name: timestamp
     direction: desc
 
@@ -36,6 +75,13 @@ indexes:
   - name: domain
   - name: status
   - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: status
   - name: timestamp
     direction: desc
 

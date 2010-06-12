@@ -44,7 +44,7 @@ def errors_list(request):
     form, queryset = get_filtered(request)
     paginated = Paginator(queryset, 50)
     page = get_page(request, paginated)
-    if request.GET.get("lucky"):
+    if request.GET.get("lucky") and len(page.object_list):
         return HttpResponseRedirect(reverse("error-view", args=[page.object_list[0].id,]))
     return direct_to_template(request, "list.html", extra_context={
         "page": page,

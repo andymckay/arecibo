@@ -67,7 +67,10 @@ class ErrorForm(Form):
         return "query >= :%d AND query < :%d" % (x+1, x+2), [value, value + u"\ufffd"]
     
     def handle_group(self, value):
-        return Group.all().filter("uid = ", value)[0].key()
+        try:
+            return Group.all().filter("uid = ", value)[0].key()
+        except IndexError:
+            pass
     
     def as_query(self):
         """ This is getting a bit complicated """
