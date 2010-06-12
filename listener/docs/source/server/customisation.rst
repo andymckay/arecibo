@@ -88,7 +88,7 @@ If you'd like to create your own browser parsing you can do this by attaching a 
 
     error_created.connect(my_notification, dispatch_uid="my_notification")
 
-Example: making give all users access automatically
+Example: giving all users access automatically
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In *custom/listeners.py*, add the following:
