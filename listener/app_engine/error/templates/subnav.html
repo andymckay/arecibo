@@ -1,5 +1,11 @@
-<div class="span-24">
+<div class="span-16">
     <a href="{% url error-list %}" {% ifequal nav.subnav 'list' %}class="selected"{% endifequal %}>List</a>
     &bull; <a href="{% url group-list %}" {% ifequal nav.subnav 'group' %}class="selected"{% endifequal %}>Group</a>
     &bull; <a href="{{ site_url }}/feed/{{ private_key }}/{% if qs %}?{{ qs }}{% endif %}">RSS feed</a>
 </div>
+<div class="span-7">
+    {% if refresh %}
+    <span id="refresh-count">Automatic update pending.</span>
+    {% endif %}
+</div>
+    

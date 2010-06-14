@@ -2,6 +2,8 @@
 import logging
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
+from django.utils import simplejson
+from django.utils.encoding import smart_unicode
 
 try:
     from functools import update_wrapper, wraps
@@ -20,6 +22,12 @@ def safe_int(key, result=None):
 
 def render_plain(msg):
     return HttpResponse(msg, mimetype="text/plain")
+
+def render_json(view_func):
+    def wrapper(*args, **kwargs):
+        data = view_func(*args, **kwargs)
+        return HttpResponse(simplejson.dumps(data), mimetype='application/json')
+    return wrapper
 
 def safe_string(text, result=""):
     try:

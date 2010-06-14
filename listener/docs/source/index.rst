@@ -9,6 +9,7 @@ Contents:
    introduction.rst
    server/installation.rst
    server/useraccess.rst
+   server/remoteaccess.rst
    server/customisation.rst
    client/index.rst
    client/post.rst

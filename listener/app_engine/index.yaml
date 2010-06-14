@@ -38,6 +38,14 @@ indexes:
   properties:
   - name: domain
   - name: priority
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: priority
   - name: timestamp
     direction: desc
 
@@ -162,14 +170,6 @@ indexes:
   - name: read
   - name: status
   - name: query
-  - name: timestamp
-    direction: desc
-
-- kind: Error
-  properties:
-  - name: domain
-  - name: priority
-  - name: status
   - name: timestamp
     direction: desc
 

@@ -1,15 +1,16 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.simple import direct_to_template
-
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.template import RequestContext, loader
+
 from google.appengine.ext import db
 
 from error.models import Error, Group
 from error.forms import ErrorForm
 from error.signals import error_created
 
-from app.utils import render_plain
+from app.utils import render_plain, render_json
 from app.paginator import Paginator, get_page
 
 # these aren't used directly
@@ -49,8 +50,19 @@ def errors_list(request):
     return direct_to_template(request, "list.html", extra_context={
         "page": page,
         "nav": {"selected": "list", "subnav": "list"},
-        "form": form
+        "form": form,
+        "refresh": True
         })
+
+@user_passes_test(lambda u: u.is_staff)
+@render_json
+def errors_snippet(request, pk=None):
+    form, queryset = get_filtered(request)
+    paginated = Paginator(queryset, 50)
+    page = get_page(request, paginated)
+    template = loader.get_template('list-snippet.html')
+    html = template.render(RequestContext(request, {"object_list": page.object_list, }))
+    return {"html":html, "count": len(page.object_list) }
 
 @user_passes_test(lambda u: u.is_staff)
 def groups_list(request):

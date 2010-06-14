@@ -156,3 +156,9 @@ label, dt {
 .success h2, .notice h2 {
     border: none;
 }
+
+#refresh-count {
+    color: grey;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px white;
+}

@@ -153,9 +153,12 @@ class User(BaseModel):
     return self._profile_cache
   
   def save(self):
-    if not hasattr(self, "id"):
-      user_created.send(sender=self.__class__, instance=self)
-    return super(User, self).save()
+      created = False
+      if not hasattr(self, "id"):
+        created = True
+      super(User, self).save()
+      if created:
+        user_created.send(sender=self.__class__, instance=self)
 
 class Group(BaseModel):
   """Group model not fully implemented yet."""
