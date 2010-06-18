@@ -1,4 +1,6 @@
 from django.contrib.syndication.views import Feed
+from django.core import serializers
+from django.http import HttpResponse
 
 from app.utils import has_private_key
 from error.views import get_filtered
@@ -26,3 +28,12 @@ def atom(request):
     feedgen = base()
     feedgen.request = request
     return feedgen(request)
+    
+
+@has_private_key
+def json(request):
+    form, queryset = get_filtered(request)
+    response = HttpResponse(mimetype="text/javascript")
+    json_serializer = serializers.get_serializer("json")()
+    json_serializer.serialize(queryset[:20], ensure_ascii=False, stream=response)
+    return response

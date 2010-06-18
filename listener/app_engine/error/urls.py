@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 # if you put the key in here it will get exposed in errors
 # so probably
 urlpatterns = patterns('',
+    url(r'^feed/.*?/json/$', 'error.feeds.json', name="json"),    
     url(r'^feed/.*?/$', 'error.feeds.atom', name="rss"),
     url(r'^list/$', 'error.views.errors_list', name="error-list"),
     url(r'^list/snippet/$', 'error.views.errors_snippet', name="error-snippet"),
