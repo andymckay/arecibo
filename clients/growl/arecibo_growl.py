@@ -15,7 +15,7 @@ import os
 from datetime import datetime
 
 # the URL to your arecibo instance... remember you can use the query string to filter 
-url = "http://localhost:8000/feed/702ca3cf2c268ad5cc070df990d446d0/json/"
+url = "http://test-areciboapp.appspot.com/feed/sw3tqw35ywq45ws4kqa4ia6yw5q45serws23w351245lk6y/json/"
 delay = 30
 
 filename = os.path.expanduser("~/.arecibo-last")
