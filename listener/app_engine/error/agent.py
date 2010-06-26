@@ -3,7 +3,7 @@ import re
 from ConfigParser import SafeConfigParser as ConfigParser
 from StringIO import StringIO
 
-from google.appengine.api.urlfetch import fetch
+from google.appengine.api.urlfetch import fetch, DownloadError
 from google.appengine.api import memcache
 from app.utils import log
 
@@ -162,8 +162,11 @@ class BrowserCapabilities(object):
         # if the data isn't there, download it
         if raw is None:
             log("Fetching from browser capabilities")
-            data = fetch("http://www.areciboapp.com/static/browscap.ini")
-            if data.status_code == 200:
+            try:
+                data = fetch("http://www.areciboapp.com/static/browscap.ini")
+            except DownloadError:
+                data = None
+            if data and data.status_code == 200:
                 # that should be one week (1 min > 1 hour > 1 day > 1 week)
                 log("...succeeded")
                 raw = data.content

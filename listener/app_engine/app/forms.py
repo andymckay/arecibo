@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 
 def as_blue_print(self):
     return self._html_output(u"""
-    <div class="span-8">
+    <div class="span-8 clear">
         %(errors)s
         %(label)s<br />
         %(field)s

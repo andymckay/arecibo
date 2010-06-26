@@ -139,6 +139,12 @@ indexes:
 
 - kind: Error
   properties:
+  - name: project_url
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
   - name: query
   - name: query_operator
   - name: timestamp
@@ -217,6 +223,18 @@ indexes:
 - kind: Error
   properties:
   - name: uid
+  - name: timestamp
+    direction: desc
+
+- kind: Group
+  properties:
+  - name: group
+  - name: timestamp
+    direction: desc
+
+- kind: Group
+  properties:
+  - name: project_url
   - name: timestamp
     direction: desc
 

@@ -1,12 +1,13 @@
 import md5
 
 from app.utils import safe_string, log
-from error.models import Group
+from error.models import Group, Error
+
 from error.agent import get
 from error import signals
 
 def generate_key(instance):
-    keys = ["type", "server", "msg", "status",]
+    keys = ["type", "server", "msg", "status", "domain"]
     hsh = None
     
     for key in keys:
@@ -29,15 +30,22 @@ def default_grouping(instance, **kw):
     if hsh:
         digest = hsh.hexdigest()
         try:
+            created = False
             group = Group.all().filter("uid = ", digest)[0]
+            group.count = Error.all().filter("group = ", group).count() + 1
             group.save()
         except IndexError:
+            created = True
             group = Group()
             group.uid = digest
+            group.count = 1
             group.save()
         
         instance.group = group
         instance.save()
+        
+        if created:
+            signals.group_assigned.send(sender=group.__class__, instance=group)
 
 signals.error_created.connect(default_grouping, dispatch_uid="default_grouping")
 

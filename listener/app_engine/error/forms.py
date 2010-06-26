@@ -5,6 +5,7 @@ from app.utils import safe_int
 
 from google.appengine.ext import db
 
+from projects.models import ProjectURL
 from error.models import Group
 
 read_choices = (("", "All"), ("False", 'Read only'), ("True", 'Unread only'))
@@ -22,7 +23,59 @@ status_choices.insert(0, ("", "All"))
 
 err = "You can cannot query on path and start or end dates, this is an App Engine limitation."
 
-class ErrorForm(Form):
+class Filter(Form):
+    """ Base for the filters """
+    inequality = ""
+    
+    def as_query(self, table):
+        """ This is getting a bit complicated """
+        args, gql = [], []
+        counter = 1
+        
+        for k, v in self.cleaned_data.items():
+            # if there's a value handler, use it
+            lookup = getattr(self, "handle_%s" % k, None)
+            if lookup:  v = lookup(v)
+            # if there's a filter handler user it
+            lfilter = getattr(self, "filter_%s" % k, None)
+            if lfilter:
+                # will return a filter and args..
+                newfilter, newargs = lfilter(v, args)
+                gql.append(newfilter)
+                args.extend(newargs)
+                counter += len(newargs)
+            else:
+                gql.append(" %s = :%s " % (k, counter))
+                args.append(v)
+                counter += 1
+        
+        conditions = " AND ".join(gql)
+        if conditions: conditions = "WHERE %s" % conditions
+        conditions = "SELECT * FROM %s %s ORDER BY %s timestamp DESC" % (table, conditions, self.inequality)
+        query = db.GqlQuery(conditions, *args)
+        return query
+
+class GroupForm(Filter):
+    project_url = forms.CharField(required=False)
+
+    def as_query(self):
+        return super(GroupForm, self).as_query("Group")
+        
+    def clean(self):
+        data = {}
+        for k, v in self.cleaned_data.items():
+            if not v: continue
+            data[k] = v
+
+        return data
+        
+    def handle_project_url(self, value):
+        try:
+            return ProjectURL.get(value).key()
+        except IndexError:
+            pass
+
+class ErrorForm(Filter):
     priority = forms.ChoiceField(choices=priority_choices, widget=forms.Select, required=False)
     status = forms.ChoiceField(choices=status_choices, widget=forms.Select, required=False)
     read = forms.ChoiceField(choices=read_choices, widget=forms.Select, required=False)
@@ -34,8 +87,6 @@ class ErrorForm(Form):
     domain = forms.CharField(required=False)
     uid = forms.CharField(required=False)
     group = forms.CharField(required=False)
-    
-    inequality = ""
     
     def clean(self):
         data = {}
@@ -68,34 +119,9 @@ class ErrorForm(Form):
     
     def handle_group(self, value):
         try:
-            return Group.all().filter("uid = ", value)[0].key()
+            return Group.get(value)
         except IndexError:
             pass
-    
+
     def as_query(self):
-        """ This is getting a bit complicated """
-        args, gql = [], []
-        counter = 1
-        
-        for k, v in self.cleaned_data.items():
-            # if there's a value handler, use it
-            lookup = getattr(self, "handle_%s" % k, None)
-            if lookup:  v = lookup(v)
-            # if there's a filter handler user it
-            lfilter = getattr(self, "filter_%s" % k, None)
-            if lfilter:
-                # will return a filter and args..
-                newfilter, newargs = lfilter(v, args)
-                gql.append(newfilter)
-                args.extend(newargs)
-                counter += len(newargs)
-            else:
-                gql.append(" %s = :%s " % (k, counter))
-                args.append(v)
-                counter += 1
-        
-        conditions = " AND ".join(gql)
-        if conditions: conditions = "WHERE %s" % conditions
-        conditions = "SELECT * FROM Error %s ORDER BY %s timestamp DESC" % (conditions, self.inequality)
-        query = db.GqlQuery(conditions, *args)
-        return query
+        return super(ErrorForm, self).as_query("Error")

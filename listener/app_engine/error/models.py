@@ -8,6 +8,7 @@ from google.appengine.api.labs import taskqueue
 
 from appengine_django.models import BaseModel
 from error.signals import group_created
+from projects.models import ProjectURL
 
 import os
 
@@ -15,13 +16,19 @@ class Group(BaseModel):
     """ A grouping of errors """
     uid = db.StringProperty()
     timestamp = db.DateTimeProperty()
-    
+    project_url = db.ReferenceProperty(ProjectURL, required=False)
+    count = db.IntegerProperty(default=0)
+        
     def sample(self):
         try:
             return Error.all().filter("group = ", self).order("-timestamp")[0]
         except IndexError:
             return None
     
+    @property
+    def id(self):
+        return str(self.key())
+        
     def save(self, *args, **kw):
         created = not hasattr(self, "id")
         if created:
@@ -87,6 +94,13 @@ class Error(BaseModel):
             return Error.all().filter("group = ", self.group).filter("__key__ !=", self.key())[:limit]
         except datastore_errors.Error:
             return []
+    
+    def delete(self):
+        if self.group:
+            self.group.count = self.group.count - 1
+            if self.group.count < 1:
+                self.group.delete()
+        super(Error, self).delete()
     
     @property
     def id(self):

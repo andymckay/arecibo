@@ -55,6 +55,14 @@ class ErrorTests(TestCase):
         assert not Error.all()[2].get_similar()
         assert len(Error.all()[1].get_similar()) == 1
         assert len(Error.all()[1].get_similar()) == 1
+
+    def testGroupDelete(self):
+        c = Client()
+        c.post(reverse("error-post"), data)
+        assert Group.all().count() == 1, "Got %s groups, not 1" % Group.all().count()
+        assert Error.all().count() == 1
+        Error.all()[0].delete()
+        assert Group.all().count() == 0
     
     def testBrowser(self):
         c = Client()

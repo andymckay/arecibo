@@ -11,6 +11,7 @@ Contents:
    server/useraccess.rst
    server/remoteaccess.rst
    server/customisation.rst
+   server/concepts.rst   
    client/index.rst
    client/post.rst
    client/variables.rst
