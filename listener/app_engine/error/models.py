@@ -96,12 +96,15 @@ class Error(BaseModel):
             return []
     
     def delete(self):
-        if self.group:
-            self.group.count = self.group.count - 1
-            if self.group.count < 1:
-                self.group.delete()
+        try:
+            if self.group:
+                self.group.count = self.group.count - 1
+                if self.group.count < 1:
+                    self.group.delete()
+        except datastore_errors.Error:
+            pass
         super(Error, self).delete()
-    
+                    
     @property
     def id(self):
         return str(self.key())
