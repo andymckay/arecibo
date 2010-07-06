@@ -37,9 +37,9 @@ This is how errors are grouped together. By default it does it by adding togethe
 
     from error.signals import error_created
     from error.listeners import default_grouping
-    
+
     error_created.disconnect(default_grouping, dispatch_uid="default_grouping")
- 
+
 If you'd like to create your own group system you can do this by attaching a new signal::
 
     from error.signals import error_created
@@ -48,7 +48,7 @@ If you'd like to create your own group system you can do this by attaching a new
         pass # your code here
 
     error_created.connect(my_grouping, dispatch_uid="my_grouping")
-    
+
 default_browser_parsing
 +++++++++++++++++++++++++++++++++
 
@@ -77,5 +77,5 @@ This figures out what project the group gets attached to.
 Customising templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you would like to customise a template, then place it in custom templates. The easiest way to do this is to find 
+If you would like to customise a template, then place it in custom templates. The easiest way to do this is to find
 the template you'd like to customise, copy it into that folder and then make your changes.

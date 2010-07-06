@@ -9,13 +9,13 @@ stage_choices = (
     ["staging", "Staging"],
     ["backup", "Backups"],
     ["production", "Production"],
-    ["other", "Other"]    
+    ["other", "Other"]
 )
 
 class Project(BaseModel):
     name = db.StringProperty(required=True)
     description = db.TextProperty(required=False)
-    
+
     @property
     def id(self):
         return str(self.key())
@@ -24,11 +24,10 @@ class ProjectURL(BaseModel):
     project = db.ReferenceProperty(Project)
     url = db.StringProperty(required=False)
     stage = db.StringProperty(required=False)
-    
+
     @property
     def id(self):
         return str(self.key())
-        
+
     def get_stage_display(self):
         return dict(stage_choices).get(self.stage)
-    

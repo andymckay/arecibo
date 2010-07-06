@@ -9,13 +9,13 @@ class ErrorTests(TestCase):
     # test the view for writing errors
     def setUp(self):
         for error in Error.all(): error.delete()
-    
+
     def testBasic(self):
         c = Client()
         assert not Error.all().count()
         c.post(reverse("error-post"), data)
         assert Error.all().count() == 1
-    
+
     def testOverPriority(self):
         c = Client()
         assert not Error.all().count()
@@ -23,7 +23,7 @@ class ErrorTests(TestCase):
         ldata["priority"] = 123
         c.post(reverse("error-post"), ldata)
         assert Error.all().count() == 1
-    
+
     def testStringPriority(self):
         c = Client()
         assert not Error.all().count()
@@ -31,7 +31,7 @@ class ErrorTests(TestCase):
         ldata["priority"] = "test"
         c.post(reverse("error-post"), ldata)
         assert Error.all().count() == 1
-    
+
     def testNoPriority(self):
         c = Client()
         assert not Error.all().count()
@@ -39,7 +39,7 @@ class ErrorTests(TestCase):
         del ldata["priority"]
         c.post(reverse("error-post"), ldata)
         assert Error.all().count() == 1
-    
+
     def testGroup(self):
         c = Client()
         c.post(reverse("error-post"), data)
@@ -50,7 +50,7 @@ class ErrorTests(TestCase):
         new_data["status"] = 402
         c.post(reverse("error-post"), new_data)
         assert Group.all().count() == 2
-        
+
         # and test similar
         assert not Error.all()[2].get_similar()
         assert len(Error.all()[1].get_similar()) == 1
@@ -63,7 +63,7 @@ class ErrorTests(TestCase):
         assert Error.all().count() == 1
         Error.all()[0].delete()
         assert Group.all().count() == 0
-    
+
     def testBrowser(self):
         c = Client()
         assert not Error.all().count()

@@ -1,9 +1,9 @@
 sample_500_body = """Traceback (most recent call last):
-  
+
   File "/Users/andy/svn/private/sites/arecibo_marketing/django/core/handler=
 s/base.py", line 92, in get_response
     response =3D callback(request, *callback_args, **callback_kwargs)
-  
+
   File "/Users/andy/svn/private/sites/arecibo_marketing/app/views.py", line=
  6, in sample_500
     1/0

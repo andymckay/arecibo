@@ -15,7 +15,7 @@ class ProjectTests(TestCase):
         for error in Error.all(): error.delete()
         for group in Group.all(): group.delete()
         for project in Project.all(): project.delete()
-    
+
     def _addError(self):
         c = Client()
         assert not Error.all().count()
@@ -26,14 +26,14 @@ class ProjectTests(TestCase):
     def testAddProject(self):
         project = Project(name="test")
         project.save()
-        
+
         project_url = ProjectURL()
         project_url.url = "badapp.org"
         project_url.stage = "dev"
         project_url.project = project
         project_url.save()
-        
+
         self._addError()
-        
+
         assert Group.all().count() == 1
         assert Group.all()[0].project_url == project_url

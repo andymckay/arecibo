@@ -26,12 +26,12 @@ err = "You can cannot query on path and start or end dates, this is an App Engin
 class Filter(Form):
     """ Base for the filters """
     inequality = ""
-    
+
     def as_query(self, table):
         """ This is getting a bit complicated """
         args, gql = [], []
         counter = 1
-        
+
         for k, v in self.cleaned_data.items():
             # if there's a value handler, use it
             lookup = getattr(self, "handle_%s" % k, None)
@@ -48,7 +48,7 @@ class Filter(Form):
                 gql.append(" %s = :%s " % (k, counter))
                 args.append(v)
                 counter += 1
-        
+
         conditions = " AND ".join(gql)
         if conditions: conditions = "WHERE %s" % conditions
         conditions = "SELECT * FROM %s %s ORDER BY %s timestamp DESC" % (table, conditions, self.inequality)
@@ -60,7 +60,7 @@ class GroupForm(Filter):
 
     def as_query(self):
         return super(GroupForm, self).as_query("Group")
-        
+
     def clean(self):
         data = {}
         for k, v in self.cleaned_data.items():
@@ -68,7 +68,7 @@ class GroupForm(Filter):
             data[k] = v
 
         return data
-        
+
     def handle_project_url(self, value):
         try:
             return ProjectURL.get(value).key()
@@ -87,36 +87,36 @@ class ErrorForm(Filter):
     domain = forms.CharField(required=False)
     uid = forms.CharField(required=False)
     group = forms.CharField(required=False)
-    
+
     def clean(self):
         data = {}
         for k, v in self.cleaned_data.items():
             if not v: continue
             data[k] = v
-        
+
         if "query" in data:
             if "start" in data or "end" in data:
                 raise forms.ValidationError(err)
-        
+
         return data
-    
+
     def handle_read(self, value):
         return {"False":False, "True":True}.get(value, None)
-    
+
     def filter_start(self, value, args):
         return "timestamp >= :%d" % (len(args)+1), [value,]
-    
+
     def filter_end(self, value, args):
         return "timestamp <= :%d" % (len(args)+1), [value,]
-    
+
     def handle_priority(self, value):
         return safe_int(value)
-    
+
     def filter_query(self, value, args):
         self.inequality = "query,"
         x = len(args)
         return "query >= :%d AND query < :%d" % (x+1, x+2), [value, value + u"\ufffd"]
-    
+
     def handle_group(self, value):
         try:
             return Group.get(value)

@@ -93,7 +93,7 @@ def post(request):
     if key != settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER:
         log("To address does not match account number")
         return
-    
+
     for content_type, body in mailobj.bodies("text/plain"):
         if mailobj.subject.find(" Broken ") > -1:
             log("Trying to parse body using 404 parser")
@@ -104,5 +104,5 @@ def post(request):
         err = Error()
         result["account"] = key
         populate(err, result)
-    
+
     return render_plain("message parsed")

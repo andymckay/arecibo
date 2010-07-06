@@ -32,7 +32,7 @@ def create(date):
     data = dict([(key, None) for key in registered.keys()])
     stats.set_stats(data)
     stats.save()
-    
+
     for key in registered.keys():
         taskqueue.add(url=reverse("stats-action", kwargs={"action":key, "pk":stats.id}))
 

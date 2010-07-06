@@ -51,53 +51,53 @@ def arecibo(context, **kw):
     cfg = get(context)
     if kw.get("error_type") in cfg["ignores"]:
         return
-    
+
     if not cfg["account"]:
         msg = "There is no account number configured so that the error can be sent to Arecibo"
         log.error('Arecibo: %s', msg)
         return
-    
+
     req = context.REQUEST
     error = post()
-    
+
     mail_possible = not not context.MailHost.smtp_host
     if mail_possible and cfg["transport"] == "smtp":
         error.transport = "smtp"
-    
+
     if kw.get("error_type") == 'NotFound':
         status = 404
     elif kw.get("error_type") == 'Unauthorized':
         status = 403
     else:
         status = 500
-    
+
     priority = cfg["priorities"].get(status, cfg["default-priority"])
-    
+
     error.set("account", cfg["account"])
     error.set("priority", priority)
     error.set("user_agent", req.get('HTTP_USER_AGENT', ""))
-    
+
     if req.get("QUERY_STRING"):
         error.set("url", "%s?%s" % (req['ACTUAL_URL'], req['QUERY_STRING']))
     else:
         error.set("url", req['ACTUAL_URL'])
-    
+
     if kw.get("error_log_id"):
         error.set("uid", kw.get("error_log_id"))
-    
+
     error.set("ip", req.get("X_FORWARDED_FOR", req.get('REMOTE_ADDR', '')))
     error.set("type", kw.get("error_type"))
     error.set("status", status)
     error.set("request", "\n".join([ "%s: %s" % (k, req[k]) for k in headers if req.get(k)]))
-    
+
     if status != 404:
         # lets face it the 404 tb is not useful
         error.set("traceback", kw.get("error_tb"))
-    
+
     usr = getSecurityManager().getUser()
     error.set("username", "%s (%s)" % (usr.getId(), usr.getUserName()))
     error.set("msg", kw.get("error_msg"))
-    
+
     if error.transport == "http":
         try:
             error.send()

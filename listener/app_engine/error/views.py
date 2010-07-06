@@ -38,7 +38,7 @@ def get_group_filtered(request):
     else:
         queryset = db.Query(Group)
         queryset.order("-timestamp")
-    
+
     return form, queryset
 
 def get_filtered(request):
@@ -48,7 +48,7 @@ def get_filtered(request):
     else:
         queryset = db.Query(Error)
         queryset.order("-timestamp")
-    
+
     return form, queryset
 
 @user_passes_test(lambda u: u.is_staff)

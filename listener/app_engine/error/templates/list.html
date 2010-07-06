@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block subnav %}{% include "subnav.html" %}{% endblock %}
-{% block content %} 
+{% block content %}
 {% with page.object_list as object_list %}
 <div class="span-18">
 <table id="listing-list" {% if not object_list %}style="display: none"{% endif %} class="listing">
@@ -14,9 +14,9 @@
             <th>Path</th>
     </thead>
     <tbody id="list-snippet">
-        
+
         {% include "list-snippet.html" %}
-        
+
     </tbody>
 </table>
 

@@ -1,6 +1,6 @@
 # License: GPL
 # Author: Andy McKay, Clearwind
-# 
+#
 # you will need growl for this, the binary and the source
 # http://growl.info/source.php
 # and then in Growl-1.2-src/Bindings/python run setup.py
@@ -14,7 +14,7 @@ import time
 import os
 from datetime import datetime
 
-# the URL to your arecibo instance... remember you can use the query string to filter 
+# the URL to your arecibo instance... remember you can use the query string to filter
 url = "http://test-areciboapp.appspot.com/feed/sw3tqw35ywq45ws4kqa4ia6yw5q45serws23w351245lk6y/json/"
 delay = 30
 
@@ -51,7 +51,7 @@ class notifier(object):
             dt = self.convert(error["fields"]["error_timestamp"][:19])
             if dt > last_date:
                 self.gn.notify("status", "Arecibo error (priority %s)" % error["fields"]["priority"], "%s at %s\n%s" % (
-                    error["fields"]["status"], 
+                    error["fields"]["status"],
                     error["fields"]["domain"],
                     dt.strftime("%d %B, %H:%M")),
                     icon=self.image,

@@ -9,6 +9,6 @@ def post(request):
     err = Error()
     err.ip = request.META.get("REMOTE_ADDR", "")
     err.user_agent = request.META.get("HTTP_USER_AGENT", "")
-    
+
     populate(err, request.POST)
     return render_plain("Error recorded")

@@ -13,7 +13,7 @@ class GAEPaginator(BasePaginator):
             self._num_pages = number + 1
         except IndexError:
             self._num_pages = number
-        
+
         return Page(results, number, self)
 
 Paginator = GAEPaginator
@@ -23,10 +23,10 @@ def get_page(request, paginator):
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
-    
+
     try:
         page = paginator.page(page)
     except (EmptyPage, InvalidPage):
         page = paginator.page(paginator.num_pages)
-    
+
     return page

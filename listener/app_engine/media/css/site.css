@@ -1,4 +1,4 @@
-body { 
+body {
     padding:0px!important; /*this padding hack fixes things */
     margin: 0px;
 }
@@ -97,7 +97,7 @@ table.listing tr:hover td {
     background-image: -moz-linear-gradient(19% 75% 90deg,#f0e390, #FAF1B4 100%);
 }
 
-h1, h2, h3 { 
+h1, h2, h3 {
     font-family: 'Droid Serif', arial, serif;
     border-bottom: 1px solid lightgrey;
 }
@@ -137,7 +137,7 @@ a:hover {
 
 .top-links a.selected {
     color: white;
-    text-decoration: underline;    
+    text-decoration: underline;
 }
 
 .top-links a:hover {

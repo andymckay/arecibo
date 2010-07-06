@@ -17,7 +17,7 @@ class StatsTests(TestCase):
     # test the view for writing errors
     def setUp(self):
         for error in Error.all(): error.delete()
-    
+
     def testCount(self):
         for x in range(0, 1110):
             Error().save(dont_send_signals=True)

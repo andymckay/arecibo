@@ -16,7 +16,7 @@ def project_list(request):
         "page": projects,
         "nav": {"selected": "projects", "subnav": "list"},
     })
-    
+
 @user_passes_test(lambda u: u.is_staff)
 def project_add(request):
     form = ProjectForm(request.POST or None)

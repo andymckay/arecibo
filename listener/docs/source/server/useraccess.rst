@@ -6,7 +6,7 @@ The first time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For the first time you log in to your site, you won't be able to access because you have not been given access. Administering users
-to give them access requires admin rights, something you don't have yet. To gain admin rights, you log in through the Google App Engine 
+to give them access requires admin rights, something you don't have yet. To gain admin rights, you log in through the Google App Engine
 console and provide admin rights to the user you are going to be using.
 
 To do this:

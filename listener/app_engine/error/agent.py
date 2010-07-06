@@ -11,7 +11,7 @@ class Browser(object):
     def __init__(self, capabilities):
         self.lazy_flag = True
         self.cap = capabilities
-    
+
     def parse(self):
         for name, value in self.cap.items():
             if name in ["tables", "aol", "javaapplets",
@@ -27,42 +27,42 @@ class Browser(object):
             else:
                 self.cap[name] = value
         self.lazy_flag = False
-    
+
     def __repr__(self):
         if self.lazy_flag: self.parse()
         return repr(self.cap)
-    
+
     def get(self, name, default=None):
         if self.lazy_flag: self.parse()
         try:
             return self[name]
         except KeyError:
             return default
-    
+
     def __getitem__(self, name):
         if self.lazy_flag: self.parse()
         return self.cap[name.lower()]
-    
+
     def keys(self):
         return self.cap.keys()
-    
+
     def items(self):
         if self.lazy_flag: self.parse()
         return self.cap.items()
-    
+
     def values(self):
         if self.lazy_flag: self.parse()
         return self.cap.values()
-    
+
     def __len__(self):
         return len(self.cap)
-    
+
     def supports(self, feature):
         value = self.cap.get(feature)
         if value == None:
             return False
         return value
-    
+
     def features(self):
         l = []
         for f in ["tables", "frames", "iframes", "javascript",
@@ -79,37 +79,37 @@ class Browser(object):
         if css > 1:
             l.append("css2")
         return l
-    
+
     def supports_tables(self):
         return self.supports("frames")
-    
+
     def supports_iframes(self):
         return self.supports("iframes")
-    
+
     def supports_frames(self):
         return self.supports("frames")
-    
+
     def supports_java(self):
         return self.supports("javaapplets")
-    
+
     def supports_javascript(self):
         return self.supports("javascript")
-    
+
     def supports_vbscript(self):
         return self.supports("vbscript")
-    
+
     def supports_activex(self):
         return self.supports("activexcontrols")
-    
+
     def supports_cookies(self):
         return self.supports("cookies")
-    
+
     def supports_wap(self):
         return self.supports("wap")
-    
+
     def css_version(self):
         return self.get("css", 0)
-    
+
     def version(self):
         major = self.get("majorver")
         minor = self.get("minorver")
@@ -127,35 +127,35 @@ class Browser(object):
                 return (ver, None)
             else:
                 return (None, None)
-    
+
     def dom_version(self):
         return self.get("w3cdomversion", 0)
-    
-    
+
+
     def is_bot(self):
         return self.get("crawler") == True
-    
+
     def is_mobile(self):
         return self.get("ismobiledevice") == True
-    
+
     def name(self):
         return self.get("browser")
-    
+
     def platform(self):
         return self.get("platform")
 
 class BrowserCapabilities(object):
-    
+
     def __new__(cls, *args, **kwargs):
         # Only create one instance of this clas
         if "instance" not in cls.__dict__:
             cls.instance = object.__new__(cls, *args, **kwargs)
         return cls.instance
-    
+
     def __init__(self):
         self.cache = {}
         self.parse()
-    
+
     def parse(self):
         key = "browser-capabilities-raw"
         raw = memcache.get(key)
@@ -178,11 +178,11 @@ class BrowserCapabilities(object):
                 raw = ""
         else:
             log("Using cached browser capabilities")
-        
+
         string = StringIO(raw)
         cfg = ConfigParser()
         cfg.readfp(string)
-        
+
         self.sections = []
         self.items = {}
         self.browsers = {}
@@ -202,16 +202,16 @@ class BrowserCapabilities(object):
             if name not in parents:
                 self.sections.append(sec_re)
             self.items[sec_re] = sec
-    
-    
+
+
     def query(self, useragent):
         useragent = useragent.replace(' \r\n', '')
         b = self.cache.get(useragent)
         if b: return b
-        
+
         if not hasattr(self, "sections"):
             return None
-        
+
         for sec_pat in self.sections:
             if sec_pat.match(useragent):
                 browser = dict(agent=useragent)
@@ -230,7 +230,7 @@ class BrowserCapabilities(object):
                     self.cache[useragent] = b
                     return b
         self.cache[useragent] = None
-    
+
     __call__ = query
 
 def get():

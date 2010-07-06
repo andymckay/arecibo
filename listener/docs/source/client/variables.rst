@@ -8,7 +8,7 @@ Required variables
 
 account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The public API key for your account on Arecibo. Without it we don't know where to assign the request. This is the public API key as defined in the API key page. 
+The public API key for your account on Arecibo. Without it we don't know where to assign the request. This is the public API key as defined in the API key page.
 
 ::
 

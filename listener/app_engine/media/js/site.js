@@ -27,10 +27,10 @@ $(document).ready(function(){
     var delay = 60000; // one minute
     function reload() {
         $.ajax({
-            url: "/list/snippet/" + window.location.search, 
+            url: "/list/snippet/" + window.location.search,
             dataType: "json",
             success: function(data) {
-                $("#list-snippet").html(data.html);                
+                $("#list-snippet").html(data.html);
                 if (data.count > 0) {
                     $("#listing-list").show();
                     $("#listing-error").hide();
@@ -45,7 +45,7 @@ $(document).ready(function(){
                 time = null;
             }
         });
-    };   
+    };
     if ($("#list-snippet")) {
         setTimeout(reload, delay);
     };

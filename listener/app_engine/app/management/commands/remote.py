@@ -13,7 +13,7 @@ def auth_func():
 
 class Command(BaseCommand):
     help = 'Command shell for the remote App Engine instance'
-    
+
     def handle(self, *args, **options):
         app_id = os.environ.get("APPLICATION_ID")
         host = "%s.appspot.com" % app_id

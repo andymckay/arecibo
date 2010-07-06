@@ -27,7 +27,7 @@ class Notification(BaseModel):
         self.put()
         if created:
             notification_created.send(sender=self.__class__, instance=self)
-    
+
     def user_list(self):
         users = []
         for key in self.user:

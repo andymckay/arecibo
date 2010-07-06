@@ -12,7 +12,7 @@ def default_notification(instance, **kw):
     # http://github.com/andymckay/arecibo/issues/issue/4
     if instance.priority >= 5:
         return
-    
+
     notification = Notification()
     notification.error = instance
     notification.user = [ str(u.key()) for u in approved_users() ]
