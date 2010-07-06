@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     (r'', include('app.urls')),
     (r'', include('users.urls')),
     (r'^stats/', include('stats.urls')),
+    (r'^projects/', include('projects.urls')),
     (r'^notification/', include('notifications.urls')),
 )
 

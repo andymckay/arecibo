@@ -9,18 +9,22 @@
             <th>Most recent</th>
             <th>Status</th>
             <th>Type</th>
-            <th>Server</th>
+            <th>Count</th>
             <th>Path</th>
+            <th>Project</th>
+            <th>Stage</th>
     </thead>
     <tbody>
         {% for group in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
-            <td><a href="{% url error-list %}?group={{ group.uid }}">{{ group.timestamp|date:"d M, Y P" }}</a></td>
+            <td><a href="{% url error-list %}?group={{ group.id }}">{{ group.timestamp|date:"d M, Y P" }}</a></td>
             {% with group.sample as sample %}
             <td>{{ sample.status }}</td>
             <td>{{ sample.type_short }}</td>
-            <td>{{ sample.server }}</td>
+            <td>{{ group.count }}</td>
             <td>{{ sample.query_short }}</td>
+            <td>{{ group.project_url.project.name }}</td>
+            <td>{{ group.project_url.get_stage_display }}</td>
             {% endwith %}
         </tr>
         {% endfor %}
@@ -28,8 +32,11 @@
 </table>
 {% else %}
 <p>No errors found. Could be you've not sent any errors yet. Perhaps you've got some filters
-    set in the page, in which case <a href="{% url error-list %}">reset them</a>.</p>
+    set in the page, in which case <a href="{% url group-list %}">reset them</a>.</p>
 {% endif %}
+</div>
+<div class="span-5">
+    {% include "filter.html" %}
 </div>
 {% include "pagination.html" %}
 {% endblock %}

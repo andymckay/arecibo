@@ -21,14 +21,15 @@
 <body>
     <div class="header-wrapper">
         <div class="container">
-            <div class="span-8 title">
+            <div class="span-6 title">
                 <a href="/"><img src="/media/img/arecibo.png" title="arecibo" /></a>
             </div>
-            <div class="span-8 top-links">
+            <div class="span-12 top-links">
                 {% if user.is_anonymous %}
                 <a href="{% url login %}">Login</a>
                 {% else %}
-                <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>List</a>
+                <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>Errors</a>
+                <a href="{% url projects-list %}" {% ifequal nav.selected "projects" %}class="selected"{% endifequal %}>Projects</a>
                 <a href="{% url notification-list %}" {% ifequal nav.selected "notifications" %}class="selected"{% endifequal %}>Notifications</a>
                 <a href="{% url stats-view %}" {% ifequal nav.selected "stats" %}class="selected"{% endifequal %}>Stats</a>
                 <a href="{% url setup %}" {% ifequal nav.selected "setup" %}class="selected"{% endifequal %}>Setup</a>
@@ -43,9 +44,11 @@
             {% block subnav %}{% endblock %}
         </div>
     </div>
-    <div class="container">
-    {% block content %}
-    {% endblock %}
+    <div class="content-wrapper">
+        <div class="container">
+        {% block content %}
+        {% endblock %}
+        </div>
     </div>
     <div class="footer-wrapper">
         <div class="container">

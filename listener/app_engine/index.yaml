@@ -20,7 +20,54 @@ indexes:
 - kind: Error
   properties:
   - name: domain
+  - name: priority
+  - name: read
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: priority
+  - name: read
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: priority
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: priority
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
   - name: query
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: read
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: read
   - name: timestamp
     direction: desc
 
@@ -42,6 +89,20 @@ indexes:
 - kind: Error
   properties:
   - name: domain
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: domain
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: group
+  - name: status
   - name: timestamp
     direction: desc
 
@@ -73,6 +134,12 @@ indexes:
 - kind: Error
   properties:
   - name: priority
+  - name: timestamp
+    direction: desc
+
+- kind: Error
+  properties:
+  - name: project_url
   - name: timestamp
     direction: desc
 
@@ -150,7 +217,24 @@ indexes:
 
 - kind: Error
   properties:
+  - name: status
+  - name: timestamp_date
+
+- kind: Error
+  properties:
   - name: uid
+  - name: timestamp
+    direction: desc
+
+- kind: Group
+  properties:
+  - name: group
+  - name: timestamp
+    direction: desc
+
+- kind: Group
+  properties:
+  - name: project_url
   - name: timestamp
     direction: desc
 

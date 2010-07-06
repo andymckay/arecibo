@@ -22,8 +22,6 @@
     <dd>{{ error.ip }}</dd>{% endif %}
     {% if error.user %}<dt>User:</dt>
     <dd>{{ error.user }}</dd>{% endif %}
-    {% if error.ip %}<dt>IP Address:</dt>
-    <dd>{{ error.ip }}</dd>{% endif %}
     {% if error.uid %}<dt>Unique ID:</dt>
     <dd>{{ error.uid }}</dd>{% endif %}
     {% if error.user_agent %}<dt>Browser:</dt>
@@ -53,7 +51,7 @@
 <h3>Similar</h3>
 <ul>
 {% for similar in error.get_similar %}
-        <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> {{ similar.timestamp|date:'d M, Y P' }}</li>
+        <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> &bull; <abbr title="{{ similar.timestamp|date:'d M, Y P' }}">{{ similar.timestamp|timesince }}</abbr></li>
 {% endfor %}
 </ul>
 <p><a href="{% url error-list %}?group={{ error.group.uid }}">&raquo; more</a></p>

@@ -1,9 +1,7 @@
 from arecibo import post as error
 from django.conf import settings
 from django.core.mail import send_mail
-from django.http import HttpResponse
 from django.middleware.common import _is_ignorable_404
-from socket import gethostname
 
 import traceback
 import sys
@@ -15,13 +13,13 @@ def post(request, status, **kw):
     path = request.get_full_path()
     if _is_ignorable_404(path):
         return
-
+    
     # if you've set INTERNAL_IPS, we'll respect that and
     # ignore any requests, we suggest settings this so your
     # unit tests don't blast the server
     if request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS:
         return
-
+    
     exc_info = sys.exc_info()
     items = ['HOME', 'HTTP_ACCEPT', 'HTTP_ACCEPT_ENCODING', 'HTTP_REFERER', \
              'HTTP_ACCEPT_LANGUAGE', 'HTTP_CONNECTION', 'HTTP_HOST', 'LANG', \
@@ -32,7 +30,7 @@ def post(request, status, **kw):
         data.append("POST and FILES Variables:")
         data.extend( [ "    %s: %s" % (k, v) for k, v in request.POST.items() ])
         data.extend( [ "    %s: %s" % (k, v) for k, v in request.FILES.items() ])
-
+    
     # build out data to send to Arecibo some fields (like timestamp)
     # are automatically added
     data = {
@@ -41,15 +39,22 @@ def post(request, status, **kw):
         "ip": request.META.get('REMOTE_ADDR'),
         "traceback": "\n".join(traceback.format_tb(exc_info[2])),
         "request": "\n".join(data).encode("utf-8"),
-        "type": str(exc_info[0].__name__),
+        "type": exc_info[0],
         "msg": str(exc_info[1]),
         "status": status,
         "uid": time.time(),
         "user_agent": request.META.get('HTTP_USER_AGENT'),
     }
-
+    
+    # we might have a traceback, but it's not required
+    try:
+        if data["type"]:
+            data["type"] = str(data["type"].__name__)
+    except AttributeError:
+        pass
+    
     data.update(kw)
-
+    
     # it could be the site does not have the standard django auth
     # setup and hence no reques.user
     try:
@@ -57,7 +62,7 @@ def post(request, status, **kw):
         # this will be "" for Anonymous
     except AttributeError:
         pass
-
+    
     # a 404 has some specific formatting of the error that can be useful
     if status == 404:
         msg = ""
@@ -68,17 +73,17 @@ def post(request, status, **kw):
             else:
                 msg += m
         data["msg"] = msg
-
+    
     # if we don't get a priority, lets create one
     if not data.get("priority"):
         if status == 500: data["priority"] = 1
         else: data["priority"] = 5
-
+    
     # populate my arecibo object
     err = error()
     for key, value in data.items():
         err.set(key, value)
-
+    
     try:
         if getattr(settings, "ARECIBO_TRANSPORT", "") == "smtp":
             # use Djangos builtin mail
@@ -93,6 +98,6 @@ def post(request, status, **kw):
         # change the comments on the next two lines around
         raise
         #pass
-
+    
     return data["uid"]
 

@@ -7,10 +7,11 @@ Contents:
    :maxdepth: 1
 
    introduction.rst
-   quickstart.rst
-   server/index.rst
    server/installation.rst
    server/useraccess.rst
+   server/remoteaccess.rst
+   server/customisation.rst
+   server/concepts.rst   
    client/index.rst
    client/post.rst
    client/variables.rst
@@ -21,6 +22,7 @@ Contents:
    client/plone.rst
    client/django.rst
    client/rails.rst
+   release.rst
 
 Indices and tables
 ==================

@@ -3,7 +3,9 @@ Sample Javascript (Browser) Client
 
 The JavaScript (Browser) client is probably the easiest of all the possible clients to set up and we recommend trying it first. It also provides the greatest flexibility in terms of being platform agnostic.
 
-To install simply add the following to your *error* page::
+To install simply add the following to your *error* page.
+
+.. code-block:: html
 
     <script type="text/javascript" src="http://your-site-name.com/lib/error.js">
     </script>
@@ -21,7 +23,9 @@ An object is created called arecibo. Variables would be assigned in the followin
 
     arecibo.variable = name
 
-For example to set a status and priority, you would add in more values::
+For example to set a status and priority, you would add in more values:
+
+.. code-block:: html
 
     <script type="text/javascript" src="http://your-site-name.com/lib/error.js">
     </script>

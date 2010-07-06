@@ -28,11 +28,11 @@ from google.appengine.api import users
 from google.appengine.ext import db
 
 from appengine_django.models import BaseModel
-
+from appengine_django.auth.signals import user_created
 
 class User(BaseModel):
   """A model with the same attributes and methods as a Django user model.
-
+  
   The model has two additions. The first addition is a 'user' attribute which
   references a App Engine user. The second is the 'get_djangouser_for_user'
   classmethod that should be used to retrieve a DjangoUser instance from a App
@@ -51,13 +51,13 @@ class User(BaseModel):
   date_joined = db.DateTimeProperty(auto_now_add=True, required=True)
   groups = EmptyManager()
   user_permissions = EmptyManager()
-
+  
   def __unicode__(self):
     return self.username
-
+  
   def __str__(self):
     return unicode(self).encode('utf-8')
-
+  
   @classmethod
   def get_djangouser_for_user(cls, user):
     query = cls.all().filter("user =", user)
@@ -67,34 +67,34 @@ class User(BaseModel):
     else:
       django_user = query.get()
     return django_user
-
+  
   def set_password(self, raw_password):
     raise NotImplementedError
-
+  
   def check_password(self, raw_password):
     raise NotImplementedError
-
+  
   def set_unusable_password(self):
     raise NotImplementedError
-
+  
   def has_usable_password(self):
     raise NotImplementedError
-
+  
   def get_group_permissions(self):
     return self.user_permissions
-
+  
   def get_all_permissions(self):
     return self.user_permissions
-
+  
   def has_perm(self, perm):
     return False
-
+  
   def has_perms(self, perm_list):
     return False
-
+  
   def has_module_perms(self, module):
     return False
-
+  
   def get_and_delete_messages(self):
     """Gets and deletes messages for this user"""
     msgs = []
@@ -102,25 +102,25 @@ class User(BaseModel):
       msgs.append(msg)
       msg.delete()
     return msgs
-
+  
   def is_anonymous(self):
     """Always return False"""
     return False
-
+  
   def is_authenticated(self):
     """Always return True"""
     return True
-
+  
   def get_absolute_url(self):
     return "/users/%s/" % urllib.quote(smart_str(self.username))
-
+  
   def get_full_name(self):
     full_name = u'%s %s' % (self.first_name, self.last_name)
     return full_name.strip()
-
+  
   def email_user(self, subject, message, from_email):
     """Sends an email to this user.
-
+    
     According to the App Engine email API the from_email must be the
     email address of a registered administrator for the application.
     """
@@ -128,12 +128,12 @@ class User(BaseModel):
                    message,
                    from_email,
                    [self.email])
-
+  
   def get_profile(self):
     """
     Returns site-specific profile for this user. Raises
     SiteProfileNotAvailable if this site does not allow profiles.
-
+    
     When using the App Engine authentication framework, users are created
     automatically.
     """
@@ -151,7 +151,14 @@ class User(BaseModel):
       except (ImportError, ImproperlyConfigured):
         raise SiteProfileNotAvailable
     return self._profile_cache
-
+  
+  def save(self):
+      created = False
+      if not hasattr(self, "id"):
+        created = True
+      super(User, self).save()
+      if created:
+        user_created.send(sender=self.__class__, instance=self)
 
 class Group(BaseModel):
   """Group model not fully implemented yet."""
