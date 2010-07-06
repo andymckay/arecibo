@@ -22,7 +22,12 @@ def setup(request):
         })
 
 def javascript_client(request):
-    return direct_to_template(request, "error.js", extra_context={"domain":urlparse(settings.SITE_URL)[1]})
+    return direct_to_template(request, "error.js",
+        extra_context = {
+            "domain": urlparse(settings.SITE_URL)[1]
+        },
+        mimetype = "text/javascript",
+    )
 
 def logout(request):
     return HttpResponseRedirect(users.create_logout_url("/"))
