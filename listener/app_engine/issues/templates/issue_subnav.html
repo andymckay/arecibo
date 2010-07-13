@@ -1,0 +1,8 @@
+<div class="span-16">
+    <a href="{% url issues-add %}" {% ifequal nav.subnav 'add' %}class="selected"{% endifequal %}>Add an issue</a>
+    &bull;
+    <a href="{% url issues-list %}" {% ifequal nav.subnav 'list' %}class="selected"{% endifequal %}>List</a>
+</div>
+<div class="span-7">
+    <span id="subnav-note">Issues are in alpha, expect changes.</span>
+</div>

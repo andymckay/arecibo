@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block subnav %}{% include "issue_subnav.html" %}{% endblock %}
+{% block content %}
+
+<div class="span-24">
+    <h2>{{ issue.number }} &bull; {{ issue.title }}</h2>
+    <p><a href="{% url issues-edit issue.id %}">Edit orginal</a>
+    &bull;
+    <a href="{% url issues-add-comment issue.id %}">Update status</a>
+    &bull;
+    <a href="{% url issues-add-comment issue.id %}">Add comment</a>
+    </p>
+</div>
+<div class="span-24">
+    <div class="span-12">
+    <dl class="attributes">
+        <dt>Title:</dt>
+        <dd>{{ issue.title }}</dd>
+        <dt>URL:<dt>
+        <dd>{% if issue.raw %}<a href="{{ issue.raw }}">{{ issue.url|trunc:50 }}</a>{% else %}-{% endif %}</dd>
+        <dt>Project:</dt>
+        <dd>{% if issue.project %}{{ issue.project }}{% else %}-{% endif %}</dd>
+        <dt>Priority:</dt>
+        <dd>{% if issue.priority|stringformat:"s" in "123" %}<img src="/media/img/priority-{{ issue.priority }}.jpg" title="Priority {{ issue.priority }}" />{% endif %} {{ issue.priority }}</dd>
+        <dt>Status:</dt>
+        <dd>{% if issue.status %}{{ issue.status|capfirst  }}{% else %}-{% endif %}</dd>
+    </dl>
+    </div>
+    <div class="span-12 last">
+    <dl class="attributes">
+        <dt>Number:</dt>
+        <dd>{{ issue.number }}</dd>
+        <dt>Assigned:</dt>
+        <dd>{% if issue.assigned %}{{ issue.assigned }}{% else %}Not assigned{% endif %}</dd>
+        <dt>Creator:</dt>
+        <dd>{{ issue.creator }}</dd>
+        <dt>Created:</dt>
+        <dd><abbr title="{{ issue.timestamp|date:'d M, Y P' }}">{{ issue.timestamp|timesince }}</abbr></dd>
+    </dl>
+    </div>
+
+    <div class="span-12">
+        <label>Project stages</label>
+        <ul>
+            {% for url in issue.issueprojecturl_set %}
+            <li>
+                {% if url.get_status_image %}<img src="/media/img/status-{{ url.get_status_image }}.jpg" title="{{ issue.get_status_display }}" />{% endif %}
+                    <a href="{% url issues-project-url issue.id %}">{{ url.get_status_display }}</a>
+                &bull;
+                {{ url.project_url.url }} ({{ url.project_url.get_stage_display }})
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="span-12 last">
+        <label>Error groups</label>
+        <ul>
+            {% for issuegroup in issue.issuegroup_set %}
+            {% with issuegroup.group as group %}
+            <li>{{ group.count }} errors &bull; <a href="{% url error-list %}?group={{ group.id }}">{{ group.sample.title }}</a> <abbr title="{{ group.sample.timestamp }}">{{ group.sample.timestamp|timesince }}</bbr></li>
+            {% endwith %}
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+<div class="span-24">
+    {% if issue.description %}
+        <h3>Description</h3>
+        <p class="prepend-top">{{ issue.description }}</p>
+    {% endif %}
+</div>
+
+
+<div class="span-24">
+    <div class="span-12">
+        <h3>Comments</h3>
+        <p><a href="{% url issues-add-comment issue.id %}">Add</a></p>
+        <ul>
+        {% for comment in issue.get_comment_set %}
+            <li>
+                <span class="help">Added by {{ comment.creator }}, <abbr title="{{ comment.timestamp|date:'d M, Y P' }}">{{ comment.timestamp|timesince }}</abbr>.</span><br />
+                <p>{{ comment.text }}</p>
+            </li>
+        {% empty %}
+            <li>No comments.</li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="span-12 last">
+        <h3>Log</h3>
+        <p><a href="{% url issues-log-view issue.id %}">Full log</a></p>
+        <ul>
+        {% for log in issue.get_log_set|slice:":5" %}
+            {% include "issue_log_snippet.html" %}
+        {% empty %}
+            <li>No log.</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

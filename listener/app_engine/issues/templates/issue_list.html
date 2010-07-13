@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block subnav %}{% include "issue_subnav.html" %}{% endblock %}
+{% block content %}
+<div class="span-18">
+<table id="listing-list" {% if not page.object_list %}style="display: none"{% endif %} class="listing">
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Ago</th>
+        </tr>
+    </thead>
+    <tbody id="list-snippet">
+        {% for issue in page.object_list %}
+<tr class="{% cycle 'odd' 'even' %}" id="{{ issue.id }}">
+    <td>{% if issue.priority|stringformat:"s" in "123" %}<img src="/media/img/priority-{{ issue.priority }}.jpg" title="Priority {{ issue.priority }}" />{% endif %}<a href="{% url issues-view issue.id %}"> {{ issue.number }}</td>
+    <td>{{ issue.title }}</a></td>
+    <td>{{ issue.status|capfirst }}</a></td>
+    <td><abbr title="{{ issue.timestamp|date:'d M, Y P' }}">{{ issue.timestamp|timesince }}</abbr></td>
+</tr>
+{% endfor %}
+    </tbody>
+</table>
+
+{% if not page.object_list %}
+    <p>There are no issues yet.</p>
+{% endif %}
+</div>
+<div class="span-5">
+    {% include "issue_filter.html" %}
+</div>
+{% endblock %}

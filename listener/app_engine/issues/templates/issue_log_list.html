@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block subnav %}{% include "issue_subnav.html" %}{% endblock %}
+{% block content %}
+
+<div class="span-24">
+<div class="span-24">
+    <h2>{{ issue.number }} &bull; {{ issue.title }}</h2>
+    <p><a href="{% url issues-view issue.id %}">Return to issue</a>
+    </p>
+</div>
+<h3>Full Log</h3>
+<ul>
+    {% for log in page.object_list %}
+        {% include "issue_log_snippet.html" %}
+    {% empty %}
+        <li>No log.</li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}
+
