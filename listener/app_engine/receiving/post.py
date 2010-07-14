@@ -3,6 +3,7 @@ from urlparse import urlparse, urlunparse
 
 from django.conf import settings
 
+from app.utils import break_url
 from app.errors import StatusDoesNotExist
 from error.validations import valid_status
 from email.Utils import parsedate
@@ -18,10 +19,8 @@ def populate(err, incoming):
 
     # special
     if incoming.has_key("url"):
-        err.raw = incoming["url"]
-        parsed = list(urlparse(incoming["url"]))
-        err.protocol, err.domain = parsed[0], parsed[1]
-        err.query = urlunparse(["",""] + parsed[2:])
+        for k, v in break_url(incoming["url"]).items():
+            setattr(err, k, v)
 
     # check the status codes
     if incoming.has_key("status"):

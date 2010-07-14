@@ -35,6 +35,9 @@ from google.appengine.ext.webapp import util
 # Import the part of Django that we use here.
 import django.core.handlers.wsgi
 
+from google.appengine.ext.webapp import template
+template.register_template_library('app.tags')
+
 def main():
   # Ensure the Django zipfile is in the path if required.
   if have_django_zip and django_zip_path not in sys.path:

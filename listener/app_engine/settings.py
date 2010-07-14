@@ -58,7 +58,8 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-    'appengine_django.auth.middleware.AuthenticationMiddleware'
+    'appengine_django.auth.middleware.AuthenticationMiddleware',
+    'userstorage.middleware.UserStorage'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -84,6 +85,7 @@ INSTALLED_APPS = (
      'users',
      'stats',
      'projects',
+     'issues',
      'custom'
 )
 

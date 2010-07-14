@@ -55,12 +55,6 @@ class Filter(Form):
         query = db.GqlQuery(conditions, *args)
         return query
 
-class GroupForm(Filter):
-    project_url = forms.CharField(required=False)
-
-    def as_query(self):
-        return super(GroupForm, self).as_query("Group")
-
     def clean(self):
         data = {}
         for k, v in self.cleaned_data.items():
@@ -68,6 +62,12 @@ class GroupForm(Filter):
             data[k] = v
 
         return data
+
+class GroupForm(Filter):
+    project_url = forms.CharField(required=False)
+
+    def as_query(self):
+        return super(GroupForm, self).as_query("Group")
 
     def handle_project_url(self, value):
         try:

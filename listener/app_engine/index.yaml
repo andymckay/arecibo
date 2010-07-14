@@ -10,6 +10,12 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Comment
+  properties:
+  - name: issue
+  - name: timestamp
+    direction: desc
+
 - kind: Error
   properties:
   - name: domain
@@ -235,6 +241,36 @@ indexes:
 - kind: Group
   properties:
   - name: project_url
+  - name: timestamp
+    direction: desc
+
+- kind: Issue
+  properties:
+  - name: assigned
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Issue
+  properties:
+  - name: assigned
+  - name: timestamp
+    direction: desc
+
+- kind: Issue
+  properties:
+  - name: status
+  - name: timestamp
+    direction: desc
+
+- kind: Log
+  properties:
+  - name: issue
+  - name: timestamp
+
+- kind: Log
+  properties:
+  - name: issue
   - name: timestamp
     direction: desc
 

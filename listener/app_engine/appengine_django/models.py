@@ -46,6 +46,8 @@ class ModelOptions(object):
 
   # Django 1.1 compat
   proxy = None
+  # http://code.google.com/p/google-app-engine-django/issues/detail?id=171
+  auto_created = False
 
   def __init__(self, cls):
     self.object_name = cls.__name__
@@ -167,6 +169,9 @@ class BaseModel(db.Model):
   All models used in the application should derive from this class.
   """
   __metaclass__ = PropertiedClassWithDjango
+  _deferred = False
+  # Added for Django 1.1.2 and 1.2.1
+  # http://code.google.com/p/google-app-engine-django/issues/detail?id=171
 
   def __eq__(self, other):
     if not isinstance(other, self.__class__):
@@ -193,6 +198,7 @@ class BaseModel(db.Model):
 
     d = dict([_MakeReprTuple(prop_name) for prop_name in self.properties()])
     return "%s(**%s)" % (self.__class__.__name__, repr(d))
+
 
 
 class RegistrationTestModel(BaseModel):

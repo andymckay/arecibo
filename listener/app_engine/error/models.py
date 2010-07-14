@@ -3,16 +3,16 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 
 from google.appengine.ext import db
-from google.appengine.api import datastore_errors
 from google.appengine.api.labs import taskqueue
 
-from appengine_django.models import BaseModel
 from error.signals import group_created
 from projects.models import ProjectURL
 
+from app.utils import trunc_string
+from app.base import Base
 import os
 
-class Group(BaseModel):
+class Group(Base):
     """ A grouping of errors """
     uid = db.StringProperty()
     timestamp = db.DateTimeProperty()
@@ -25,19 +25,15 @@ class Group(BaseModel):
         except IndexError:
             return None
 
-    @property
-    def id(self):
-        return str(self.key())
-
     def save(self, *args, **kw):
-        created = not hasattr(self, "id")
+        created = not getattr(self, "id", None)
         if created:
             self.timestamp = datetime.now()
         self.put()
         if created:
             group_created.send(sender=self.__class__, instance=self)
 
-class Error(BaseModel):
+class Error(Base):
     # time error was received by this server
     timestamp = db.DateTimeProperty()
     timestamp_date = db.DateProperty()
@@ -75,24 +71,19 @@ class Error(BaseModel):
 
     create_signal_sent = db.BooleanProperty(default=False)
 
-    def _short(self, field, length):
-        value = getattr(self, field)
-        if len(value) > length:
-            return "%s.." % value[:length-2]
-        return value
-
-    def url_short(self): return self._short("url", 20)
-    def type_short(self): return self._short("type", 20)
-    def query_short(self): return self._short("query", 20)
-    def title_short(self): return self._short("title", 20)
-
     def get_absolute_url(self):
         return reverse("error-view", args=[self.id,])
+
+    def has_group(self):
+        try:
+            return self.group
+        except db.Error:
+            return []
 
     def get_similar(self, limit=5):
         try:
             return Error.all().filter("group = ", self.group).filter("__key__ !=", self.key())[:limit]
-        except datastore_errors.Error:
+        except db.Error:
             return []
 
     def delete(self):
@@ -101,13 +92,9 @@ class Error(BaseModel):
                 self.group.count = self.group.count - 1
                 if self.group.count < 1:
                     self.group.delete()
-        except datastore_errors.Error:
+        except db.Error:
             pass
         super(Error, self).delete()
-
-    @property
-    def id(self):
-        return str(self.key())
 
     @property
     def title(self):
@@ -138,7 +125,7 @@ class Error(BaseModel):
         return self.msg or ""
 
     def save(self, *args, **kw):
-        created = not hasattr(self, "id")
+        created = not getattr(self, "id", None)
         self.put()
         if created and not "dont_send_signals" in kw:
             if os.environ.get('SERVER_SOFTWARE', '').startswith('Dev'):

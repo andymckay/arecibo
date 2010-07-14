@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+
 {% block title %}| {{ error.title|truncatewords:3}}{% endblock %}
 {% block subnav %}{% include "subnav.html" %}{% endblock %}
 {% block content %}
+
 <h2>{{ error.title }}</h2>
+<p><label>URL:</label> {% if error.raw %}<a href="{{ error.raw }}">{{ error.raw|trunc:150 }}</a>{% else %}-{% endif %}</p>
+<div class="span-11">
 <dl class="attributes">
-    <dt>URL:</dt>
-    <dd>{% if error.raw %}<a href="{{ error.raw }}">{{ error.raw }}</a>{% else %}-{% endif %}</dd>
     <dt>Received:</dt>
     <dd>{{ error.timestamp|date:'d M, Y P' }}</dd>
     {% if error.error_timestamp %}<dt>Occured:</dt>
@@ -36,6 +38,35 @@
     {% if error.operating_system %}<dt>Operating system:</dt>
     <dd>{{ error.operating_system }}</dd>{% endif %}
 </dl>
+</div>
+{% if error.has_group %}
+<div class="span-11">
+<label>In group</label>
+{% if error.get_similar %}
+<ul>
+{% for similar in error.get_similar %}
+        <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> &bull; <abbr title="{{ similar.timestamp|date:'d M, Y P' }}">{{ similar.timestamp|timesince }}</abbr></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>This is the only error in this group.</p>
+{% endif %}
+
+<p><a href="{% url error-list %}?group={{ error.group.id }}">List other errors</a></p>
+<label>Issues</label>
+{% if error.group.issuegroup_set %}
+<ul>
+{% for issuegroup in error.group.issuegroup_set %}
+    <li>{{ issuegroup.issue.number }} &bull; <a href="{% url issues-view issuegroup.issue.id %}">{{ issuegroup.issue.title }}</a> {{ issuegroup.issue.status|capfirst }}</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>There are no issues on this.</p>
+{% endif %}
+<p><a href="{% url issues-add %}?raw={{ error.raw }}&amp;title={{ error.title }}&amp;group={{ error.group.id }}&amp;project={{ error.group.project_url.project.id }}">Add issue on this</a></p>
+</div>
+{% endif %}
+<div class="clear"></div>
 {% if error.msg or error.traceback or error.request %}
 <h3>Details</h3>
 <dl class="detail">
@@ -46,15 +77,6 @@
     {% if error.request %}<dt>Request</dt>
     <dd><pre>{{ error.request }}</pre></dd>{% endif %}
 </dl>
-{% endif %}
-{% if error.get_similar %}
-<h3>Similar</h3>
-<ul>
-{% for similar in error.get_similar %}
-        <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> &bull; <abbr title="{{ similar.timestamp|date:'d M, Y P' }}">{{ similar.timestamp|timesince }}</abbr></li>
-{% endfor %}
-</ul>
-<p><a href="{% url error-list %}?group={{ error.group.uid }}">&raquo; more</a></p>
 {% endif %}
 
 {% endblock %}

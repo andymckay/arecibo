@@ -5,6 +5,8 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     url(r'^feed/.*?/json/$', 'error.feeds.json', name="json"),
     url(r'^feed/.*?/$', 'error.feeds.atom', name="rss"),
+    url(r'^group/feed/.*?/json/$', 'error.feeds.group_json', name="json"),
+    url(r'^group/feed/.*?/$', 'error.feeds.group_atom', name="rss"),    
     url(r'^list/$', 'error.views.errors_list', name="error-list"),
     url(r'^list/snippet/$', 'error.views.errors_snippet', name="error-snippet"),
     url(r'^groups/$', 'error.views.groups_list', name="group-list"),

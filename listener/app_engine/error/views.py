@@ -13,10 +13,13 @@ from error.signals import error_created
 from app.utils import render_plain, render_json
 from app.paginator import Paginator, get_page
 
-# these aren't used directly
+# these aren't used directly, but if we don't import them here they
+# won't get imported
 from notifications import listeners as notifications_listeners
 from projects import listeners as projects_listeners
 from error import listeners as error_listeners
+from issues import listeners as error_listeners
+
 try:
     from custom import listeners as custom_listeners
 except ImportError:

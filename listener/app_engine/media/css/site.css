@@ -4,7 +4,7 @@ body {
 }
 
 .header-wrapper {
-    background-color: black;
+    background-color: #000044;
     height: 33px;
 }
 
@@ -157,8 +157,35 @@ label, dt {
     border: none;
 }
 
-#refresh-count {
+#refresh-count, #subnav-note {
     color: grey;
     font-weight: bold;
     text-shadow: 1px 1px 1px white;
+}
+
+.title h1 {
+    color: white;
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: light;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.title a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+textarea {
+    height: 6em;
+    width: 45em;
+}
+
+.field-error {
+    color: red;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }

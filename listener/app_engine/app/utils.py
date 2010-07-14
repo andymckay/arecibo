@@ -5,6 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import simplejson
 from django.utils.encoding import smart_unicode
 
+from urlparse import urlparse, urlunparse
+
 try:
     from functools import update_wrapper, wraps
 except ImportError:
@@ -35,6 +37,12 @@ def safe_string(text, result=""):
     except (ValueError, AttributeError):
         return result
 
+def trunc_string(text, length, ellipsis="..."):
+    if len(text) < length:
+        return text
+    else:
+        return "%s%s" % (text[:length-len(ellipsis)], ellipsis)
+
 def has_private_key(view_func):
     """ Will check that the person accessing the page is doing so with the private URL """
     def wrapper(*args, **kwargs):
@@ -43,6 +51,14 @@ def has_private_key(view_func):
             return HttpResponseRedirect(settings.LOGIN_URL)
         return view_func(*args, **kwargs)
     return wraps(view_func)(wrapper)
+
+def break_url(url):
+    result = {"raw": url}
+    parsed = list(urlparse(url))
+    result["protocol"] = parsed[0]
+    result["domain"] = parsed[1]
+    result["query"] = urlunparse(["",""] + parsed[2:])
+    return result
 
 def _pdb():
     import pdb, sys

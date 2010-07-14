@@ -19,7 +19,7 @@
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{ object.first_name|default:"" }} {{ object.last_name|default:"" }}</td>
             <td>{{ object.email }} {% ifequal object.key user.key %}(<b>this is you</b>){% endifequal %}</td>
-            <td><a href="{% url user-change object.key %}">{{ object.is_staff|yesno|capfirst }}</td>
+            <td><a href="{% url user-edit object.key %}">{{ object.is_staff|yesno|capfirst }}</td>
         </tr>
         {% endfor %}
     </tbody>

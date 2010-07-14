@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
+{{ get_user }}
 {% if user.is_anonymous %}
     <div class="success span-11">
         <h2>Existing user?</h2>

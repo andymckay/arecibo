@@ -6,8 +6,8 @@ from django.utils.safestring import mark_safe
 def as_blue_print(self):
     return self._html_output(u"""
     <div class="span-8 clear">
-        %(errors)s
         %(label)s<br />
+        %(errors)s
         %(field)s
         <span class="help">%(help_text)s</span>
     </div>
@@ -25,7 +25,7 @@ def as_div(self):
     if not self:
         return u''
     template = "%s"
-    errors = ''.join([u'<p class="error">%s</p>' % conditional_escape(force_unicode(e)) for e in self])
+    errors = ''.join([u'<p class="field-error">%s</p>' % conditional_escape(force_unicode(e)) for e in self])
     template = template % errors
     return mark_safe(template)
 

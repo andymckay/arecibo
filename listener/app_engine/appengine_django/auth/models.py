@@ -129,6 +129,14 @@ class User(BaseModel):
                    from_email,
                    [self.email])
 
+
+  @property
+  def pk(self):
+    try:
+      return str(self.key())
+    except db.NotSavedError:
+      pass
+
   def get_profile(self):
     """
     Returns site-specific profile for this user. Raises

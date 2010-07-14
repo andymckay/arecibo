@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from appengine_django.auth.models import User
-
 from app.paginator import Paginator, get_page
+
+from users.forms import UserForm
 
 @user_passes_test(lambda u: u.is_staff)
 def user_list(request):
@@ -20,9 +21,14 @@ def user_list(request):
         })
 
 @user_passes_test(lambda u: u.is_staff)
-def user_change(request, pk):
-    user = User.get(pk)
-    user.is_staff = not user.is_staff
-    user.save()
-    return HttpResponseRedirect(reverse("user-list"))
+def user_edit(request, pk):
+    form = UserForm(request.POST or None, instance=User.get(pk))
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.save()
+        return HttpResponseRedirect(reverse("user-list"))
+    return direct_to_template(request, "user_edit.html", extra_context={
+        "form": form,
+        "nav": {"selected": "users",},
+    })
 
