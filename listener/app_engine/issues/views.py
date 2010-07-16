@@ -7,6 +7,7 @@ from django.forms.formsets import formset_factory
 
 from google.appengine.ext import db
 from app.paginator import Paginator, get_page
+from app.utils import safe_int
 
 from error.models import Group
 
@@ -26,6 +27,16 @@ def get_issues_filtered(request):
 
     return form, queryset
 
+def issue_by_number(pk):
+    """ Get's the issue by a primary key or a number, i like hacking the url so
+        you can just put in a number in the URL """
+    number = safe_int(pk)
+    if number:
+        issues = Issue.all().filter("number = ", number)
+        return issues[0]
+    else:
+        return Issue.get(pk)
+
 @user_passes_test(lambda u: u.is_staff)
 def issue_list(request):
     form, queryset = get_issues_filtered(request)
@@ -39,7 +50,7 @@ def issue_list(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def issue_log_view(request, pk):
-    issue = Issue.get(pk)
+    issue = issue_by_number(pk)
     logs = Log.all().filter("issue = ", issue)
     paginated = Paginator(logs, 50)
     page = get_page(request, paginated)
@@ -51,7 +62,7 @@ def issue_log_view(request, pk):
 
 @user_passes_test(lambda u: u.is_staff)
 def issue_view(request, pk):
-    issue = Issue.get(pk)
+    issue = issue_by_number(pk)
     return direct_to_template(request, "issue_view.html", extra_context={
         "issue": issue,
         "get_user": get_user(),
@@ -80,7 +91,7 @@ def issue_add(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def issue_edit(request, pk):
-    issue = Issue.get(pk)
+    issue = issue_by_number(pk)
     form = IssueForm(request.POST or None, instance=issue)
     if form.is_valid():
         obj = form.save(commit=False)
@@ -114,7 +125,7 @@ def edit_project_url(request, pk):
 
 @user_passes_test(lambda u: u.is_staff)
 def comment_add(request, pk):
-    issue = Issue.get(pk)
+    issue = issue_by_number(pk)
     initial={"status":issue.status,}
     if issue.assigned:
         initial["assigned"] = issue.assigned.pk

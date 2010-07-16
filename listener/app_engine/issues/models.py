@@ -14,7 +14,7 @@ from app.base import Base
 from app.utils import break_url, trunc_string
 from projects.models import Project, ProjectURL
 from error.models import Group
-from issues.signals import issue_created, comment_created
+from issues import signals
 
 class Issue(Base):
     # time error was received by this server
@@ -69,14 +69,26 @@ class Issue(Base):
         if not self.title:
             self.title = trunc_string(self.description, 50)
 
-        created = not self.id
+        created = not getattr(self, "id", None)
+        old = None
         if created:
             self.number = Issue.all().count() + 1
             self.timestamp = datetime.now()
+        else:
+            old = Issue.get(self.id)
 
         self.put()
         if created:
-            issue_created.send(sender=self.__class__, instance=self)
+            signals.issue_created.send(sender=self.__class__, instance=self)
+        else:
+            for key in ["status", "assigned", "priority"]:
+                new_value = getattr(self, key)
+                old_value = getattr(old, key)
+                if new_value !=old_value:
+                    signal = getattr(signals, "issue_%s_changed" % key)
+                    signal.send(sender=self.__class__, instance=self, old=old_value, new=new_value)
+
+            signals.issue_changed.send(sender=self.__class__, instance=self, old=old)
 
 class Comment(Base):
     timestamp = db.DateTimeProperty()
@@ -92,7 +104,7 @@ class Comment(Base):
 
         self.put()
         if created:
-            comment_created.send(sender=self.__class__, instance=self)
+            signals.comment_created.send(sender=self.__class__, instance=self)
 
 class IssueGroup(Base):
     issue = db.ReferenceProperty(Issue)
