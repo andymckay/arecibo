@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="span-22 prepend-2 last">
+<h2>Not allowed</h2>
+<p>You can't do that. Sorry.</p>
+{% if request.is_anonymous %}<p>You are not logged in, you could try <a href="{% url login %}">logging in</a>.</p>{% endif %}
+</div>
+
+{% endblock %}

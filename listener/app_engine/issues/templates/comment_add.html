@@ -3,12 +3,15 @@
 {% block content %}
 <div class="span-24">
     <h2>{{ issue.number }} &bull; {{ issue.title }}</h2>
-    <p><a href="{% url issues-view issue.id %}">Return to issue</a>
-    </p>
-    <h3>Update</h3>
+</div>
+<div class="span-20">
+    <p>Add a comment, change status or assignee.</p>
     <form method="post" class="issue">
         {{ form.as_custom }}
         <div class="span-8 clear"><input type="submit" value="Add"></div>
     </form>
+</div>
+<div class="span-4 last actions">
+    <p><a href="{% url issues-view issue.number %}"><div class="button green">Return to issue</div></a></p>
 </div>
 {% endblock %}

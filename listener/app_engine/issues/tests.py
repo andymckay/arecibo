@@ -83,7 +83,7 @@ class ErrorTests(TestCase):
 
         self._issue()
         assert self.issue == issue_by_number(self.issue.number)
-        assert self.issue == issue_by_number(self.issue.id)
+        assert self.issue == issue_by_number(self.issue.number)
 
     def testIssueChanged(self):
         self.signal_fired = False

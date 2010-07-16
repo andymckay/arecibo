@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     url(r'^lib/error-compress.js', 'app.views.javascript_client', name="error-javascript-compressed"),
     url(r'^accounts/login/$', 'app.views.login', name="login"),
     url(r'^accounts/logout/$', 'app.views.logout', name="logout"),
+    url(r'^accounts/not-allowed/$', 'app.views.not_allowed', name="not-allowed"),
     url(r'^setup$', 'app.views.setup', name="setup")
 )

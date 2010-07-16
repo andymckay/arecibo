@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import simplejson
 from django.utils.encoding import smart_unicode
+from django.core.urlresolvers import reverse
 
 from urlparse import urlparse, urlunparse
 
@@ -30,6 +31,9 @@ def render_json(view_func):
         data = view_func(*args, **kwargs)
         return HttpResponse(simplejson.dumps(data), mimetype='application/json')
     return wrapper
+
+def not_allowed(request):
+    return HttpResponseRedirect(reverse("not-allowed"))
 
 def safe_string(text, result=""):
     try:

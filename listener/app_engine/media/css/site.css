@@ -199,6 +199,7 @@ textarea {
     display: inline-block;
     padding: 5px 10px 6px;
     color: #fff;
+    font: -webkit-small-control;
     text-decoration: none;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -208,13 +209,29 @@ textarea {
     border-bottom: 1px solid rgba(0,0,0,0.25);
     position: relative;
     cursor: pointer;
-    opacity: 0.7;
+    font-weight: bold
 }
 
 .button:hover {
     background-color: #111;
     color: #fff;
     opacity: 1;
+}
+
+button {
+    border: none;
+    background-color: none;
+    border-style: none;
+}
+
+.actions button {
+    width: 150px;
+    text-align: left;
+}
+
+.actions div.button {
+    width: 130px;
+    text-align: left;
 }
 
 .button {

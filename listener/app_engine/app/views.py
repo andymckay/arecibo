@@ -20,6 +20,9 @@ def index(request):
         return HttpResponseRedirect(reverse("error-list"))
     return direct_to_template(request, "index.html")
 
+def not_allowed(request):
+    return direct_to_template(request, "403.html")
+
 @user_passes_test(lambda u: u.is_staff)
 def setup(request):
     return direct_to_template(request, "setup.html", extra_context={

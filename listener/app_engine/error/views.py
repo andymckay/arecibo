@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -10,7 +11,7 @@ from error.models import Error, Group
 from error.forms import ErrorForm, GroupForm
 from error.signals import error_created
 
-from app.utils import render_plain, render_json
+from app.utils import render_plain, render_json, not_allowed
 from app.paginator import Paginator, get_page
 
 # these aren't used directly, but if we don't import them here they
@@ -90,11 +91,26 @@ def groups_list(request):
         })
 
 @user_passes_test(lambda u: u.is_staff)
+def error_public_toggle(request, pk):
+    error = Error.get(pk)
+    if request.method.lower() == "post":
+        if error.public:
+            error.public = False
+        else:
+            error.public = True
+        error.save()
+    return HttpResponseRedirect(reverse("error-view", args=[error.id,]))
+
 def error_view(request, pk):
     error = Error.get(pk)
+    if not error.public:
+        if not request.user.is_staff:
+            return not_allowed(request)
+
     if not error.read:
         error.read = True
         error.save()
+
     return direct_to_template(request, "view.html", extra_context={
         "error":error,
         "nav": {"selected": "list"},

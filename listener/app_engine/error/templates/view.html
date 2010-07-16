@@ -2,16 +2,20 @@
 
 {% block title %}| {{ error.title|truncatewords:3}}{% endblock %}
 {% block subnav %}{% include "subnav.html" %}{% endblock %}
+
+
 {% block content %}
 
+
 <h2>{{ error.title }}</h2>
+<div class="span-20">
 <p><label>URL:</label> {% if error.raw %}<a href="{{ error.raw }}">{{ error.raw|trunc:150 }}</a>{% else %}-{% endif %}</p>
-<div class="span-11">
+<div class="span-9">
 <dl class="attributes">
     <dt>Received:</dt>
-    <dd>{{ error.timestamp|date:'d M, Y P' }}</dd>
+    <dd><abbr title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</abbr></dd>
     {% if error.error_timestamp %}<dt>Occured:</dt>
-    <dd>{{ error.error_timestamp|date:'d M, Y P' }}</dd>{% endif %}
+    <dd><abbr title="{{ error.error_timestamp|date:'d M, Y P' }}">{{ error.error_timestamp|timesince }}</abbr></dd>{% endif %}
     {% if error.priority %}<dt>Priority:</dt>
     <dd>{{ error.priority }}</dd>{% endif %}
     {% if error.status %}<dt>Status:</dt>
@@ -39,8 +43,9 @@
     <dd>{{ error.operating_system }}</dd>{% endif %}
 </dl>
 </div>
+<div class="span-9">
 {% if error.has_group %}
-<div class="span-11">
+{% if user.is_staff %}
 <label>In group</label>
 {% if error.get_similar %}
 <ul>
@@ -51,21 +56,19 @@
 {% else %}
 <p>This is the only error in this group.</p>
 {% endif %}
-
-<p><a href="{% url error-list %}?group={{ error.group.id }}">List other errors</a></p>
 <label>Issues</label>
-{% if error.group.issuegroup_set %}
+{% if error.group.issuegroup_set.count %}
 <ul>
 {% for issuegroup in error.group.issuegroup_set %}
-    <li>{{ issuegroup.issue.number }} &bull; <a href="{% url issues-view issuegroup.issue.id %}">{{ issuegroup.issue.title }}</a> {{ issuegroup.issue.status|capfirst }}</li>
+    <li>{{ issuegroup.issue.number }} &bull; <a href="{% url issues-view issuegroup.issue.number %}">{{ issuegroup.issue.title }}</a> {{ issuegroup.issue.status|capfirst }}</li>
 {% endfor %}
 </ul>
 {% else %}
 <p>There are no issues on this.</p>
 {% endif %}
-<p><a href="{% url issues-add %}?raw={{ error.raw }}&amp;title={{ error.title }}&amp;group={{ error.group.id }}&amp;project={{ error.group.project_url.project.id }}">Add issue on this</a></p>
-</div>
 {% endif %}
+{% endif %}
+</div>
 <div class="clear"></div>
 {% if error.msg or error.traceback or error.request %}
 <h3>Details</h3>
@@ -78,5 +81,22 @@
     <dd><pre>{{ error.request }}</pre></dd>{% endif %}
 </dl>
 {% endif %}
-
+</div>
+<div class="span-4 actions last">
+{% if error.public %}
+    <p><b>This error is public and visible by anyone.</b>
+    {% if user.is_staff %}<form method="post" action="{% url error-toggle error.id %}">
+        <button class="button orange" type="submit">Make private</button>
+    </form>{% endif %}
+    </p>
+{% else %}
+    <p>{% if user.is_staff %}<form method="post" action="{% url error-toggle error.id %}">
+    <button class="button" type="submit">Make publicly visible</button>
+    </form>{% endif %}</p>
+{% endif %}
+{% if user.is_staff %}
+    <a href="{% url issues-add %}?raw={{ error.raw }}&amp;title={{ error.title }}&amp;group={{ error.group.id }}&amp;project={{ error.group.project_url.project.id }}"><div class="button green">Add issue on this</div></a>
+    <p><a href="{% url error-list %}?group={{ error.group.id }}"><div class="button green">Errors in this group</div></p>
+{% endif %}
+</div>
 {% endblock %}

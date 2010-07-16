@@ -4,17 +4,9 @@
 
 <div class="span-24">
     <h2>{{ issue.number }} &bull; {{ issue.title }}</h2>
-    <p><a href="{% url issues-edit issue.id %}">Edit orginal</a>
-    &bull;
-    <a href="{% url issues-add-comment issue.id %}">Update status</a>
-    &bull;
-    <a href="{% url issues-add-comment issue.id %}">Add comment</a>
-    &bull;
-    <a href="{% url issues-log-view issue.id %}">Full log</a>
-    </p>
 </div>
-<div class="span-24">
-    <div class="span-12">
+<div class="span-20">
+    <div class="span-10">
     <dl class="attributes">
         <dt>Title:</dt>
         <dd>{{ issue.title }}</dd>
@@ -28,7 +20,7 @@
         <dd>{% if issue.status %}{{ issue.status|capfirst  }}{% else %}-{% endif %}</dd>
     </dl>
     </div>
-    <div class="span-12 last">
+    <div class="span-10 last">
     <dl class="attributes">
         <dt>Number:</dt>
         <dd>{{ issue.number }}</dd>
@@ -41,13 +33,13 @@
     </dl>
     </div>
 
-    <div class="span-12">
+    <div class="span-10">
         <label>Project stages</label>
         <ul>
             {% for url in issue.issueprojecturl_set %}
             <li>
                 {% if url.get_status_image %}<img src="/media/img/status-{{ url.get_status_image }}.jpg" title="{{ issue.get_status_display }}" />{% endif %}
-                    <a href="{% url issues-project-url issue.id %}">{{ url.get_status_display }}</a>
+                    <a href="{% url issues-project-url issue.number %}">{{ url.get_status_display }}</a>
                 &bull;
                 {{ url.project_url.url }} ({{ url.project_url.get_stage_display }})
             </li>
@@ -55,7 +47,7 @@
         </ul>
     </div>
 
-    <div class="span-12 last">
+    <div class="span-10 last">
         <label>Error groups</label>
         <ul>
             {% for issuegroup in issue.issuegroup_set %}
@@ -66,39 +58,44 @@
         </ul>
     </div>
 
-</div>
-
-<div class="span-24">
-    {% if issue.description %}
-        <h3>Description</h3>
-        <p class="prepend-top">{{ issue.description }}</p>
-    {% endif %}
-</div>
-
-
-<div class="span-24">
-    <div class="span-12">
-        <h3>Comments</h3>
-        <ul>
-        {% for comment in issue.get_comment_set %}
-            <li>
-                <span class="help">Added by {{ comment.creator }}, <abbr title="{{ comment.timestamp|date:'d M, Y P' }}">{{ comment.timestamp|timesince }}</abbr>.</span><br />
-                <p>{{ comment.text }}</p>
-            </li>
-        {% empty %}
-            <li>No comments.</li>
-        {% endfor %}
-        </ul>
+    <div class="span-20 clear">
+        {% if issue.description %}
+            <h3>Description</h3>
+            <p class="prepend-top">{{ issue.description }}</p>
+        {% endif %}
     </div>
-    <div class="span-12 last">
-        <h3>Log</h3>
-        <ul>
-        {% for log in issue.get_log_set|slice:":5" %}
-            {% include "issue_log_snippet.html" %}
-        {% empty %}
-            <li>No log.</li>
-        {% endfor %}
-        </ul>
+
+
+    <div class="span-20 clear">
+        <div class="span-10">
+            <h3>Comments</h3>
+            <ul>
+            {% for comment in issue.get_comment_set %}
+                <li>
+                    <span class="help">Added by {{ comment.creator }}, <abbr title="{{ comment.timestamp|date:'d M, Y P' }}">{{ comment.timestamp|timesince }}</abbr>.</span><br />
+                    <p>{{ comment.text }}</p>
+                </li>
+            {% empty %}
+                <li>No comments.</li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="span-10 last">
+            <h3>Log</h3>
+            <ul>
+            {% for log in issue.get_log_set|slice:":5" %}
+                {% include "issue_log_snippet.html" %}
+            {% empty %}
+                <li>No log.</li>
+            {% endfor %}
+            </ul>
+        </div>
     </div>
+</div>
+<div class="span-4 actions last">
+    <p><a href="{% url issues-edit issue.number %}"><div class="button orange">Edit orginal</div></a></p>
+    <p><a href="{% url issues-add-comment issue.number %}"><div class="button green">Update status</div></a></p>
+    <p><a href="{% url issues-add-comment issue.number %}"><div class="button green">Add comment</div></a></p>
+    <p><a href="{% url issues-log-view issue.number %}"><div class="button grey">Full log</div></a></p>
 </div>
 {% endblock %}

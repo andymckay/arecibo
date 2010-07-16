@@ -71,6 +71,8 @@ class Error(Base):
 
     create_signal_sent = db.BooleanProperty(default=False)
 
+    public = db.BooleanProperty(default=False)
+
     def get_absolute_url(self):
         return reverse("error-view", args=[self.id,])
 

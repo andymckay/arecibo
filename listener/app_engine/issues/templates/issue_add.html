@@ -6,7 +6,9 @@
     <form method="post" class="issue">
         {{ issue_form.as_custom }}
         {{ group_form.as_custom }}
-        <div class="span-8 clear"><input type="submit" value="Add"></div>
+        <div class="span-8 clear">
+        <button type="submit" class="button green">Add</button>
+        </div>
     </form>
 </div>
 {% endblock %}

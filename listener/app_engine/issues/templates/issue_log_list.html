@@ -1,14 +1,11 @@
 {% extends "base.html" %}
 {% block subnav %}{% include "issue_subnav.html" %}{% endblock %}
 {% block content %}
-
-<div class="span-24">
 <div class="span-24">
     <h2>{{ issue.number }} &bull; {{ issue.title }}</h2>
-    <p><a href="{% url issues-view issue.id %}">Return to issue</a>
-    </p>
 </div>
-<h3>Full Log</h3>
+<div class="span-20">
+<p>Full log of changes to this issue.</p>
 <ul>
     {% for log in page.object_list %}
         {% include "issue_log_snippet.html" %}
@@ -16,5 +13,8 @@
         <li>No log.</li>
     {% endfor %}
 </ul>
+</div>
+<div class="action span-4 last">
+    <p><a href="{% url issues-view issue.number %}"><div class="button green">Return to issue</div></a></p>
 </div>
 {% endblock %}
