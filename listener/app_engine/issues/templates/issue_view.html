@@ -9,6 +9,8 @@
     <a href="{% url issues-add-comment issue.id %}">Update status</a>
     &bull;
     <a href="{% url issues-add-comment issue.id %}">Add comment</a>
+    &bull;
+    <a href="{% url issues-log-view issue.id %}">Full log</a>
     </p>
 </div>
 <div class="span-24">
@@ -17,7 +19,7 @@
         <dt>Title:</dt>
         <dd>{{ issue.title }}</dd>
         <dt>URL:<dt>
-        <dd>{% if issue.raw %}<a href="{{ issue.raw }}">{{ issue.url|trunc:50 }}</a>{% else %}-{% endif %}</dd>
+        <dd>{% if issue.raw %}<a href="{{ issue.raw }}">{{ issue.raw|trunc:50 }}</a>{% else %}-{% endif %}</dd>
         <dt>Project:</dt>
         <dd>{% if issue.project %}{{ issue.project }}{% else %}-{% endif %}</dd>
         <dt>Priority:</dt>
@@ -77,7 +79,6 @@
 <div class="span-24">
     <div class="span-12">
         <h3>Comments</h3>
-        <p><a href="{% url issues-add-comment issue.id %}">Add</a></p>
         <ul>
         {% for comment in issue.get_comment_set %}
             <li>
@@ -91,7 +92,6 @@
     </div>
     <div class="span-12 last">
         <h3>Log</h3>
-        <p><a href="{% url issues-log-view issue.id %}">Full log</a></p>
         <ul>
         {% for log in issue.get_log_set|slice:":5" %}
             {% include "issue_log_snippet.html" %}

@@ -6,18 +6,24 @@ from django.utils.safestring import mark_safe
 def as_blue_print(self):
     return self._html_output(u"""
     <div class="span-8 clear">
-        %(label)s<br />
-        %(errors)s
-        %(field)s
-        <span class="help">%(help_text)s</span>
+        <div %(html_class_attr)s>
+            %(label)s<br />
+            %(errors)s
+            <span class="help">%(help_text)s</span>
+            %(field)s
+        </div>
     </div>
     """, u'%s', '', u'%s', False)
 
 class Form(forms.Form):
+    required_css_class = 'required'
+
     def as_custom(self):
         return as_blue_print(self)
 
 class ModelForm(forms.ModelForm):
+    required_css_class = 'required'
+
     def as_custom(self):
         return as_blue_print(self)
 

@@ -16,6 +16,7 @@ states = (
     ["approved", _("Approved")],
     ["deploy_progress", _("Deploy in process")],
     ["deployed", _("Deployed")],
+    ["rejected", _("Rejected")],
     )
 states_first_empty = list(states)
 states_first_empty.insert(0, ["", "-------"])
@@ -60,6 +61,7 @@ class IssueForm(ModelForm):
     raw = forms.CharField(required=False, label=_("URL"),
         widget=forms.TextInput(attrs={"size":100}))
     description = forms.CharField(required=True,
+        help_text=_("A description, markdown syntax possible"),
         widget=forms.Textarea(attrs={"cols": 100, "rows": 10}))
     priority = forms.IntegerField(required=False,
         widget=forms.Select(choices=priorities))
@@ -72,7 +74,7 @@ class IssueForm(ModelForm):
                     "project", "status")
 
 class GroupForm(Form):
-    group = forms.CharField(required=False, widget=forms.TextInput())
+    group = forms.CharField(required=False, widget=forms.HiddenInput())
 
 class UpdateForm(Form):
     status = forms.CharField(required=False, widget=forms.Select(choices=states))
