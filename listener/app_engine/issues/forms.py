@@ -21,6 +21,21 @@ states = (
 states_first_empty = list(states)
 states_first_empty.insert(0, ["", "-------"])
 
+class OurModelChoiceIterator(forms.models.ModelChoiceIterator):
+    def __iter__(self):
+        if self.field.empty_label is not None:
+            yield (u"", self.field.empty_label)
+        if self.field.cache_choices:
+            if self.field.choice_cache is None:
+                self.field.choice_cache = [
+                    self.choice(obj) for obj in self.queryset
+                ]
+            for choice in self.field.choice_cache:
+                yield choice
+        else:
+            for obj in self.queryset:
+                yield self.choice(obj)
+
 class OurModelChoiceField(forms.ModelChoiceField):
     """ This required a few modifications to get working on app engine it seems """
 
@@ -33,6 +48,13 @@ class OurModelChoiceField(forms.ModelChoiceField):
             return None
         value = self.model.get(value)
         return value
+
+    def _get_choices(self):
+        if hasattr(self, '_choices'):
+            return self._choices
+        return OurModelChoiceIterator(self)
+
+    choices = property(_get_choices, forms.ModelChoiceField._set_choices)
 
 issue_project_url_statuses = (
     ["fixed", _("Fixed")],
@@ -50,7 +72,9 @@ class IssueProjectURLForm(ModelForm):
 
 class IssueListForm(Filter):
     status = forms.ChoiceField(choices=states_first_empty, widget=forms.Select, required=False)
-    assigned = OurModelChoiceField(required=False, queryset=User, model=User)
+    assigned = OurModelChoiceField(required=False,
+        queryset=User.all().filter("is_staff = ", True),
+        model=User)
 
     def as_query(self):
         return super(IssueListForm, self).as_query("Issue")
@@ -61,7 +85,7 @@ class IssueForm(ModelForm):
     raw = forms.CharField(required=False, label=_("URL"),
         widget=forms.TextInput(attrs={"size":100}))
     description = forms.CharField(required=True,
-        help_text=_("A description, markdown syntax possible"),
+        help_text=_("A description, markdown syntax possible."),
         widget=forms.Textarea(attrs={"cols": 100, "rows": 10}))
     priority = forms.IntegerField(required=False,
         widget=forms.Select(choices=priorities))
@@ -78,7 +102,9 @@ class GroupForm(Form):
 
 class UpdateForm(Form):
     status = forms.CharField(required=False, widget=forms.Select(choices=states))
-    assigned = OurModelChoiceField(required=False, queryset=User, model=User)
+    assigned = OurModelChoiceField(required=False,
+        queryset=User.all().filter("is_staff = ", True),
+        model=User)
     text = forms.CharField(required=False, label=_("Comments"),
         widget = forms.Textarea(
             attrs={"cols": 100, "rows": 10}

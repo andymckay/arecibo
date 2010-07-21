@@ -11,7 +11,7 @@
         <dt>Title:</dt>
         <dd>{{ issue.title }}</dd>
         <dt>URL:<dt>
-        <dd>{% if issue.raw %}<a href="{{ issue.raw }}">{{ issue.raw|trunc:50 }}</a>{% else %}-{% endif %}</dd>
+        <dd>{% if issue.raw %}<a href="{{ issue.raw }}">{{ issue.raw|trunc:40 }}</a>{% else %}-{% endif %}</dd>
         <dt>Project:</dt>
         <dd>{% if issue.project %}{{ issue.project }}{% else %}-{% endif %}</dd>
         <dt>Priority:</dt>
@@ -61,7 +61,7 @@
     <div class="span-20 clear">
         {% if issue.description %}
             <h3>Description</h3>
-            <p class="prepend-top">{{ issue.description }}</p>
+            <p class="prepend-top">{{ issue.description|markdown }}</p>
         {% endif %}
     </div>
 
@@ -73,7 +73,7 @@
             {% for comment in issue.get_comment_set %}
                 <li>
                     <span class="help">Added by {{ comment.creator }}, <abbr title="{{ comment.timestamp|date:'d M, Y P' }}">{{ comment.timestamp|timesince }}</abbr>.</span><br />
-                    <p>{{ comment.text }}</p>
+                    <p>{{ comment.text|markdown }}</p>
                 </li>
             {% empty %}
                 <li>No comments.</li>

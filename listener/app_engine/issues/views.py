@@ -149,7 +149,6 @@ def comment_add(request, pk):
             issue.save()
 
         return HttpResponseRedirect(reverse("issues-view", args=[pk,]))
-
     return direct_to_template(request, "comment_add.html", extra_context={
         "form": form,
         "issue": issue,
