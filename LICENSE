@@ -6,6 +6,14 @@ This project is under multiple licenses.
 
 - the following is under the listener directory is not by ClearWind and has the following licenses:
 
+    - listener/app_engine/markup
+
+	This work is from:
+
+        http://pypi.python.org/pypi/Markdown
+
+        And is under the BSD License
+
     - listener/app_engine/appengine_django
     
         This is work from:
