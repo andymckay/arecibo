@@ -1,3 +1,4 @@
+*.pyc
 django
 app.yaml
 local_settings.py
