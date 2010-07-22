@@ -8,7 +8,7 @@ from google.appengine.ext import db
 from projects.models import ProjectURL
 from error.models import Group
 
-read_choices = (("", "All"), ("False", 'Read only'), ("True", 'Unread only'))
+read_choices = (("", "All"), ("True", 'Read only'), ("False", 'Unread only'))
 priority_choices = [ (r, r) for r in range(1, 11)]
 priority_choices.insert(0, ("", "All"))
 
