@@ -3,6 +3,7 @@ from django.test.client import Client
 from django.core.urlresolvers import reverse
 
 from app.tests import test_data as data
+from app.utils import trunc_string
 from error.models import Error, Group
 
 class ErrorTests(TestCase):
@@ -74,3 +75,8 @@ class ErrorTests(TestCase):
         assert Error.all()[0].user_agent_short == "Konqueror"
         assert Error.all()[0].user_agent_parsed == True
         assert Error.all()[0].operating_system == "Linux"
+
+class TagsTests(TestCase):
+    def testTrunc(self):
+        assert trunc_string("Test123", 5) == "Te..."
+        assert trunc_string(None, 5) == ""

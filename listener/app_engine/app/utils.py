@@ -42,10 +42,13 @@ def safe_string(text, result=""):
         return result
 
 def trunc_string(text, length, ellipsis="..."):
-    if len(text) < length:
-        return text
-    else:
-        return "%s%s" % (text[:length-len(ellipsis)], ellipsis)
+    try:
+        if len(text) < length:
+            return text
+        else:
+            return "%s%s" % (text[:length-len(ellipsis)], ellipsis)
+    except TypeError:
+        return ""
 
 def has_private_key(view_func):
     """ Will check that the person accessing the page is doing so with the private URL """
