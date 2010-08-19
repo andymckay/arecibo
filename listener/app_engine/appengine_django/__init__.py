@@ -133,6 +133,9 @@ def LoadSdk():
         os.path.join(SDK_PATH, 'lib', 'webob'),
         os.path.join(SDK_PATH, 'lib', 'yaml', 'lib'),
     ]
+    fancy_urllib = os.path.join(SDK_PATH, 'lib', 'fancy_urllib')
+    if os.path.exists(fancy_urllib):
+        EXTRA_PATHS.append(fancy_urllib)
     # Add SDK paths at the start of sys.path, but after the local directory which
     # was added to the start of sys.path on line 50 above. The local directory
     # must come first to allow the local imports to override the SDK and
