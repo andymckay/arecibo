@@ -3,6 +3,8 @@ Release Notes
 
 Version 2.0:
 
+- Sept 7th 2010: test for readthedocs.org
+
 - July 21th 2010: Adding in markdown and a few ui tweaks. Also only show approved users in issues.
 
 - July 16th 2010: Apologies for not keeping this up to date.
