@@ -56,11 +56,11 @@ def post(request, status, **kw):
     data.update(kw)
 
     # it could be the site does not have the standard django auth
-    # setup and hence no reques.user
+    # setup and hence no request.user
     try:
         data["username"] = request.user.username,
         # this will be "" for Anonymous
-    except AttributeError:
+    except Exception:
         pass
 
     # a 404 has some specific formatting of the error that can be useful
