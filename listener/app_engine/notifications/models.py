@@ -7,18 +7,23 @@ from appengine_django.auth.models import User
 from google.appengine.ext import db
 
 from notifications.signals import notification_created
+from registry import get
 
 class Notification(BaseModel):
-    # to do, fix this
-    from error.models import Error
-
     user = db.ListProperty(str)
-    error = db.ReferenceProperty(Error)
 
     tried = db.BooleanProperty(default=False)
     completed = db.BooleanProperty(default=False)
     error_msg = db.TextProperty()
     timestamp = db.DateTimeProperty()
+
+    type = db.StringProperty()
+    type_key = db.StringProperty()
+
+    def notifier(self):
+        """ Returns the object that you'd like to be notified about """
+        if self.type and self.type_key:
+            return get()[self.type].get(self.type_key)        
 
     def save(self):
         created = not hasattr(self, "id")
@@ -39,3 +44,4 @@ class Notification(BaseModel):
                 users.append(user)
                 memcache.set(key, user, 60)
         return users
+

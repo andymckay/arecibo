@@ -13,9 +13,15 @@ def default_notification(instance, **kw):
     if instance.priority >= 5:
         return
 
+    users = approved_users()
+
+    if not users.count():
+        return
+    
     notification = Notification()
-    notification.error = instance
-    notification.user = [ str(u.key()) for u in approved_users() ]
+    notification.type = "Error"
+    notification.type_key = str(instance.key())
+    notification.user = [ str(u.key()) for u in users ]
     notification.save()
 
 error_created.connect(default_notification, dispatch_uid="default_notification")

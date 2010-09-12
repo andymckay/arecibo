@@ -139,3 +139,6 @@ class Error(Base):
                 # enqueue the send notification
                 # if development
                 taskqueue.add(url=reverse("error-created", args=[self.id,]))
+
+from notifications import registry
+registry.register(Error, "Error")

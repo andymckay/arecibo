@@ -135,3 +135,6 @@ class Log(Base):
     text = db.TextProperty()
 
     creator = db.ReferenceProperty(User)
+
+from notifications import registry
+registry.register(Issue, "Issue")

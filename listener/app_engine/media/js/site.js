@@ -51,10 +51,10 @@ $(document).ready(function(){
     if ($("#list-snippet") != null) {
         setTimeout(reload, delay);
     };
-
     if ($("form.issue")) {
         var title = $('#id_title');
         var desc = $('#id_description');
+        desc.focus();
         function makeTitle() {
             var src = jQuery.trim(desc.val());
             if (src.length > 50) {

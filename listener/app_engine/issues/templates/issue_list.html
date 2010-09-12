@@ -8,15 +8,17 @@
             <th>Number</th>
             <th>Title</th>
             <th>Status</th>
+            <th>Assigned</th>
             <th>Ago</th>
         </tr>
     </thead>
     <tbody id="list-snippet">
         {% for issue in page.object_list %}
 <tr class="{% cycle 'odd' 'even' %}" id="{{ issue.number }}">
-    <td>{% if issue.priority|stringformat:"s" in "123" %}<img src="/media/img/priority-{{ issue.priority }}.jpg" title="Priority {{ issue.priority }}" />{% endif %}<a href="{% url issues-view issue.number %}"> {{ issue.number }}</td>
-    <td>{{ issue.title }}</a></td>
-    <td>{{ issue.status|capfirst }}</a></td>
+    <td>{% if issue.priority|stringformat:"s" in "123" %}<img src="/media/img/priority-{{ issue.priority }}.jpg" title="Priority {{ issue.priority }}" />{% endif %}<a href="{% url issues-view issue.number %}"> {{ issue.number }}</a></td>
+    <td>{{ issue.title }}</td>
+    <td>{{ issue.status|capfirst }}</td>
+    <td>{{ issue.assigned }}</td>
     <td><abbr title="{{ issue.timestamp|date:'d M, Y P' }}">{{ issue.timestamp|timesince }}</abbr></td>
 </tr>
 {% endfor %}

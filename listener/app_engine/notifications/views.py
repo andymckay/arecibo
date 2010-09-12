@@ -40,7 +40,7 @@ class Holder:
 
 def notifications_send(request):
     log("Firing cron: notifications_send")
-    notifications = Notification.all().filter("tried = ", False)
+    notifications = Notification.all().filter("type = ", "Error").filter("tried = ", False)
 
     # batch up the notifications for the user
     holders = {}
@@ -52,7 +52,7 @@ def notifications_send(request):
                 holder.user = user
                 holders[key] = holder
 
-            holders[key].objs.append(notif.error)
+            holders[key].objs.append(notif.notifier())
             holders[key].notifs.append(notif)
 
     for user_id, holder in holders.items():
@@ -70,5 +70,5 @@ def notifications_send(request):
                 notification.completed = True
                 notification.error_msg = data
                 notification.save()
-
+            
     return render_plain("Cron job completed")

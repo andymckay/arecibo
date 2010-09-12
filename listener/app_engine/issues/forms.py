@@ -91,7 +91,10 @@ class IssueForm(ModelForm):
         widget=forms.Select(choices=priorities))
     status = forms.CharField(required=False,
         widget=forms.Select(choices=states))
-
+    assigned = OurModelChoiceField(required=False,
+        queryset=User.all().filter("is_staff = ", True),
+        model=User)
+    
     class Meta:
         model = Issue
         fields = ("raw", "description", "title", "priority", "assigned",
@@ -108,5 +111,6 @@ class UpdateForm(Form):
     text = forms.CharField(required=False, label=_("Comments"),
         widget = forms.Textarea(
             attrs={"cols": 100, "rows": 10}
-            )
+            ),
+        help_text=_("A description, markdown syntax possible.")
         )
