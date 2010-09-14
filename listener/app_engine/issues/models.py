@@ -72,7 +72,11 @@ class Issue(Base):
         created = not getattr(self, "id", None)
         old = None
         if created:
-            self.number = Issue.all().count() + 1
+            # there's a possible race condition here
+            try:
+                self.number = Issue.all().order("-number")[0].number + 1
+            except IndexError:
+                self.number = 1
             self.timestamp = datetime.now()
         else:
             old = Issue.get(self.id)

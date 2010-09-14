@@ -3,6 +3,7 @@ from notifications.models import Notification
 from users.utils import approved_users
 
 from error.signals import error_created
+from issues.signals import issue_created, issue_changed
 
 def default_notification(instance, **kw):
     """ Given an error see if we need to send a notification """

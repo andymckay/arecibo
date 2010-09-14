@@ -31,7 +31,32 @@ class ErrorTests(TestCase):
         issue.save()
 
         assert issue.log_set[0]
+    
+    def testIssueNumber(self):
+        issue = Issue()
+        issue.description = "This is a test"
+        issue.save()
+        assert issue.number == 1
+        
+        issue = Issue()
+        issue.description = "This is a test"
+        issue.save()
+        assert issue.number == 2
 
+        old_issue = issue
+
+        issue = Issue()
+        issue.description = "This is a test"
+        issue.save()
+        assert issue.number == 3, issue.number
+
+        old_issue.delete()
+        
+        issue = Issue()
+        issue.description = "This is a test"
+        issue.save()
+        assert issue.number == 4
+        
     def _setup(self):
         self.project = Project(name="testing")
         self.project.save()
