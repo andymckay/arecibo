@@ -26,3 +26,22 @@ def default_notification(instance, **kw):
     notification.save()
 
 error_created.connect(default_notification, dispatch_uid="default_notification")
+
+def default_issue_notification(instance, **kw):
+    """ Given an issue see default_issue_notification we need to send a notification """
+    log("Firing signal: default_notification")
+
+    users = approved_users()
+
+    if not users.count():
+        return
+    
+    notification = Notification()
+    notification.type = "Issue"
+    notification.type_key = str(instance.key())
+    notification.user = [ str(u.key()) for u in users ]
+    notification.save()
+
+# turn this on when its all working
+#issue_created.connect(default_issue_notification, dispatch_uid="default_issue_notification")
+#issue_changed.connect(default_issue_notification, dispatch_uid="default_issue_notification")

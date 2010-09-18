@@ -4,6 +4,7 @@ from django.test.client import Client
 from django.core.urlresolvers import reverse
 
 from error.models import Error
+from issues.models import Issue
 from notifications.models import Notification
 from appengine_django.auth.models import User as AppUser
 from google.appengine.api.users  import User
@@ -17,6 +18,7 @@ class ErrorTests(TestCase):
         for error in Error.all(): error.delete()
         for notification in Notification.all(): notification.delete()
         for user in AppUser.all(): user.delete()
+        for issue in Issue.all(): issue.delete()
 
     def testBasic(self):
         c = Client()
@@ -43,7 +45,46 @@ class ErrorTests(TestCase):
         c = Client()
         c.post(reverse("error-post"), test_data)
         assert Notification.all().count() == 0
-                
+    
+    def testIssueAndErrorNotification(self):
+        AppUser(user=User(email="test@foo.com"),
+                username="test",
+                email="test@foo.com",
+                is_staff=True).save()
+
+        issue = Issue()
+        issue.description = "This is a test"
+        issue.save()
+        
+        assert Issue.all().count() == 1
+
+        c = Client()
+        c.post(reverse("error-post"), test_data)
+
+        #assert Notification.all().count() == 2
+        # this would be 2 when issues are turned on
+        assert Notification.all().count() == 1
+        
+        c = Client()
+        res = c.get(reverse("notification-send"))        
+        self.assertEquals(len(mail.outbox), 1)
+        
+        # this is to check that at the moment issue notifications don't get sent
+    
+    def testIssueNotification(self):
+        AppUser(user=User(email="test@foo.com"),
+                username="test",
+                email="test@foo.com",
+                is_staff=True).save()
+    
+        issue = Issue()
+        issue.description = "This is a test"
+        issue.save()
+        
+        assert Issue.all().count() == 1
+        #assert Notification.all().count() == 1
+        #assert Notification.all()[0].type == "Issue"
+    
     def testCron(self):
         AppUser(user=User(email="test@foo.com"),
                 username="test",

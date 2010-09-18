@@ -6,7 +6,7 @@
     <thead>
         <tr>
             <th>Ago</th>
-            <th>Error</th>
+            <th>About</th>
             <th>Users</th>
             <th>Tried</th>
             <th>Completed</th>
@@ -16,7 +16,12 @@
         {% for notification in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td><abbr title="{{ notification.timestamp|date:"d M, Y P" }}">{{ notification.timestamp|timesince }}</abbr></td>
-            <td><a href="{% url error-view notification.error.id %}">{{ notification.error.title }}</td>
+            <td>{% if notification.notifier %}
+                <a href="{{ notification.notifier.get_absolute_url }}">{{ notification.notifier.title }}</a>
+                {% else %}
+                Unknown
+                {% endif %}
+            </td>
             <td>{% with notification.user_list as list %}<abbr title="{{ list|join:', ' }}">{{ list.0.username }}{% if list.count > 1 %}...{% endif %}{% endwith %}</abbr></td>
             <td>{{ notification.tried|yesno }}</td>
             <td>{{ notification.completed|yesno }}</td>

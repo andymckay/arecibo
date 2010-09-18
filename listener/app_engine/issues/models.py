@@ -38,6 +38,9 @@ class Issue(Base):
 
     number = db.IntegerProperty()
 
+    def get_absolute_url(self):
+        return reverse("issues-view", args=[self.number,])
+
     def get_log_set(self):
         """ We need to provide a way to order the logs """
         return self.log_set.order("-timestamp")
