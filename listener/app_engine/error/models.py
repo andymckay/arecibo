@@ -117,7 +117,7 @@ class Error(Base):
         elif self.raw:
             strng = self.raw
         else:
-            strng = self.nice_date()
+            strng = self.error_timestamp.isoformat()
         if self.uid:
             strng = "%s" % (strng)
         return strng
