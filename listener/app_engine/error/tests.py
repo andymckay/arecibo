@@ -1,3 +1,4 @@
+# -*- coding: UTF8 -*-
 from django.test import TestCase
 from django.test.client import Client
 from django.core.urlresolvers import reverse
@@ -76,6 +77,15 @@ class ErrorTests(TestCase):
         assert Error.all()[0].user_agent_parsed == True
         assert Error.all()[0].operating_system == "Linux"
 
+    # http://github.com/andymckay/arecibo/issues#issue/14
+    def testUnicodeTraceback(self):
+        c = Client()
+        assert not Error.all().count()
+        ldata = data.copy()
+        ldata["traceback"] = "ɷo̚حٍ"
+        c.post(reverse("error-post"), ldata)
+        assert Error.all().count() == 1
+    
 class TagsTests(TestCase):
     def testTrunc(self):
         assert trunc_string("Test123", 5) == "Te..."

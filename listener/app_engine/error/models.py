@@ -58,7 +58,7 @@ class Error(Base):
     msg = db.TextProperty()
     traceback = db.TextProperty()
 
-    errors = db.TextProperty()
+    errors = db.TextProperty(default="")
 
     # time error was recorded on the client server
     error_timestamp = db.DateTimeProperty()
