@@ -7,6 +7,36 @@ import traceback
 import sys
 import time
 
+NO_DEFAULT = object()
+def arecibo_setting(key, default=NO_DEFAULT):
+    arecibo_settings = getattr(settings, 'ARECIBO_SETTINGS', {})
+    if default is NO_DEFAULT:
+        return arecibo_settings[key]
+    return arecibo_settings.get(key, default)
+
+def exclude_post_var(name):
+    return check_exclusions(arecibo_setting('EXCLUDED_POST_VARS', ()), name)
+
+def exclude_file(name):
+    return check_exclusions(arecibo_setting('EXCLUDED_FILES', ()), name)
+
+def check_exclusions(exclusions, name):
+    return name in exclusions
+
+def filter_post_var(name, value, mask_char='*'):
+    filters = arecibo_setting('FILTERED_POST_VARS', ())
+    if not name in filters:
+        return name, value
+    return name, mask_char[0] * len(value)
+
+def filter_file(name, value, mask_char='*'):
+    filters = arecibo_setting('FILTERED_FILES', ())
+    if not name in filters:
+        return name, value
+
+    return name, mask_chars[0] * len(name)
+
+
 def post(request, status, **kw):
     # first off, these items can just be ignored, we
     # really don't care about them too much
@@ -28,8 +58,8 @@ def post(request, status, **kw):
     data = [ "%s: %s" % (k, request.META[k]) for k in items if request.META.get(k)]
     if request.method.lower() == "post":
         data.append("POST and FILES Variables:")
-        data.extend( [ "    %s: %s" % (k, v) for k, v in request.POST.items() ])
-        data.extend( [ "    %s: %s" % (k, v) for k, v in request.FILES.items() ])
+        data.extend( [ "    %s: %s" % filter_post_var(k, v) for k, v in request.POST.items() if not exclude_post_var(k) ])
+        data.extend( [ "    %s: %s" % filter_file(k, v) for k, v in request.FILES.items() if not exclude_file(k) ])
 
     # build out data to send to Arecibo some fields (like timestamp)
     # are automatically added
@@ -93,11 +123,11 @@ def post(request, status, **kw):
         else:
             err.server(url=settings.ARECIBO_SERVER_URL)
             err.send()
-    except:
+    except Exception, e:
         # if you want this to be an explicit fail swap
         # change the comments on the next two lines around
+        print "Hit an exception sending: {e}"
         raise
         #pass
 
     return data["uid"]
-
