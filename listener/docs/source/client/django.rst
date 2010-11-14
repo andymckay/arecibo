@@ -68,6 +68,25 @@ Add into this your post to Arecibo so it reads::
 
 In your 500.html template, you'll now have access to the UID that was posted to Arecibo if you'd like to display that to users.
 
+Further configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can pass through an extra configuration dictionary for filtering or excluding variables posted to Arecibo. For example, if you have a field "password" in your site and you don't want this ever posted to Arecibo, you can exclude this::
+
+    ARECIBO_SETTINGS = {
+        'EXCLUDED_POST_VARS': ['password',],
+    }
+
+The options are:
+
+* EXCLUDED_POST_VARS - a list of the fields you'd like not to post to Arecibo
+
+* EXCLUDED_FILES - a list of the files you'd like not to send information about to Arecibo
+
+* FILTERED_POST_VARS - instead of sending the value of the field, sends * instead
+
+* FILTERED_FILES -  instead of sending information about the file, sends * instead
+
 Other times
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
