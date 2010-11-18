@@ -18,8 +18,8 @@ def key(phrase, type):
     return m.hexdigest()
 
 def create():
-    print "Create new Arecibo instance."
-    directory = os.path.realpath(os.curdir)
+    print "Configure Arecibo instance."
+    directory = os.path.join(os.path.realpath(os.curdir), "listener", "app_engine") 
     
     print "Name of remote app engine instance: "
     name = sys.stdin.readline().strip()
