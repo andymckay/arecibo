@@ -10,7 +10,7 @@ You will require a App Engine application. These are free to create, or you can 
 
 You will need git to check out Arecibo from github [2]_.
 
-You will need the current version of Django. At the time of writing, we are supporting Django 1.2.1 [3]_.
+You will need the current version of Django. At the time of writing, we are supporting Django 1.2.3 [3]_.
 
 Installation steps
 ------------------------------------------------
@@ -40,7 +40,15 @@ Run the following command::
     Receiving objects: 100% (601/601), 260.74 KiB | 275 KiB/s, done.
     Resolving deltas: 100% (233/233), done.
 
-3. Configure Arecibo
+3 a. Configure Arecibo (easy way)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run create.py and follow the prompts::
+
+    ~ $ cd arecibo
+    ~/arecibo $ python create.py
+
+3 b. Configure Arecibo (manual way)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 There are at least two things you will need to change: the *app.yaml* file and *local_settings.py* file. There are examples of each of these files in the app_engine, directory. The backup version of these files need to be copied and changed.
@@ -82,9 +90,6 @@ An example file might be::
     DEFAULT_FROM_EMAIL = "some.user@googlemail.com"
     SITE_URL = "http://my-arecibo-site.appspot.com"
 
-4. Copy over Django
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Download and copy over Django (this is not included for licensing reasons). Then we can be sure we use the version of Django that is compatible, not the the one that comes by default with App Engine::
 
     ~/arecibo/listener/app_engine $ wget http://media.djangoproject.com/releases/1.2/Django-1.2.1.tar.gz
@@ -93,7 +98,7 @@ Download and copy over Django (this is not included for licensing reasons). Then
     ~/arecibo/listener/app_engine $ mv Django-1.2.1/django .
     ~/arecibo/listener/app_engine $ rm -rf Django-1.2.1*
 
-5. Upload to App Engine
+4. Upload to App Engine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you don't have the **Python** App Engine SDK you will need to install it at this point.
