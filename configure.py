@@ -19,11 +19,7 @@ def key(phrase, type):
 
 def create():
     print "Create new Arecibo instance."
-    print "Enter location locally to create an instance: "
-    directory = sys.stdin.readline().strip()
-    if not directory:
-        print "Error: directory required"
-        sys.exit(1)
+    directory = os.path.realpath(os.curdir)
     
     print "Name of remote app engine instance: "
     name = sys.stdin.readline().strip()
@@ -38,18 +34,7 @@ def create():
     phrase = sys.stdin.readline().strip()
     private = key(phrase, "private")
     public = key(phrase, "public")
-    if os.path.exists(directory):
-        print "Error: directory already exists."
-        sys.exit(1)
     
-    print
-    print "Creating directory... %s" % directory
-    parent = os.path.dirname(directory)
-    if not os.path.exists(parent) and parent:
-        os.makedirs(parent)
-    src = os.path.join("listener", "app_engine")
-    print "Copying over Arecibo... "
-    shutil.copytree(src, directory)
     print "Creating app.yaml... "
     src = os.path.join(directory, "app.yaml.example")
     dest = src[:-8]

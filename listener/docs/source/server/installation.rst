@@ -46,7 +46,7 @@ Run the following command::
 Run create.py and follow the prompts::
 
     ~ $ cd arecibo
-    ~/arecibo $ python create.py
+    ~/arecibo $ python configure.py
 
 3 b. Configure Arecibo (manual way)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
