@@ -242,6 +242,11 @@ button {
     text-overflow: ellipsis;
 }
 
+span.step-links a:hover,
+a.button-wrapper:hover {
+    text-decoration: none;
+}
+
 .green.button, .green.button:visited { background-color: #749a02; }
 .green.button:hover { background-color: #91bd09; }
 .green.button, .green.button:visited { background-color: #749a02; }

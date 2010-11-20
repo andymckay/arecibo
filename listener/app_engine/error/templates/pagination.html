@@ -3,12 +3,12 @@
 
     <span class="step-links">
         {% if page.has_previous %}
-            <a href="?{{ qs }}"><div class="button grey">&laquo; First</div></a>
-            <a href="?{{ qs }}&amp;page={{ page.previous_page_number }}"><div class="button grey">&laquo; Previous</div></a>
+            <a class="button-wrapper" href="?{{ qs }}"><button class="button grey">&laquo; First</button></a>
+            <a class="button-wrapper" href="?{{ qs }}&amp;page={{ page.previous_page_number }}"><button class="button grey">&laquo; Previous</button></a>
         {% endif %}
 
         {% if page.has_next %}
-            <a href="?{{ qs }}&amp;page={{ page.next_page_number }}"><div class="button grey">Next &raquo;</div></a>
+            <a class="button-wrapper" href="?{{ qs }}&amp;page={{ page.next_page_number }}"><button class="button grey">Next &raquo;</button></a>
         {% endif %}
     </span>
 </div>
