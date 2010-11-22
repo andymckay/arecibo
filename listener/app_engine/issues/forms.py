@@ -3,6 +3,7 @@ from django.utils.translation import ugettext as _
 from django.core.validators import EMPTY_VALUES
 
 from app.forms import ModelForm, Form
+from app.fields import OurModelChoiceField, OurModelChoiceIterator
 from issues.models import Issue, Comment, IssueProjectURL
 from appengine_django.auth.models import User
 from error.forms import Filter
@@ -20,41 +21,6 @@ states = (
     )
 states_first_empty = list(states)
 states_first_empty.insert(0, ["", "-------"])
-
-class OurModelChoiceIterator(forms.models.ModelChoiceIterator):
-    def __iter__(self):
-        if self.field.empty_label is not None:
-            yield (u"", self.field.empty_label)
-        if self.field.cache_choices:
-            if self.field.choice_cache is None:
-                self.field.choice_cache = [
-                    self.choice(obj) for obj in self.queryset
-                ]
-            for choice in self.field.choice_cache:
-                yield choice
-        else:
-            for obj in self.queryset:
-                yield self.choice(obj)
-
-class OurModelChoiceField(forms.ModelChoiceField):
-    """ This required a few modifications to get working on app engine it seems """
-
-    def __init__(self, *args, **kwargs):
-        self.model = kwargs.pop("model")
-        super(OurModelChoiceField, self).__init__(*args, **kwargs)
-
-    def to_python(self, value):
-        if value in EMPTY_VALUES:
-            return None
-        value = self.model.get(value)
-        return value
-
-    def _get_choices(self):
-        if hasattr(self, '_choices'):
-            return self._choices
-        return OurModelChoiceIterator(self)
-
-    choices = property(_get_choices, forms.ModelChoiceField._set_choices)
 
 issue_project_url_statuses = (
     ["fixed", _("Fixed")],

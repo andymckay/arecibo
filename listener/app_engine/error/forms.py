@@ -1,5 +1,6 @@
 from django import forms
 
+from app.fields import OurModelChoiceField
 from app.forms import Form
 from app.utils import safe_int
 
@@ -64,7 +65,6 @@ class Filter(Form):
         return data
 
 class GroupForm(Filter):
-    from issues.forms import OurModelChoiceField
     project_url = OurModelChoiceField(required=False,
                                       model=ProjectURL,
                                       queryset=ProjectURL.objects.all())
