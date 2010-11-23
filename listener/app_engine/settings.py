@@ -86,10 +86,14 @@ INSTALLED_APPS = (
      'stats',
      'projects',
      'issues',
+     'profiles',
      'custom'
 )
 
 TEST_RUNNER = "app.test_runner.AreciboRunner"
+
+ALLOWED_RECEIVING_ADDRESSES = ()
+AUTH_PROFILE_MODULE = 'profiles.Profile'
 
 try:
     from local_settings import *
