@@ -1,5 +1,9 @@
 {% extends "base.html" %}
-{% block subnav %}{% include "issue_subnav.html" %}{% endblock %}
+{% block subnav %}
+<div class="span-24">
+    <p><a href="{% url setup %}">URLs and keys</a> &bull; <a href="{% url user-list %}" class="selected">Users</a></p>
+</div>
+{% endblock %}
 {% block content %}
 <div class="span-24">
     <h2>Edit user</h2>
