@@ -73,25 +73,18 @@ class Error(models.Model):
         return reverse("error-view", args=[self.id,])
 
     def has_group(self):
-        try:
-            return self.group
-        except db.Error:
-            return []
+        return self.group
 
     def get_similar(self, limit=5):
-        try:
-            return Error.all().filter("group = ", self.group).filter("__key__ !=", self.key())[:limit]
-        except db.Error:
-            return []
-
+        return (Error.objects.filter(group=self.group)
+                             .exclude(pk=self.pk)[:limit])
+        
     def delete(self):
-        try:
-            if self.group:
-                self.group.count = self.group.count - 1
-                if self.group.count < 1:
-                    self.group.delete()
-        except db.Error:
-            pass
+        # TODO: improve this
+        if self.group:
+            self.group.count = self.group.count - 1
+            if self.group.count < 1:
+                self.group.delete()
         super(Error, self).delete()
 
     @property

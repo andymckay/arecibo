@@ -12,77 +12,77 @@ class ErrorTests(TestCase):
     
     def testBasic(self):
         c = Client()
-        assert not Error.all().count()
+        assert not Error.objects.count()
         c.post(reverse("error-post"), data)
-        assert Error.all().count() == 1
+        assert Error.objects.count() == 1
 
     def testOverPriority(self):
         c = Client()
-        assert not Error.all().count()
+        assert not Error.objects.count()
         ldata = data.copy()
         ldata["priority"] = 123
         c.post(reverse("error-post"), ldata)
-        assert Error.all().count() == 1
+        assert Error.objects.count() == 1
 
     def testStringPriority(self):
         c = Client()
-        assert not Error.all().count()
+        assert not Error.objects.count()
         ldata = data.copy()
         ldata["priority"] = "test"
         c.post(reverse("error-post"), ldata)
-        assert Error.all().count() == 1
+        assert Error.objects.count() == 1
 
     def testNoPriority(self):
         c = Client()
-        assert not Error.all().count()
+        assert not Error.objects.count()
         ldata = data.copy()
         del ldata["priority"]
         c.post(reverse("error-post"), ldata)
-        assert Error.all().count() == 1
+        assert Error.objects.count() == 1
 
     def testGroup(self):
         c = Client()
         c.post(reverse("error-post"), data)
-        assert Group.all().count() == 1, "Got %s groups, not 1" % Group.all().count()
+        assert Group.objects.count() == 1, "Got %s groups, not 1" % Group.objects.count()
         c.post(reverse("error-post"), data)
-        assert Group.all().count() == 1
+        assert Group.objects.count() == 1
         new_data = data.copy()
         new_data["status"] = 402
         c.post(reverse("error-post"), new_data)
-        assert Group.all().count() == 2
+        assert Group.objects.count() == 2
 
         # and test similar
-        assert not Error.all()[2].get_similar()
-        assert len(Error.all()[1].get_similar()) == 1
-        assert len(Error.all()[1].get_similar()) == 1
+        assert not Error.objects.all()[2].get_similar()
+        assert len(Error.objects.all()[1].get_similar()) == 1
+        assert len(Error.objects.all()[1].get_similar()) == 1
 
     def testGroupDelete(self):
         c = Client()
         c.post(reverse("error-post"), data)
-        assert Group.all().count() == 1, "Got %s groups, not 1" % Group.all().count()
-        assert Error.all().count() == 1
-        Error.all()[0].delete()
-        assert Group.all().count() == 0
+        assert Group.objects.count() == 1, "Got %s groups, not 1" % Group.objects.count()
+        assert Error.objects.count() == 1
+        Error.objects.all()[0].delete()
+        assert Group.objects.count() == 0
 
     def testBrowser(self):
         c = Client()
-        assert not Error.all().count()
+        assert not Error.objects.count()
         ldata = data.copy()
         ldata["user_agent"] = "Mozilla/5.0 (compatible; Konqueror/3.5; Linux; X11; de) KHTML/3.5.2 (like Gecko) Kubuntu 6.06 Dapper"
         c.post(reverse("error-post"), ldata)
-        assert Error.all().count() == 1
-        assert Error.all()[0].user_agent_short == "Konqueror"
-        assert Error.all()[0].user_agent_parsed == True
-        assert Error.all()[0].operating_system == "Linux"
+        assert Error.objects.count() == 1
+        assert Error.objects.all()[0].user_agent_short == "Konqueror"
+        assert Error.objects.all()[0].user_agent_parsed == True
+        assert Error.objects.all()[0].operating_system == "Linux"
 
     # http://github.com/andymckay/arecibo/issues#issue/14
     def testUnicodeTraceback(self):
         c = Client()
-        assert not Error.all().count()
+        assert not Error.objects.count()
         ldata = data.copy()
         ldata["traceback"] = "ɷo̚حٍ"
         c.post(reverse("error-post"), ldata)
-        assert Error.all().count() == 1
+        assert Error.objects.count() == 1
     
 class TagsTests(TestCase):
     def testTrunc(self):

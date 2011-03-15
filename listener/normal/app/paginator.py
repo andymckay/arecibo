@@ -6,7 +6,7 @@ class Paginator(BasePaginator):
         "Returns a Page object for the given 1-based page number."
         bottom = (number - 1) * self.per_page
         top = bottom + self.per_page
-        queryset = self.object_list.fetch((number * self.per_page)+1)
+        queryset = self.object_list[:(number * self.per_page)+1]
         results = queryset[bottom:top]
         try:
             queryset[top]
@@ -15,7 +15,7 @@ class Paginator(BasePaginator):
             self._num_pages = number
 
         return Page(results, number, self)
-
+    
 
 def get_page(request, paginator):
     try:
