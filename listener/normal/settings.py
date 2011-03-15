@@ -1,23 +1,10 @@
-# Copyright 2008 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# Django settings for google-app-engine-django project.
-
 import os
+import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -25,12 +12,17 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'appengine'  # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = ''             # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '/Users/andy/tempy/db.sql',                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
 TIME_ZONE = 'UTC'
 
 LANGUAGE_CODE = 'en-us'
@@ -41,14 +33,8 @@ USE_I18N = False
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 
-
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'hvhdrfgd4tg54lwi435qa4tg.isz6taz^%sg_nx'
-
-# Ensure that email is not sent via SMTP by default to match the standard App
-# Engine SDK behaviour. If you want to sent email via SMTP then add the name of
-# your mailserver here.
-EMAIL_HOST = ''
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -58,8 +44,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-    'appengine_django.auth.middleware.AuthenticationMiddleware',
-    'userstorage.middleware.UserStorage'
+    #'userstorage.middleware.UserStorage'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -68,24 +53,21 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 ROOT_URLCONF = 'urls'
 
-ROOT_PATH = os.path.dirname(__file__)
 TEMPLATE_DIRS = (
     os.path.join(ROOT_PATH, 'templates'),
     os.path.join(ROOT_PATH, 'custom', 'templates')
 )
 
+SETTINGS_MODULE = 'settings'
 INSTALLED_APPS = (
      'django.contrib.auth',
-     'appengine_django',
-     'appengine_django.auth',
+     'django.contrib.contenttypes',
      'error',
      'app',
      'notifications',
      'receiving',
      'users',
-     'stats',
      'projects',
-     'issues',
      'custom'
 )
 
@@ -95,3 +77,10 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+# Add in required lib.
+lib = os.path.abspath(os.path.join(ROOT_PATH, '..', 'lib'))
+
+assert os.path.exists(lib), 'Cannot find required lib directory at: %s' % lib
+if lib not in sys.path:
+    sys.path.append(lib)

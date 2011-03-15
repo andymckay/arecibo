@@ -1,0 +1,11 @@
+{% for error in object_list %}
+<tr class="{% cycle 'odd' 'even' %}" id="{{ error.id }}">
+    <td>{% if error.priority|stringformat:"s" in "123" %}<img src="/media/img/priority-{{ error.priority }}.jpg" title="Priority {{ error.priority }}" />{% endif %}
+        {% if error.read %}{% else %}<img src="/media/img/read.png" title="Unread" />{% endif %}</td>
+    <td>{{ error.status }}</td>
+    <td><a href="{% url error-view error.id %}">{{ error.title|trunc:20 }}</a></td>
+    <td><abbr title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</abbr></td>
+    <td>{{ error.domain }}</td>
+    <td>{{ error.query|trunc:20 }}</td>
+</tr>
+{% endfor %}
