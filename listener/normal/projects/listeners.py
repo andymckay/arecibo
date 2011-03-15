@@ -6,9 +6,9 @@ from error import signals
 
 def lookup_domain(domain):
     # given a domain, find the project
-    projects = Project.all()
+    projects = Project.objects.all()
     for project in projects:
-        for url in project.projecturl_set:
+        for url in project.projecturl_set.all():
             if domain == url.url:
                 return url
 

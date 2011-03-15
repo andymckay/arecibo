@@ -28,8 +28,8 @@ def default_grouping(instance, **kw):
         digest = hsh.hexdigest()
         try:
             created = False
-            group = Group.all().filter("uid = ", digest)[0]
-            group.count = Error.all().filter("group = ", group).count() + 1
+            group = Group.objects.filter(uid=digest)[0]
+            group.count = Error.objects.filter(group=group).count() + 1
             group.save()
         except IndexError:
             created = True
@@ -53,10 +53,11 @@ def default_browser_parsing(instance, **kw):
     
     if instance.user_agent:
         bc = get()
-        b = bc(instance.user_agent)
-        if b:
-            instance.user_agent_short = b.name()
-            instance.operating_system = b.platform()
+        if bc:
+            b = bc(instance.user_agent)
+            if b:
+                instance.user_agent_short = b.name()
+                instance.operating_system = b.platform()
 
     instance.user_agent_parsed = True
     instance.save()

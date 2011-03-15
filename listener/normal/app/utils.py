@@ -15,6 +15,7 @@ except ImportError:
 
 
 def log(msg):
+    print msg
     if settings.DEBUG:
         logging.info(" Arecibo: %s" % msg)
 

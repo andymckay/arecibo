@@ -28,5 +28,5 @@ class ProjectTests(TestCase):
 
         self._addError()
 
-        assert Group.objects.all().count() == 1
+        assert Group.objects.count() == 1
         assert Group.objects.all()[0].project_url == project_url

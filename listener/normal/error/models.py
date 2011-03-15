@@ -3,7 +3,7 @@ from django.db import models
 
 from datetime import datetime
 
-from error.signals import group_created
+from error.signals import error_created, group_created
 from projects.models import ProjectURL
 
 from app.utils import trunc_string
@@ -18,7 +18,7 @@ class Group(models.Model):
 
     def sample(self):
         try:
-            return Error.all().filter("group = ", self).order("-timestamp")[0]
+            return Error.objects.filter(group=self).order_by("-timestamp")[0]
         except IndexError:
             return None
 
@@ -26,9 +26,8 @@ class Group(models.Model):
         created = not getattr(self, "id", None)
         if created:
             self.timestamp = datetime.now()
-        self.put()
-        if created:
             group_created.send(sender=self.__class__, instance=self)
+        super(Group, self).save(*args, **kw)
 
 class Error(models.Model):
     # time error was received by this server
@@ -62,7 +61,7 @@ class Error(models.Model):
     request = models.TextField()
     username = models.CharField(max_length=255)
 
-    group = models.ForeignKey(Group)
+    group = models.ForeignKey(Group, null=True)
 
     read = models.BooleanField(default=False)
 
@@ -125,17 +124,17 @@ class Error(models.Model):
 
     def save(self, *args, **kw):
         created = not getattr(self, "id", None)
-        self.put()
-        if created and not "dont_send_signals" in kw:
-            if os.environ.get('SERVER_SOFTWARE', '').startswith('Dev'):
-                # send the signal, otherwise we have to clicking buttons
-                # to process the queue
-                from error.views import send_signal
-                send_signal(None, self.id)
-            else:
-                # enqueue the send notification
-                # if development
-                taskqueue.add(url=reverse("error-created", args=[self.id,]))
+        if created:
+            self.error_timestamp = datetime.now()
+            self.create_signal_sent = True
+            super(Error, self).save(*args, **kw)
+            error_created.send(sender=self.__class__, instance=self)
+        super(Error, self).save(*args, **kw)
+    
+    #def save(self, *args, **kw):
+        #created = not getattr(self, "id", None)
+        #if created and not "dont_send_signals" in kw:
+            #taskqueue.add(url=reverse("error-created", args=[self.id,]))
 
 #from notifications import registry
 #registry.register(Error, "Error")

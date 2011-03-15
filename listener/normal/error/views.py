@@ -14,13 +14,11 @@ from app.paginator import Paginator, get_page
 
 
 def send_signal(request, pk):
-    error = Error.get(pk)
-    if not error.create_signal_sent:
-        error.create_signal_sent = True
-        error.save()
-        error_created.send(sender=error.__class__, instance=error)
-        return render_plain("Signal sent")
-    return render_plain("Signal not sent")
+    pass
+    #error = Error.get(pk)
+    #if not error.create_signal_sent:
+    #    return render_plain("Signal sent")
+    #return render_plain("Signal not sent")
 
 def get_group_filtered(request):
     form = GroupForm(request.GET or None)
