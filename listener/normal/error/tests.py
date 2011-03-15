@@ -9,9 +9,7 @@ from error.models import Error, Group
 
 class ErrorTests(TestCase):
     # test the view for writing errors
-    def setUp(self):
-        for error in Error.all(): error.delete()
-
+    
     def testBasic(self):
         c = Client()
         assert not Error.all().count()
