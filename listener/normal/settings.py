@@ -44,10 +44,15 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-    #'userstorage.middleware.UserStorage'
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'userstorage.middleware.UserStorage'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
     'app.context.context',
 )
 
@@ -60,15 +65,19 @@ TEMPLATE_DIRS = (
 
 SETTINGS_MODULE = 'settings'
 INSTALLED_APPS = (
-     'django.contrib.auth',
-     'django.contrib.contenttypes',
-     'error',
-     'app',
-     'notifications',
-     'receiving',
-     'users',
-     'projects',
-     'custom'
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'error',
+    'app',
+    'notifications',
+    'receiving',
+    'users',
+    'projects',
+    'custom'
 )
 
 TEST_RUNNER = "app.test_runner.AreciboRunner"

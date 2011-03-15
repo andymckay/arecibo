@@ -3,19 +3,20 @@ from django.views.generic.simple import direct_to_template
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
-
-from google.appengine.ext import db
+from django.shortcuts import get_object_or_404
 
 from projects.models import Project, ProjectURL
 from projects.forms import ProjectForm, ProjectURLForm
 
+
 @user_passes_test(lambda u: u.is_staff)
 def project_list(request):
-    projects = Project.all().order("-name")
+    projects = Project.objects.all().order_by("-name")
     return direct_to_template(request, "project_list.html", extra_context={
         "page": projects,
         "nav": {"selected": "projects", "subnav": "list"},
     })
+
 
 @user_passes_test(lambda u: u.is_staff)
 def project_add(request):
@@ -28,6 +29,7 @@ def project_add(request):
         "nav": {"selected": "projects",},
     })
 
+
 @user_passes_test(lambda u: u.is_staff)
 def project_edit(request, pk):
     form = ProjectForm(request.POST or None, instance=Project.get(pk))
@@ -39,9 +41,10 @@ def project_edit(request, pk):
         "nav": {"selected": "projects",},
     })
 
+
 @user_passes_test(lambda u: u.is_staff)
 def project_url_add(request, pk):
-    project = Project.get(pk)
+    project = get_object_or_404(Project, pk=pk)
     form = ProjectURLForm(request.POST or None)
     if form.is_valid():
         obj = form.save(commit=False)
@@ -54,10 +57,11 @@ def project_url_add(request, pk):
         "nav": {"selected": "projects",},
     })
 
+
 @user_passes_test(lambda u: u.is_staff)
 def project_url_edit(request, pk, url):
-    url = ProjectURL.get(url)
-    project = Project.get(pk)
+    url = get_object_or_404(ProjectURL, pk=url)
+    project = project = get_object_or_404(Project, pk=pk)
     form = ProjectURLForm(request.POST or None, instance=url)
     if form.is_valid():
         obj = form.save(commit=False)

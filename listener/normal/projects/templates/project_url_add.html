@@ -5,6 +5,7 @@
     <h2>{{ project.name }}</h2>
     <p class="help">Add a domain to this project</p>
     <form method="post">
+        {% csrf_token %}
         {{ form.as_custom }}
         <div class="span-8 clear"><input type="submit" value="Add"></div>
     </form>

@@ -44,7 +44,8 @@ def default_grouping(instance, **kw):
         if created:
             signals.group_assigned.send(sender=group.__class__, instance=group)
 
-signals.error_created.connect(default_grouping, dispatch_uid="default_grouping")
+signals.error_created.connect(default_grouping,
+                              dispatch_uid="default_grouping")
 
 def default_browser_parsing(instance, **kw):
     # prevent an infinite loop
@@ -60,4 +61,5 @@ def default_browser_parsing(instance, **kw):
     instance.user_agent_parsed = True
     instance.save()
 
-signals.error_created.connect(default_browser_parsing, dispatch_uid="default_browser_parsing")
+signals.error_created.connect(default_browser_parsing,
+                              dispatch_uid="default_browser_parsing")

@@ -22,7 +22,7 @@ class Project(models.Model):
 
 class ProjectURL(models.Model):
     project = models.ForeignKey(Project)
-    name = models.CharField(blank=False, max_length=255)
+    url = models.CharField(blank=False, max_length=255)
     description = models.CharField(blank=False, max_length=255)
 
     def get_stage_display(self):

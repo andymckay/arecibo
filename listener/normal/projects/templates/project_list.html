@@ -3,25 +3,28 @@
 {% block content %}
 <div class="span-24">
 {% for project in page %}
-<h2>{{ project.name }}</h2>
-{% if project.description %}<p class="help">{{ project.description }}{% endif %}
+    <h2>{{ project.name }}</h2>
+    {% if project.description %}
+    <p class="help">{{ project.description }}</p>
+    {% endif %}
     <br />
     <a href="{% url projects-edit project.id %}">Edit</a> &bull;
     <a href="{% url projects-url-add project.id %}">Add</a>
-</p>
-<table class="span-16">
-    {% for domain in project.projecturl_set %}
-    <tr>
-        <td>{{ domain.url }}</td>
-        <td>{{ domain.get_stage_display }}</td>
-        <td><a href="{% url projects-url-edit project.id domain.id %}">Edit</a></td>
-        <td><a href="{% url group-list %}?project_url={{ domain.id }}">List Errors</a></td>
-    </tr>
-    {% empty %}
-    <tr><td>No domains defined yet for this project, you should probably add some.</td></tr>
-    {% endfor %}
-</table>
+    
+    <table class="span-16">
+        {% for domain in project.projecturl_set.all %}
+        <tr>
+            <td>{{ domain.url }}</td>
+            <td>{{ domain.get_stage_display }}</td>
+            <td><a href="{% url projects-url-edit project.id domain.id %}">Edit</a></td>
+            <td><a href="{% url group-list %}?project_url={{ domain.id }}">List Errors</a></td>
+        </tr>
+        {% empty %}
+        <tr><td>No domains defined yet for this project, you should probably add some.</td></tr>
+        {% endfor %}
+    </table>
 {% endfor %}
+
 <p><a href="{% url projects-add %}">Add in a project</a></p>
 </div>
 {% endblock %}

@@ -7,7 +7,6 @@ from error.signals import group_created
 from projects.models import ProjectURL
 
 from app.utils import trunc_string
-from app.base import Base
 import os
 
 class Group(models.Model):
