@@ -1,12 +1,13 @@
+import operator
+
 from django import forms
+from django.db.models import Q
 
 from app.forms import Form
 from app.utils import safe_int
 
-#from google.appengine.ext import db
-
 from projects.models import ProjectURL
-from error.models import Group
+from error.models import Error, Group
 
 read_choices = (("", "All"), ("True", 'Read only'), ("False", 'Unread only'))
 priority_choices = [ (r, r) for r in range(1, 11)]
@@ -26,33 +27,18 @@ class Filter(Form):
     """ Base for the filters """
     inequality = ""
 
-    def as_query(self, table):
-        """ This is getting a bit complicated """
-        args, gql = [], []
-        counter = 1
-
+    def as_query(self, object):
+        args = []
         for k, v in self.cleaned_data.items():
-            # if there's a value handler, use it
             lookup = getattr(self, "handle_%s" % k, None)
-            if lookup:  v = lookup(v)
-            # if there's a filter handler user it
-            lfilter = getattr(self, "filter_%s" % k, None)
-            if lfilter:
-                # will return a filter and args..
-                newfilter, newargs = lfilter(v, args)
-                gql.append(newfilter)
-                args.extend(newargs)
-                counter += len(newargs)
+            if lookup:
+                args.append(lookup(v))
             else:
-                gql.append(" %s = :%s " % (k, counter))
-                args.append(v)
-                counter += 1
+                args.append(Q(k, v))
 
-        conditions = " AND ".join(gql)
-        if conditions: conditions = "WHERE %s" % conditions
-        conditions = "SELECT * FROM %s %s ORDER BY %s timestamp DESC" % (table, conditions, self.inequality)
-        query = db.GqlQuery(conditions, *args)
-        return query
+        if args:
+            return object.objects.filter(reduce(operator.and_, args))
+        return object.objects.filter(args)
 
     def clean(self):
         data = {}
@@ -70,7 +56,7 @@ class GroupForm(Filter):
 
     def handle_project_url(self, value):
         try:
-            return ProjectURL.get(value).key()
+            return ProjectURL.objects.get(pk=value)
         except IndexError:
             pass
 
@@ -96,27 +82,19 @@ class ErrorForm(Filter):
         return data
 
     def handle_read(self, value):
-        return {"False":False, "True":True}.get(value, None)
+        return Q(read={"False":False, "True":True}.get(value, None))
 
-    def filter_start(self, value, args):
-        return "timestamp >= :%d" % (len(args)+1), [value,]
+    def handle_start(self, value):
+        return Q(timestamp__gte=value)
 
-    def filter_end(self, value, args):
-        return "timestamp <= :%d" % (len(args)+1), [value,]
+    def handle_end(self, value):
+        return Q(timestamp__lte=value)
 
     def handle_priority(self, value):
-        return safe_int(value)
-
-    def filter_query(self, value, args):
-        self.inequality = "query,"
-        x = len(args)
-        return "query >= :%d AND query < :%d" % (x+1, x+2), [value, value + u"\ufffd"]
+        return Q(priority__lte=safe_int(value))
 
     def handle_group(self, value):
-        try:
-            return Group.get(value)
-        except IndexError:
-            pass
-
+        return Q(group__id=value)
+        
     def as_query(self):
-        return super(ErrorForm, self).as_query("Error")
+        return super(ErrorForm, self).as_query(Error)
