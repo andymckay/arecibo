@@ -9,6 +9,7 @@ from error.models import Error, Group
 from error.forms import ErrorForm, GroupForm
 from error.signals import error_created
 
+from app.decorators import arecibo_login_required
 from app.utils import render_plain, render_json, not_allowed
 from app.paginator import Paginator, get_page
 
@@ -40,7 +41,7 @@ def get_filtered(request):
 
     return form, queryset
 
-@user_passes_test(lambda u: u.is_staff)
+@arecibo_login_required
 def errors_list(request):
     form, queryset = get_filtered(request)
     paginated = Paginator(queryset, 50)
@@ -54,7 +55,7 @@ def errors_list(request):
         "refresh": True
         })
 
-@user_passes_test(lambda u: u.is_staff)
+@arecibo_login_required
 @render_json
 def errors_snippet(request, pk=None):
     form, queryset = get_filtered(request)
@@ -64,7 +65,7 @@ def errors_snippet(request, pk=None):
     html = template.render(RequestContext(request, {"object_list": page.object_list, }))
     return {"html":html, "count": len(page.object_list) }
 
-@user_passes_test(lambda u: u.is_staff)
+@arecibo_login_required
 def groups_list(request):
     form, queryset = get_group_filtered(request)
     paginated = Paginator(queryset, 10)
@@ -75,7 +76,7 @@ def groups_list(request):
         "nav": {"selected": "list", "subnav": "group"},
         })
 
-@user_passes_test(lambda u: u.is_staff)
+@arecibo_login_required
 def error_public_toggle(request, pk):
     error = Error.get(pk)
     if request.method.lower() == "post":

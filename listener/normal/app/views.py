@@ -9,6 +9,8 @@ from django.conf import settings
 from django.views.decorators.vary import vary_on_headers
 from django.views.decorators.cache import cache_control
 
+from app.decorators import arecibo_login_required
+
 # Static_resource cache decorator will be used for things which can safely
 # be cached to improve client HTTP performance
 static_resource = cache_control(public=True, max_age=86400)
@@ -24,7 +26,7 @@ def not_allowed(request):
     return direct_to_template(request, "403.html")
 
 
-@user_passes_test(lambda u: u.is_staff)
+@arecibo_login_required
 def setup(request):
     return direct_to_template(request, "setup.html", extra_context={
         "nav": {"selected": "setup"},
