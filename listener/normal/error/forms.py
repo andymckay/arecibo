@@ -30,15 +30,19 @@ class Filter(Form):
     def as_query(self, object):
         args = []
         for k, v in self.cleaned_data.items():
+            if not v:
+                continue
+        
             lookup = getattr(self, "handle_%s" % k, None)
             if lookup:
                 args.append(lookup(v))
             else:
-                args.append(Q(k, v))
+                args.append(Q(**{k:v}))
 
+        print args
         if args:
             return object.objects.filter(reduce(operator.and_, args))
-        return object.objects.filter(args)
+        return object.objects.all()
 
     def clean(self):
         data = {}
@@ -71,7 +75,13 @@ class ErrorForm(Filter):
     query = forms.CharField(required=False, label="Path")
     domain = forms.CharField(required=False)
     uid = forms.CharField(required=False)
-    group = forms.CharField(required=False)
+    group = forms.ModelChoiceField(queryset=Group.objects.none(),
+                                   widget=forms.Select, required=False)
+
+    def __init__(self, *args, **kw):
+        super(ErrorForm, self).__init__(*args, **kw)
+        # TODO: raise some sort of warning if this limit is being hit.
+        self.fields['group'].queryset = Group.objects.all()[:100]
 
     def clean(self):
         data = {}
@@ -94,7 +104,7 @@ class ErrorForm(Filter):
         return Q(priority__lte=safe_int(value))
 
     def handle_group(self, value):
-        return Q(group__id=value)
+        return Q(group__id=safe_int(value))
         
     def as_query(self):
         return super(ErrorForm, self).as_query(Error)

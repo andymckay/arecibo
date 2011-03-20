@@ -26,8 +26,8 @@ def get_group_filtered(request):
     if form.is_valid():
         queryset = form.as_query()
     else:
-        queryset = db.Query(Group)
-        queryset.order("-timestamp")
+        queryset = Group.objects.all()
+        queryset.order_by("-timestamp")
 
     return form, queryset
 
