@@ -1,4 +1,4 @@
-import md5
+from hashlib import md5
 
 from app.utils import safe_string, log
 from error.models import Group, Error
@@ -14,7 +14,7 @@ def generate_key(instance):
         value = safe_string(getattr(instance, key))
         if value:
             if not hsh:
-                hsh = md5.new()
+                hsh = md5()
             hsh.update(value.encode("ascii", "ignore"))
 
     return hsh

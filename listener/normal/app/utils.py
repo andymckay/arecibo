@@ -15,7 +15,6 @@ except ImportError:
 
 
 def log(msg):
-    print msg
     if settings.DEBUG:
         logging.info(" Arecibo: %s" % msg)
 
@@ -77,3 +76,6 @@ def break_url(url):
     result["domain"] = parsed[1]
     result["query"] = urlunparse(["",""] + parsed[2:])
     return result
+
+def redirect(name):
+    return HttpResponseRedirect(reverse(name))

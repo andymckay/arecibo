@@ -3,7 +3,4 @@ from django.conf import settings
 
 
 def arecibo_login_required(func):
-    if settings.ANONYMOUS_ACCESS:
-        return user_passes_test(lambda u: True)(func)
-    
-    return user_passes_test(lambda u: u.is_staff)(func)
+    return user_passes_test(lambda u: settings.ANONYMOUS_ACCESS or u.is_staff)(func)

@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.decorators.vary import vary_on_headers
 from django.views.decorators.cache import cache_control
+from django.contrib.messages.api import info
 
 from app.decorators import arecibo_login_required
 
@@ -17,7 +18,8 @@ static_resource = cache_control(public=True, max_age=86400)
 
 
 def index(request):
-    if request.user.is_authenticated and request.user.is_staff:
+    if ((request.user.is_authenticated and request.user.is_staff) or
+        settings.ANONYMOUS_ACCESS):
         return HttpResponseRedirect(reverse("error-list"))
     return direct_to_template(request, "index.html")
 
@@ -43,10 +45,6 @@ def javascript_client(request):
         },
         mimetype = "text/javascript",
     )
-
-
-def logout(request):
-    return HttpResponseRedirect(users.create_logout_url("/"))
 
 
 def login(request):

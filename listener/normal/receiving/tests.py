@@ -83,12 +83,12 @@ sample_404_body_parsed = {'url': '/error/awkdjhga?asd',
 }
 
 
-from mail_django import parse_404, parse_500
+#from mail_django import parse_404, parse_500
 
-from django.test import TestCase
+#from django.test import TestCase
 
-class ErrorTests(TestCase):
+#class ErrorTests(TestCase):
     # test the view for writing errors
-    def testBasic(self):
-        result = parse_404(sample_404_body, "")
-        result = parse_500(sample_500_body, "")
+#    def testBasic(self):
+#        result = parse_404(sample_404_body, "")
+#        result = parse_500(sample_500_body, "")

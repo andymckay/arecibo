@@ -1,5 +1,7 @@
 # test data
 from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.test import TestCase
 
 try:
     account = settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER
@@ -29,3 +31,38 @@ culpa qui officia deserunt mollit anim id est laborum
 File "<stdin>", line 1, in <module>
 ZeroDivisionError: integer division or modulo by zero  df
 """,}
+
+class TestAppNotAnon(TestCase):
+    fixtures = ['users.json']
+    
+    def setUp(self):
+        settings.ANONYMOUS_ACCESS = False
+        self.url = reverse('setup')
+
+    def test_auth(self):
+        assert self.client.login(username='admin', password='password')
+        
+    def test_decorator(self):
+        res = self.client.get(self.url)
+        assert res.status_code == 302
+
+    def test_decorator_logged_in(self):
+        assert self.client.login(username='admin', password='password')
+        res = self.client.get(self.url)
+        assert res.status_code == 200
+
+class TestAppAnon(TestCase):
+    fixtures = ['users.json']
+    
+    def setUp(self):
+        settings.ANONYMOUS_ACCESS = True
+        self.url = reverse('setup')
+
+    def test_decorator_anon(self):
+        res = self.client.get(self.url)
+        assert res.status_code == 200
+
+    def test_decorator_anon_logged_in(self):
+        assert self.client.login(username='admin', password='password')
+        res = self.client.get(self.url)
+        assert res.status_code == 200

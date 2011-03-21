@@ -38,8 +38,8 @@ SECRET_KEY = 'hvhdrfgd4tg54lwi435qa4tg.isz6taz^%sg_nx'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,6 +79,10 @@ INSTALLED_APPS = (
     'projects',
     'custom'
 )
+
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+LOGIN_REDIRECT_URL = '/list/'
 
 TEST_RUNNER = "app.test_runner.AreciboRunner"
 ARECIBO_PUBLIC_ACCOUNT_NUMBER = "your_public_account_number_here"
