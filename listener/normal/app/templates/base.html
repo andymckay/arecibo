@@ -23,11 +23,17 @@
                 <a href="/"><h1>arecibo</h1></a>
             </div>
             <div class="span-14 top-links">
-                {% if user.is_anonymous %}
                 <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>Errors</a>
                 <a href="{% url group-list %}" {% ifequal nav.selected "group" %}class="selected"{% endifequal %}>Groups</a>
+                <a href="{% url notification-list %}" {% ifequal nav.selected "notification" %}class="selected"{% endifequal %}>Notifications</a>
                 <a href="{% url projects-list %}" {% ifequal nav.selected "projects" %}class="selected"{% endifequal %}>Projects</a>
-                <a href="{% url user-list %}" {% ifequal nav.selected "users" %}class="selected"{% endifequal %}>Users</a>                
+                {% if request.write_access %}
+                <a href="{% url user-list %}" {% ifequal nav.selected "users" %}class="selected"{% endifequal %}>Users</a>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                <a href="{% url logout %}">Logout</a>
+                {% else %}
+                <a href="{% url login %}">Login</a>
                 {% endif %}
             </div>
         </div>

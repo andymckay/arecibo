@@ -39,7 +39,6 @@ class Filter(Form):
             else:
                 args.append(Q(**{k:v}))
 
-        print args
         if args:
             return object.objects.filter(reduce(operator.and_, args))
         return object.objects.all()
@@ -65,9 +64,12 @@ class GroupForm(Filter):
             pass
 
 class ErrorForm(Filter):
-    priority = forms.ChoiceField(choices=priority_choices, widget=forms.Select, required=False)
-    status = forms.ChoiceField(choices=status_choices, widget=forms.Select, required=False)
-    read = forms.ChoiceField(choices=read_choices, widget=forms.Select, required=False)
+    priority = forms.ChoiceField(choices=priority_choices,
+                                 widget=forms.Select, required=False)
+    status = forms.ChoiceField(choices=status_choices,
+                               widget=forms.Select, required=False)
+    read = forms.ChoiceField(choices=read_choices,
+                             widget=forms.Select, required=False)
     start = forms.DateField(required=False, label="Start date",
         widget=forms.DateInput(attrs={"class":"date",}))
     end = forms.DateField(required=False, label="End date",
@@ -80,8 +82,7 @@ class ErrorForm(Filter):
 
     def __init__(self, *args, **kw):
         super(ErrorForm, self).__init__(*args, **kw)
-        # TODO: raise some sort of warning if this limit is being hit.
-        self.fields['group'].queryset = Group.objects.all()[:100]
+        self.fields['group'].queryset = Group.objects.all()
 
     def clean(self):
         data = {}
@@ -101,10 +102,7 @@ class ErrorForm(Filter):
         return Q(timestamp__lte=value)
 
     def handle_priority(self, value):
-        return Q(priority__lte=safe_int(value))
-
-    def handle_group(self, value):
-        return Q(group__id=safe_int(value))
+        return Q(priority__lte=value)
         
     def as_query(self):
         return super(ErrorForm, self).as_query(Error)

@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     #(r'^issues/', include('issues.urls')),
     #(r'^stats/', include('stats.urls')),
     (r'^projects/', include('projects.urls')),
-    #(r'^notification/', include('notifications.urls')),
+    (r'^notification/', include('notifications.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^media/(?P<path>.*)', 'django.views.static.serve', {'document_root' : os.path.join(settings.ROOT_PATH, '..', 'media')})
 )

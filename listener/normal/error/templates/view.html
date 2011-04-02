@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load arecibo %}
 
 {% block title %}| {{ error.title|truncatewords:3}}{% endblock %}
 {% block subnav %}{% include "subnav.html" %}{% endblock %}
@@ -45,28 +46,18 @@
 </div>
 <div class="span-9">
 {% if error.has_group %}
-{% if user.is_staff %}
-<label>In group</label>
-{% if error.get_similar %}
-<ul>
-{% for similar in error.get_similar %}
-        <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> &bull; <abbr title="{{ similar.timestamp|date:'d M, Y P' }}">{{ similar.timestamp|timesince }}</abbr></li>
-{% endfor %}
-</ul>
-{% else %}
-<p>This is the only error in this group.</p>
-{% endif %}
-<label>Issues</label>
-{% if error.group.issuegroup_set.count %}
-<ul>
-{% for issuegroup in error.group.issuegroup_set %}
-    <li>{{ issuegroup.issue.number }} &bull; <a href="{% url issues-view issuegroup.issue.number %}">{{ issuegroup.issue.title }}</a> {{ issuegroup.issue.status|capfirst }}</li>
-{% endfor %}
-</ul>
-{% else %}
-<p>There are no issues on this.</p>
-{% endif %}
-{% endif %}
+    {% if request.view_access %}
+    <label>In group</label>
+        {% if error.get_similar %}
+        <ul>
+        {% for similar in error.get_similar %}
+                <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> &bull; <abbr title="{{ similar.timestamp|date:'d M, Y P' }}">{{ similar.timestamp|timesince }}</abbr></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>This is the only error in this group.</p>
+        {% endif %}
+    {% endif %}
 {% endif %}
 </div>
 <div class="clear"></div>
@@ -85,18 +76,14 @@
 <div class="span-4 actions last">
 {% if error.public %}
     <p><b>This error is public and visible by anyone.</b>
-    {% if user.is_staff %}<form method="post" action="{% url error-toggle error.id %}">
+    {% if request.edit_access %}<form method="post" action="{% url error-toggle error.id %}">
         <button class="button orange" type="submit">Make private</button>
     </form>{% endif %}
     </p>
 {% else %}
-    <p>{% if user.is_staff %}<form method="post" action="{% url error-toggle error.id %}">
+    <p>{% if request.edit_access %}<form method="post" action="{% url error-toggle error.id %}">
     <button class="button" type="submit">Make publicly visible</button>
     </form>{% endif %}</p>
-{% endif %}
-{% if user.is_staff %}
-    <a href="{% url issues-add %}?raw={{ error.raw }}&amp;title={{ error.title }}&amp;group={{ error.group.id }}&amp;project={{ error.group.project_url.project.id }}"><div class="button green">Add issue on this</div></a>
-    <p><a href="{% url error-list %}?group={{ error.group.id }}"><div class="button green">Errors in this group</div></p>
 {% endif %}
 </div>
 {% endblock %}

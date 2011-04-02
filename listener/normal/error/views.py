@@ -78,7 +78,7 @@ def groups_list(request):
 
 @arecibo_login_required
 def error_public_toggle(request, pk):
-    error = Error.get(pk)
+    error = Error.objects.get(pk=pk)
     if request.method.lower() == "post":
         if error.public:
             error.public = False
@@ -88,10 +88,10 @@ def error_public_toggle(request, pk):
     return HttpResponseRedirect(reverse("error-view", args=[error.id,]))
 
 def error_view(request, pk):
-    error = Error.get(pk)
-    if not error.public:
-        if not request.user.is_staff:
-            return not_allowed(request)
+    error = Error.objects.get(pk=pk)
+    #if not error.public:
+        #if not request.user.is_staff:
+        #    return not_allowed(request)
 
     if not error.read:
         error.read = True

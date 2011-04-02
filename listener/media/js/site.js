@@ -1,12 +1,25 @@
 $(document).ready(function(){
+    function load(node) {
+        if (history.pushState) {
+            history.pushState({path:node.text()}, '', node.attr('href'));
+        }
+        $('.content-wrapper').load(node.attr('href') + ' .content-wrapper', function() {
+            $(this).children().unwrap();
+        });
+        return false;
+    };
     $('table.listing tbody tr').each(function() {
-        var href = $(this).find("a").attr("href");
-        if (href) {
+        if ($(this).find("a").length) {
             $(this).find("td").bind("click", function() {
-                window.location = href;
-                return false;
+                return load($(this).closest('tr').find('a'));
             });
         };
+    });
+    /*$(".content-wrapper a").click(function() {
+        return load($(this));
+    });*/
+    $(window).bind('popstate', function() {
+        $('.content-wrapper').load(location.pathname + ' .content-wrapper');
     });
     $("pre").each(function() {
         $(this).before('<a href="" class="unwrap">Wrap</a><br />');

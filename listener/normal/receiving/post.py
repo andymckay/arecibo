@@ -8,6 +8,7 @@ from app.errors import StatusDoesNotExist
 from error.validations import valid_status
 from email.Utils import parsedate
 
+
 def populate(err, incoming):
     """ Populate the error table with the incoming error """
     # special lookup the account

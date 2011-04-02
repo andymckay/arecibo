@@ -48,7 +48,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'userstorage.middleware.UserStorage'
+    'userstorage.middleware.UserStorage',
+    'app.middleware.Middleware'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

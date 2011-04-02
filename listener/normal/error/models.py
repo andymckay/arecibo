@@ -16,6 +16,12 @@ class Group(models.Model):
     project_url = models.ForeignKey(ProjectURL, null=True)
     count = models.IntegerField(default=0)
 
+    def __unicode__(self):
+        if self.project_url:
+            return "%s: %s..." % (self.project_url, self.uid[:10])
+        else:
+            return unicode(self.uid)
+
     def sample(self):
         try:
             return Error.objects.filter(group=self).order_by("-timestamp")[0]
@@ -61,7 +67,7 @@ class Error(models.Model):
     request = models.TextField()
     username = models.CharField(max_length=255)
 
-    group = models.ForeignKey(Group, null=True)
+    group = models.ForeignKey(Group, blank=True, null=True)
 
     read = models.BooleanField(default=False)
 
