@@ -4,7 +4,7 @@ from django import template
 
 register = template.Library()
 
-print "here!"
+
 @register.filter
 @stringfilter
 def trunc(value, arg):
