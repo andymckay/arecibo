@@ -1,7 +1,10 @@
+import urllib
 import re
 
 from ConfigParser import SafeConfigParser as ConfigParser
 from StringIO import StringIO
+
+from django.core.cache import cache
 
 from app.utils import log
 
@@ -156,23 +159,24 @@ class BrowserCapabilities(object):
 
     def parse(self):
         key = "browser-capabilities-raw"
-        raw = memcache.get(key)
+        raw = cache.get(key)
         # if the data isn't there, download it
         if raw is None:
+            data = None
             log("Fetching from browser capabilities")
             try:
-                data = fetch("http://www.areciboapp.com/static/browscap.ini")
-            except DownloadError:
-                data = None
-            if data and data.status_code == 200:
+                data = urllib.urlopen("http://www.areciboapp.com/static/browscap.ini")
+            except (IOError):
+                pass
+            if data and data.getcode() == 200:
                 # that should be one week (1 min > 1 hour > 1 day > 1 week)
                 log("...succeeded")
-                raw = data.content
-                memcache.set(key, raw, 60 * 60 * 24 * 7)
+                raw = data.read()
+                cache.set(key, raw, 60 * 60 * 24 * 7)
             else:
                 log("...failed")
                 # try again in 1 hour if there was a problem
-                memcache.set(key, "", 60 * 60)
+                cache.set(key, "", 60 * 60)
                 raw = ""
         else:
             log("Using cached browser capabilities")
@@ -231,15 +235,16 @@ class BrowserCapabilities(object):
 
     __call__ = query
 
+
 def get():
-#    key = "browser-capabilities-parsed"
-#    parsed = memcache.get(key)
-#    if parsed is None:
-#        parsed = BrowserCapabilities()
+    key = "browser-capabilities-parsed"
+    parsed = cache.get(key)
+    if parsed is None:
+        parsed = BrowserCapabilities()
         # that should be one week (1 min > 1 hour > 1 day > 1 week)
-#        memcache.set(key, parsed, 60 * 60 * 24 * 7)
-#    return parsed
-    return None
+        cache.set(key, parsed, 60 * 60 * 24 * 7)
+    return parsed
+
 
 def test():
     bc = get()

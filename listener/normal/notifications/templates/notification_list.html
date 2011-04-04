@@ -22,7 +22,7 @@
                 Unknown
                 {% endif %}
             </td>
-            <td>{% with notification.user_list as list %}<abbr title="{{ list|join:', ' }}">{{ list.0.username }}{% if list.count > 1 %}...{% endif %}{% endwith %}</abbr></td>
+            <td>{% with notification.user.all as list %}<abbr title="{{ list|join:', ' }}">{{ list.0.username }}{% if list.count > 1 %}...{% endif %}{% endwith %}</abbr></td>
             <td>{{ notification.tried|yesno }}</td>
             <td>{{ notification.completed|yesno }}</td>
             <td>{% if notification.error_msg %}{{ notification.error_msg }}{% endif %}</td>

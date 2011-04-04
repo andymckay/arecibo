@@ -24,7 +24,6 @@
             </div>
             <div class="span-14 top-links">
                 <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>Errors</a>
-                <a href="{% url group-list %}" {% ifequal nav.selected "group" %}class="selected"{% endifequal %}>Groups</a>
                 <a href="{% url notification-list %}" {% ifequal nav.selected "notification" %}class="selected"{% endifequal %}>Notifications</a>
                 <a href="{% url projects-list %}" {% ifequal nav.selected "projects" %}class="selected"{% endifequal %}>Projects</a>
                 {% if request.write_access %}

@@ -128,12 +128,5 @@ class Error(models.Model):
             self.create_signal_sent = True
             super(Error, self).save(*args, **kw)
             error_created.send(sender=self.__class__, instance=self)
-        super(Error, self).save(*args, **kw)
-    
-    #def save(self, *args, **kw):
-        #created = not getattr(self, "id", None)
-        #if created and not "dont_send_signals" in kw:
-            #taskqueue.add(url=reverse("error-created", args=[self.id,]))
-
-#from notifications import registry
-#registry.register(Error, "Error")
+        else:
+            super(Error, self).save(*args, **kw)

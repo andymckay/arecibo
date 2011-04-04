@@ -5,11 +5,13 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404
 
+from app.decorators import arecibo_login_required
+
 from projects.models import Project, ProjectURL
 from projects.forms import ProjectForm, ProjectURLForm
 
 
-@user_passes_test(lambda u: u.is_staff)
+@arecibo_login_required
 def project_list(request):
     projects = Project.objects.all().order_by("-name")
     return direct_to_template(request, "project_list.html", extra_context={

@@ -3,6 +3,10 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from error.models import Error
+from notifications.signals import notification_created
+
+
 class Notification(models.Model):
     user = models.ManyToManyField(User)
 
@@ -11,17 +15,11 @@ class Notification(models.Model):
     error_msg = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    type = models.CharField(max_length=255)
-    type_key = models.CharField(max_length=255)
+    notifier = models.ForeignKey(Error, blank=True, null=True)
 
-    def notifier(self):
-        """Returns the object that you'd like to be notified about."""
-        if self.type and self.type_key:
-            return get()[self.type].get(self.type_key)        
-
-#    def save(self):
-#        created = not hasattr(self, "id")
-#        self.put()
-#        if created:
-#            notification_created.send(sender=self.__class__, instance=self)
+    def save(self, *args, **kw):
+        created = not getattr(self, "id", None)
+        super(Notification, self).save(*args, **kw)
+        if created:
+            notification_created.send(sender=self.__class__, instance=self)
 
