@@ -9,9 +9,8 @@ from receiving.post import populate
 @csrf_exempt
 def post(request):
     """ Add in a post """
-    err = Error()
-    err.ip = request.META.get("REMOTE_ADDR", "")
-    err.user_agent = request.META.get("HTTP_USER_AGENT", "")
-
-    populate(err, request.POST)
+    data = request.POST.copy()
+    data["ip"] = request.META.get("REMOTE_ADDR", "")
+    data["user_agent"] = request.META.get("HTTP_USER_AGENT", "")
+    populate.delay(data)
     return render_plain("Error recorded")

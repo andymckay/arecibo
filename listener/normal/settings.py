@@ -33,8 +33,6 @@ USE_I18N = False
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'hvhdrfgd4tg54lwi435qa4tg.isz6taz^%sg_nx'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

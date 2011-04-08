@@ -5,13 +5,17 @@ from django.conf import settings
 
 from app.utils import break_url
 from app.errors import StatusDoesNotExist
+from error.models import Error
 from error.validations import valid_status
 from email.Utils import parsedate
 
+from celery.task import task
 
-def populate(err, incoming):
+@task
+def populate(incoming):
     """ Populate the error table with the incoming error """
     # special lookup the account
+    err = Error()
     uid = incoming.get("account", "")
     if not uid:
         raise ValueError, "Missing the required account number."

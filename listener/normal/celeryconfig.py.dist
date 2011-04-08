@@ -1,0 +1,9 @@
+CELERY_RESULT_BACKEND = "amqp"
+
+CELERY_IMPORTS = ("custom", "users", "notifications", "receiving.post", )
+
+BROKER_HOST = ""
+BROKER_PORT = 5672
+BROKER_USER = ""
+BROKER_PASSWORD = ""
+BROKER_VHOST = ""
