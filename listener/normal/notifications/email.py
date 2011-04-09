@@ -9,18 +9,7 @@ Please remember I'm just a bot and don't really exist, so replying to this email
 not do you any good I'm afraid.
 """
 
-issue_msg = """Arecibo is notifying you of the following issue_changes:
---------------------
-
-%s
---------------------
-You are receiving this because it's the email address set for your account at %s.
-
-Please remember I'm just a bot and don't really exist, so replying to this email will
-not do you any good I'm afraid.
-"""
-
-from google.appengine.api import mail
+from django.core.mail import send_mail
 from django.conf import settings
 from app.utils import log
 
@@ -50,21 +39,8 @@ def send_error_email(holder):
     if count > alot:
         data += "\n...truncated. For more see the website.\n"
     log("Sending email to: %s of %s error(s)" % (holder.user.email, count))
-    mail.send_mail(sender=settings.DEFAULT_FROM_EMAIL,
-        to=holder.user.email,
-        subject=subject,
-        body=error_msg % (data, settings.SITE_URL))
-    
-def send_issue_email(holder):
-    # unlike errors, we are assuming that there isn't going to be a huge number each time
-    data = "\n".join([ as_text(obj) for obj in holder.objs])
-    count = len(holder.objs)
-    if count > 1:
-        subject = "Reporting %s issue changes" % count
-    else:
-        subject = "Reporting an issue change"
-    log("Sending email to: %s of %s issues(s)" % (holder.user.email, count))
-    mail.send_mail(sender=settings.DEFAULT_FROM_EMAIL,
-        to=holder.user.email,
-        subject=subject,
-        body=error_msg % (data, settings.SITE_URL))
+    send_mail(subject,
+              error_msg % (data, settings.SITE_URL),
+              settings.DEFAULT_FROM_EMAIL,
+              [holder.user.email],
+              fail_silently=False)
