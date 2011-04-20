@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block subnav %}
+<div class="span-24">
+    
+</div>
+{% endblock %}
+{% block content %}
+<dl>
+<dt>Public key</dt>
+<dd>{{ public_key }}
+    <p class="help">Use this in your error reporting</p>
+</dd>
+<dt>URL for posting</dt>
+<dd><a href="{{ site_url }}/feed/{{ private_key }}/">{{ site_url }}{% url error-post %}</a>
+    <p class="help">Use this in your libraries for posting</p>
+    </dd>
+<dt>E-mail for posting</dt>
+<dd>django-{{ public_key }}@{{ app_id }}.appspotmail.com
+    <p class="help">Where to send email (<a href="http://code.google.com/appengine/docs/python/mail/receivingmail.html">more details</a>)</dd>
+<dt>Private key</dt>
+<dd>{{ private_key }}
+    <p class="help">This is for reading API and RSS</p>
+    </dd>
+<dt>RSS Feeds</dt>
+<dd>Errors: <a href="{{ site_url }}/feed/{{ private_key }}/">{{ site_url }}/feed/{{ private_key }}/</a>
+    <p class="help">You can also filter the RSS feed by any of the filters on the <a href="/list/">list</a> page.</p></dd>
+<dd>Groups: <a href="{{ site_url }}/group/feed/{{ private_key }}/">{{ site_url }}/group/feed/{{ private_key }}/</a>
+    <p class="help">You can also filter the RSS feed by any of the filters on the <a href="/groups/">group</a> page.</p></dd>
+
+</dl>
+
+{% endblock %}

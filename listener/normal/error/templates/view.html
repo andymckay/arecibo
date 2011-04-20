@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load arecibo %}
+
+{% block title %}| {{ error.title|truncatewords:3}}{% endblock %}
+{% block subnav %}{% include "subnav.html" %}{% endblock %}
+
+
+{% block content %}
+
+
+<h2>{{ error.title }}</h2>
+<div class="span-20">
+<p><label>URL:</label> {% if error.raw %}<a href="{{ error.raw }}">{{ error.raw|trunc:150 }}</a>{% else %}-{% endif %}</p>
+<div class="span-9">
+<dl class="attributes">
+    <dt>Received:</dt>
+    <dd><abbr title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</abbr></dd>
+    {% if error.error_timestamp %}<dt>Occured:</dt>
+    <dd><abbr title="{{ error.error_timestamp|date:'d M, Y P' }}">{{ error.error_timestamp|timesince }}</abbr></dd>{% endif %}
+    {% if error.priority %}<dt>Priority:</dt>
+    <dd>{{ error.priority }}</dd>{% endif %}
+    {% if error.status %}<dt>Status:</dt>
+    <dd>{{ error.status }}</dd>{% endif %}
+    {% if error.type %}<dt>Type:</dt>
+    <dd>{{ error.type }}</dd>{% endif %}
+    {% if error.server %}<dt>Server:</dt>
+    <dd>{{ error.server }}</dd>{% endif %}
+    {% if error.ip %}<dt>Reporting IP:</dt>
+    <dd>{{ error.ip }}</dd>{% endif %}
+    {% if error.username %}<dt>User:</dt>
+    <dd>{{ error.username }}</dd>{% endif %}
+    {% if error.uid %}<dt>Unique ID:</dt>
+    <dd>{{ error.uid }}</dd>{% endif %}
+    {% if error.user_agent %}<dt>Browser:</dt>
+    <dd>
+        {% if error.user_agent_short %}
+            <abbr title="{{ error.user_agent }}">{{ error.user_agent_short }}
+        {% else %}
+            {{ error.user_agent }}
+        {% endif %}
+    </dd>
+    {% endif %}
+    {% if error.operating_system %}<dt>Operating system:</dt>
+    <dd>{{ error.operating_system }}</dd>{% endif %}
+</dl>
+</div>
+<div class="span-9">
+{% if error.has_group %}
+    {% if request.view_access %}
+    <label>In group</label>
+        {% if error.get_similar %}
+        <ul>
+        {% for similar in error.get_similar %}
+                <li><a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a> &bull; <abbr title="{{ similar.timestamp|date:'d M, Y P' }}">{{ similar.timestamp|timesince }}</abbr></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>This is the only error in this group.</p>
+        {% endif %}
+    {% endif %}
+{% endif %}
+</div>
+<div class="clear"></div>
+{% if error.msg or error.traceback or error.request %}
+<h3>Details</h3>
+<dl class="detail">
+    {% if error.msg %}<dt>Message</dt>
+    <dd><pre>{{ error.msg }}</pre></dd>{% endif %}
+    {% if error.traceback %}<dt>Traceback</dt>
+    <dd><pre>{{ error.traceback }}</pre></dd>{% endif %}
+    {% if error.request %}<dt>Request</dt>
+    <dd><pre>{{ error.request }}</pre></dd>{% endif %}
+</dl>
+{% endif %}
+</div>
+<div class="span-4 actions last">
+{% if error.public %}
+    <p><b>This error is public and visible by anyone.</b>
+    {% if request.edit_access %}<form method="post" action="{% url error-toggle error.id %}">
+        <button class="button orange" type="submit">Make private</button>
+    </form>{% endif %}
+    </p>
+{% else %}
+    <p>{% if request.edit_access %}<form method="post" action="{% url error-toggle error.id %}">
+    <button class="button" type="submit">Make publicly visible</button>
+    </form>{% endif %}</p>
+{% endif %}
+</div>
+{% endblock %}

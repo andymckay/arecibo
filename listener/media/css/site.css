@@ -263,3 +263,7 @@ a.button-wrapper:hover {
 .yellow.button:hover { background-color: #ffb515; }
 .grey.button, .grey.button:visited { background-color: #aaaaaa; }
 .grey.button:hover { background-color: #555555; }
+
+.error {
+    color: black;
+}

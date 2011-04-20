@@ -1,0 +1,14 @@
+<div class="pagination clear">
+    <p class="current"><b>Page {{ page.number }}</b></p>
+
+    <span class="step-links">
+        {% if page.has_previous %}
+            <a href="?{{ qs }}"><div class="button grey">&laquo; First</div></a>
+            <a href="?{{ qs }}&amp;page={{ page.previous_page_number }}"><div class="button grey">&laquo; Previous</div></a>
+        {% endif %}
+
+        {% if page.has_next %}
+            <a href="?{{ qs }}&amp;page={{ page.next_page_number }}"><div class="button grey">Next &raquo;</div></a>
+        {% endif %}
+    </span>
+</div>

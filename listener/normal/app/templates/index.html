@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+{{ get_user }}
+{% if user.is_anonymous %}
+    <div class="success span-11">
+        <h2>Existing user?</h2>
+        <p><a href="{% url login %}">Login here with your account</a>. If you are having problems, <a href="">reset it here</a>.</p>
+        </div>
+    <div class="notice span-11">
+        <h2>New user?</h2>
+        <p><a href="{% url user-create %}">Create a new account</a>, the administrator of this site will have to approve your access to the site.</p>
+        {% if not anonymous_access %}<p>An account <b>is required</b> to access any errors not open to the public.</p>{% endif %}
+    </div>
+{% else %}
+    {% if not user.is_staff %}
+    <p class="notice">You have logged in, but the admin has not granted you access yet. Please be patient.</p>
+{% endif %}
+{% endif %}
+
+<div class="span-18">Welcome to this Arecibo installation. Arecibo is <a href="http://en.wikipedia.org/wiki/Arecibo_Observatory">an observatory</a>, instead of listening to the stars, this site listens for errors from your sites. We pronounce it "Ah-reh-see-bow". If you have any questions about the site, please contact it's administrator.</div>
+{% endblock %}

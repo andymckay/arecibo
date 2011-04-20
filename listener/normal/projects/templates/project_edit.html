@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block subnav %}{% include "projects_subnav.html" %}{% endblock %}
+{% block content %}
+<div class="span-24">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_custom }}
+        <div class="span-8 clear"><input type="submit" value="Edit"></div>
+    </form>
+</div>
+{% endblock %}

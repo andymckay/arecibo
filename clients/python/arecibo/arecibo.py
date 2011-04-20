@@ -116,11 +116,11 @@ class post:
 
 if __name__=='__main__':
     new = post()
-    #new.server(url="http://areciboapp.appspot.com")
-    new.transport = "smtp"
-    new.smtp_server = "smtp.telus.net"
-    new.server(email="your server")
-    new.set("account", "your account number")
+    new.server(url="http://arecibo.local:8000")
+    #new.transport = "smtp"
+    #new.smtp_server = "smtp.telus.net"
+    #new.server(email="your server")
+    new.set("account", "your_public_account_number_here")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
     new.set("url", "http://badapp.org/-\ufffdwe-cant-lose")

@@ -1,0 +1,10 @@
+<div class="span-16">
+    {% if request.view_access %}<a href="{% url error-list %}" {% ifequal nav.subnav 'list' %}class="selected"{% endifequal %}>List</a>
+    &bull; <a href="{% url group-list %}" {% ifequal nav.subnav 'group' %}class="selected"{% endifequal %}>Group</a>
+    &bull; <a href="/feed/{{ private_key }}/{% if qs %}?{{ qs }}{% endif %}">RSS feed</a>{% endif %}
+</div>
+<div class="span-7">
+    {% if refresh %}
+    <span id="refresh-count">Automatic update pending.</span>
+    {% endif %}
+</div>

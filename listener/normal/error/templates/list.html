@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block subnav %}{% include "subnav.html" %}{% endblock %}
+{% block content %}
+{% with page.object_list as object_list %}
+<div class="span-18">
+<table id="listing-list" {% if not object_list %}style="display: none"{% endif %} class="listing">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Status</th>
+            <th>Details</th>
+            <th>Ago</th>
+            <th>Domain</th>
+            <th>Path</th>
+    </thead>
+    <tbody id="list-snippet">
+
+        {% include "list-snippet.html" %}
+
+    </tbody>
+</table>
+
+<p {% if object_list %}style="display: none"{% endif %} id="listing-error">No errors found. Could be you've not sent any errors yet. Perhaps you've got some filters
+    set in the page, in which case <a href="{% url error-list %}">reset them</a>.</p>
+</div>
+{% endwith %}
+<div class="span-5">
+    {% include "filter.html" %}
+</div>
+{% include "pagination.html" %}
+
+{% endblock %}

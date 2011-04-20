@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block subnav %}
+<div class="span-24">
+    <p><a href="{% url setup %}">URLs and keys</a> &bull; <a href="{% url user-list %}" class="selected">Users</a></p>
+</div>
+{% endblock %}
+{% block content %}
+<div class="span-24">
+{% if page.object_list %}
+<table class="listing">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Allowed</th>
+    </thead>
+    <tbody>
+        {% for object in page.object_list %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td>{{ object.first_name|default:"" }} {{ object.last_name|default:"" }}</td>
+            <td>{{ object.email }} {% ifequal object.pk user.pk %}(<b>this is you</b>){% endifequal %}</td>
+            <td><a href="{% url user-edit object.pk %}">{{ object.is_staff|yesno|capfirst }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p class="help">It's possible to lock yourself out of this site.
+Full user administration, such as deleting users or fixing account passwords
+is available via the Django admin interface.
+</p>
+{% endif %}
+</div>
+{% include "pagination.html" %}
+{% endblock %}

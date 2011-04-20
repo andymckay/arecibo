@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+{% if anonymous_access %}
+<div class="span-24">
+    <p class="help">Although the site is set to allow anonymous access, without an authenticated
+    user we don't allow access to manage user accounts.</p>
+</div>
+{% endif %}
+<div class="span-24">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_custom }}
+        <div class="span-8 clear"><input type="submit" value="Login"></div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="span-24">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_custom }}
+        <div class="span-8 clear"><input type="submit" value="Add"></div>
+    </form>
+</div>
+<div class="span-24">
+    <p>After your account is created, an admin will need to approve this account.</p>
+</div>
+{% endblock %}
