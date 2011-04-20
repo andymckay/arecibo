@@ -1,4 +1,7 @@
-from hashlib import md5
+try:
+    from hashlib import md5
+except ImportError:
+    from md5 import md5 
 
 from app.utils import safe_string, log
 from error.models import Group, Error
