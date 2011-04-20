@@ -1,4 +1,4 @@
-from django.utils.thread_support import currentThread
+from threading import currentThread
 
 _active = {}
 
