@@ -73,17 +73,4 @@
 </dl>
 {% endif %}
 </div>
-<div class="span-4 actions last">
-{% if error.public %}
-    <p><b>This error is public and visible by anyone.</b>
-    {% if request.edit_access %}<form method="post" action="{% url error-toggle error.id %}">
-        <button class="button orange" type="submit">Make private</button>
-    </form>{% endif %}
-    </p>
-{% else %}
-    <p>{% if request.edit_access %}<form method="post" action="{% url error-toggle error.id %}">
-    <button class="button" type="submit">Make publicly visible</button>
-    </form>{% endif %}</p>
-{% endif %}
-</div>
 {% endblock %}

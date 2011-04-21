@@ -74,6 +74,7 @@ def populate(err, incoming):
             try:
                 final = datetime(*tme[:7])
                 err.error_timestamp = final
+                err.error_timestamp_date = final.date()
             except ValueError, msg:
                 err.errors += 'Date error on the field "%s", ignored.\n' % msg
 

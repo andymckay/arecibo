@@ -78,6 +78,7 @@ INSTALLED_APPS = (
     'receiving',
     'users',
     'projects',
+    'stats',
     'custom'
 )
 

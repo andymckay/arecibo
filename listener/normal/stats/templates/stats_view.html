@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block subnav %}{% include "stats_subnav.html" %}{% endblock %}
+{% block content %}
+{% if stat %}
+<div class="span-24">
+    <h2>{{ stat.title }}</h2>
+    <div id="chart" style="height: 400px"></div>
+    <p class="help">From start date <b>{{ start|date:"d M, Y" }}</b> to end date <b>{{ end|date:"d M, Y" }}</b>.</p>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script>
+       google.load("visualization", "1", {packages:["areachart"]});
+       function drawChart() {
+         var data = new google.visualization.DataTable();
+         data.addColumn('string', 'Day');
+         {% for column in result.columns %}
+            data.addColumn('number', '{{ column }}');
+         {% endfor %}
+         data.addRows({{ result.rows|length }});
+         {% for date, row in result.rows.items %}
+            data.setValue({{ forloop.counter0 }}, 0, '{{ date|date:"d M, Y" }}');
+            {% with forloop.counter0 as k %}
+            {% for r in row %}
+                data.setValue({{ k }}, {{ r.num }}, {{ r.count }});
+            {% endfor %}
+            {% endwith %}
+         {% endfor %}
+         var chart = new google.visualization.AreaChart(document.getElementById('chart'));
+         chart.draw(data, {width: 800, height: 400, legend: 'bottom', title: ''});
+       }
+       google.setOnLoadCallback(drawChart);
+    </script>
+</div>
+{% else %}
+<p>Click a link, any link. I dare you.</p>
+{% endif %}
+{% endblock %}
