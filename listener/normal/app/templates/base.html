@@ -26,6 +26,7 @@
                 <a href="{% url error-list %}" {% ifequal nav.selected "list" %}class="selected"{% endifequal %}>Errors</a>
                 <a href="{% url notification-list %}" {% ifequal nav.selected "notification" %}class="selected"{% endifequal %}>Notifications</a>
                 <a href="{% url projects-list %}" {% ifequal nav.selected "projects" %}class="selected"{% endifequal %}>Projects</a>
+                <a href="{% url stats-view %}" {% ifequal nav.selected "stats" %}class="selected"{% endifequal %}>Stats</a>
                 {% if request.write_access %}
                 <a href="{% url user-list %}" {% ifequal nav.selected "users" %}class="selected"{% endifequal %}>Users</a>
                 {% endif %}

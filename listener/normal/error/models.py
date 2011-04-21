@@ -64,6 +64,8 @@ class Error(models.Model):
 
     # time error was recorded on the client server
     error_timestamp = models.DateTimeField()
+    error_timestamp_date = models.DateTimeField(db_index=True)
+
     request = models.TextField()
     username = models.CharField(max_length=255, db_index=True)
 
