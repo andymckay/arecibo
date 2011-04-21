@@ -76,7 +76,8 @@ INSTALLED_APPS = (
     'receiving',
     'users',
     'projects',
-    'custom'
+    'custom',
+    'djcelery'
 )
 
 LOGIN_URL = '/login/'
@@ -91,6 +92,16 @@ DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
 SITE_URL = "http://theurl.to.your.arecibo.instance.com"
 
 ANONYMOUS_ACCESS = False
+
+CELERY_RESULT_BACKEND = "amqp"
+
+CELERY_IMPORTS = ("custom", "users", "notifications", "receiving.post", )
+
+BROKER_HOST = "localhost"
+BROKER_PORT = 5672
+BROKER_USER = "guest"
+BROKER_PASSWORD = "guest"
+BROKER_VHOST = ""
 
 try:
     from local_settings import *
