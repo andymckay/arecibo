@@ -14,7 +14,8 @@ urlpatterns = patterns('',
     (r'^projects/', include('projects.urls')),
     (r'^notification/', include('notifications.urls')),
     (r'^admin/', include(admin.site.urls)),
-    (r'^media/(?P<path>.*)', 'django.views.static.serve', {'document_root' : os.path.join(settings.ROOT_PATH, '..', 'media')})
+    (r'^media/(?P<path>.*)', 'django.views.static.serve',
+     {'document_root' : os.path.join(settings.ROOT_PATH, '..', 'media')})
 )
 
 #handler404 = 'app.errors.not_found_error'

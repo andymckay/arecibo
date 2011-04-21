@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.simple import direct_to_template
 
 from notifications.models import Notification
-#from notifications.email import send_error_email
+from notifications.email import send_error_email
 
 from app.decorators import arecibo_login_required
 from app.paginator import Paginator, get_page
@@ -40,19 +40,19 @@ class Holder:
 
 def notifications_send(request):
     log("Firing cron: notifications_send")
-    notifications = Notification.objects.filter(type="Error", tried=False)
+    notifications = Notification.objects.filter(tried=False)
 
     # batch up the notifications for the user
     holders = {}
     for notif in notifications:
-        for user in notif.user_list():
-            key = str(user.key())
+        for user in notif.user.all():
+            key = user.pk
             if key not in holders:
                 holder = Holder()
                 holder.user = user
                 holders[key] = holder
 
-            holders[key].objs.append(notif.notifier())
+            holders[key].objs.append(notif.notifier)
             holders[key].notifs.append(notif)
 
     for user_id, holder in holders.items():
@@ -70,5 +70,5 @@ def notifications_send(request):
                 notification.completed = True
                 notification.error_msg = data
                 notification.save()
-            
+
     return render_plain("Cron job completed")
