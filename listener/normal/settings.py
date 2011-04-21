@@ -76,7 +76,7 @@ INSTALLED_APPS = (
     'receiving',
     'users',
     'projects',
-    'djcelery'
+    'djcelery',
     'stats',
     'custom'
 )
