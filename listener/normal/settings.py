@@ -76,8 +76,9 @@ INSTALLED_APPS = (
     'receiving',
     'users',
     'projects',
-    'custom',
     'djcelery'
+    'stats',
+    'custom'
 )
 
 LOGIN_URL = '/login/'

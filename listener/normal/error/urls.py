@@ -11,6 +11,5 @@ urlpatterns = patterns('',
     url(r'^list/snippet/$', 'error.views.errors_snippet', name="error-snippet"),
     url(r'^groups/$', 'error.views.groups_list', name="group-list"),
     url(r'^view/(?P<pk>[\w-]+)/$', 'error.views.error_view', name="error-view"),
-    url(r'^view/toggle/(?P<pk>[\w-]+)/$','error.views.error_public_toggle', name="error-toggle"),
-    url(r'^send/created/(?P<pk>[\w-]+)/$', 'error.views.send_signal', name="error-created"),
+    url(r'^view/toggle/(?P<pk>[\w-]+)/$','error.views.error_public_toggle', name="error-toggle")
 )

@@ -1,0 +1,6 @@
+<div class="span-16">
+    {% for key, stat in stats %}
+        <a href="{% url stats-view key %}">{{ stat.title }}</a>
+        {% if not forloop.last %}&bull;{% endif %}
+    {% endfor %}
+</div>

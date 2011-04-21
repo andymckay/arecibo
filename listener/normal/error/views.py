@@ -14,13 +14,6 @@ from app.utils import render_plain, render_json, not_allowed
 from app.paginator import Paginator, get_page
 
 
-def send_signal(request, pk):
-    pass
-    #error = Error.get(pk)
-    #if not error.create_signal_sent:
-    #    return render_plain("Signal sent")
-    #return render_plain("Signal not sent")
-
 def get_group_filtered(request):
     form = GroupForm(request.GET or None)
     if form.is_valid():
@@ -31,6 +24,7 @@ def get_group_filtered(request):
 
     return form, queryset
 
+
 def get_filtered(request):
     form = ErrorForm(request.GET or None)
     if form.is_valid():
@@ -40,6 +34,7 @@ def get_filtered(request):
         queryset.order_by("-timestamp")
 
     return form, queryset
+
 
 @arecibo_login_required
 def errors_list(request):
@@ -55,6 +50,7 @@ def errors_list(request):
         "refresh": True
         })
 
+
 @arecibo_login_required
 @render_json
 def errors_snippet(request, pk=None):
@@ -64,6 +60,7 @@ def errors_snippet(request, pk=None):
     template = loader.get_template('list-snippet.html')
     html = template.render(RequestContext(request, {"object_list": page.object_list, }))
     return {"html":html, "count": len(page.object_list) }
+
 
 @arecibo_login_required
 def groups_list(request):
@@ -76,22 +73,22 @@ def groups_list(request):
         "nav": {"selected": "list", "subnav": "group"},
         })
 
+
 @arecibo_login_required
 def error_public_toggle(request, pk):
-    error = Error.objects.get(pk=pk)
-    if request.method.lower() == "post":
-        if error.public:
-            error.public = False
-        else:
-            error.public = True
-        error.save()
+#    error = Error.objects.get(pk=pk)
+#    if request.method.lower() == "post":
+#        if error.public:
+#            error.public = False
+#        else:
+#            error.public = True
+#        error.save()
     return HttpResponseRedirect(reverse("error-view", args=[error.id,]))
 
+
+@arecibo_login_required
 def error_view(request, pk):
     error = Error.objects.get(pk=pk)
-    #if not error.public:
-        #if not request.user.is_staff:
-        #    return not_allowed(request)
 
     if not error.read:
         error.read = True
