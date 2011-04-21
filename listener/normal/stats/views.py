@@ -48,7 +48,10 @@ def format_results(stat, query):
 
 @arecibo_login_required    
 def stats_view(request, key=None):
-    data = {"nav": {"selected": "stats"} }
+    data = {
+        "stats": zip(stats.keys(), stats.values()),
+        "nav": {"selected": "stats"} 
+    }
     if key:
         stat = stats[key]
         end = datetime.today()
@@ -56,7 +59,6 @@ def stats_view(request, key=None):
         query = stat["query"].filter(timestamp_date__gte=start,
                                  timestamp_date__lte=end)
         data.update({
-            "stats": zip(stats.keys(), stats.values()),
             "stat": stat,
             "start": start,
             "end": end,
