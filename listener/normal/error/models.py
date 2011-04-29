@@ -37,8 +37,8 @@ class Group(models.Model):
 
 class Error(models.Model):
     # time error was received by this server
-    timestamp = models.DateTimeField()
-    timestamp_date = models.DateField()
+    timestamp = models.DateTimeField(db_index=True)
+    timestamp_date = models.DateField(db_index=True)
 
     ip = models.CharField(max_length=255)
     user_agent = models.CharField(max_length=255)
@@ -46,17 +46,17 @@ class Error(models.Model):
     user_agent_parsed = models.BooleanField(default=False)
     operating_system = models.CharField(max_length=255)
 
-    priority = models.IntegerField(default=0)
-    status = models.CharField(max_length=255)
+    priority = models.IntegerField(default=0, db_index=True)
+    status = models.CharField(max_length=255, db_index=True)
 
     raw = models.CharField(max_length=255)
-    domain = models.CharField(max_length=255)
-    server = models.CharField(max_length=255)
+    domain = models.CharField(max_length=255, db_index=True)
+    server = models.CharField(max_length=255, db_index=True)
     query = models.CharField(max_length=255)
     protocol = models.CharField(max_length=255)
 
-    uid = models.CharField(max_length=255)
-    type = models.CharField(max_length=255)
+    uid = models.CharField(max_length=255, db_index=True)
+    type = models.CharField(max_length=255, db_index=True)
     msg = models.TextField()
     traceback = models.TextField()
 
@@ -64,16 +64,21 @@ class Error(models.Model):
 
     # time error was recorded on the client server
     error_timestamp = models.DateTimeField()
+    error_timestamp_date = models.DateTimeField(db_index=True)
+
     request = models.TextField()
-    username = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, db_index=True)
 
     group = models.ForeignKey(Group, blank=True, null=True)
 
-    read = models.BooleanField(default=False)
+    read = models.BooleanField(default=False, db_index=True)
 
     create_signal_sent = models.BooleanField(default=False)
 
-    public = models.BooleanField(default=False)
+    public = models.BooleanField(default=False, db_index=True)
+
+    class Meta:
+        ordering = ['-timestamp', '-id']
 
     def get_absolute_url(self):
         return reverse("error-view", args=[self.id,])
