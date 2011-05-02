@@ -32,7 +32,7 @@ class Filter(Form):
         for k, v in self.cleaned_data.items():
             if not v:
                 continue
-        
+
             lookup = getattr(self, "handle_%s" % k, None)
             if lookup:
                 args.append(lookup(v))
@@ -55,13 +55,11 @@ class GroupForm(Filter):
     project_url = forms.CharField(required=False)
 
     def as_query(self):
-        return super(GroupForm, self).as_query("Group")
+        return super(GroupForm, self).as_query(Group)
 
     def handle_project_url(self, value):
-        try:
-            return ProjectURL.objects.get(pk=value)
-        except IndexError:
-            pass
+        return Q(project_curl=value)
+
 
 class ErrorForm(Filter):
     priority = forms.ChoiceField(choices=priority_choices,
@@ -103,6 +101,6 @@ class ErrorForm(Filter):
 
     def handle_priority(self, value):
         return Q(priority__lte=value)
-        
+
     def as_query(self):
         return super(ErrorForm, self).as_query(Error)
