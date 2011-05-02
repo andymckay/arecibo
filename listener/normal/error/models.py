@@ -89,7 +89,7 @@ class Error(models.Model):
     def get_similar(self, limit=5):
         return (Error.objects.filter(group=self.group)
                              .exclude(pk=self.pk)[:limit])
-        
+
     def delete(self):
         # TODO: improve this
         if self.group:
@@ -130,6 +130,7 @@ class Error(models.Model):
         created = not getattr(self, "id", None)
         if created:
             self.error_timestamp = datetime.now()
+            self.error_timestamp_date = self.error_timestamp.date()
             self.create_signal_sent = True
             super(Error, self).save(*args, **kw)
             error_created.send(sender=self.__class__, instance=self)

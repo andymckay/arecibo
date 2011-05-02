@@ -17,10 +17,12 @@ def populate(incoming):
     # special lookup the account
     err = Error()
     uid = incoming.get("account", "")
-    if not uid:
-        raise ValueError, "Missing the required account number."
-    if str(uid) != settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER:
-        raise ValueError, "Account number does not match"
+    if not settings.ANONYMOUS_POSTING:
+        if not uid:
+            raise ValueError, "Missing the required account number."
+
+        if str(uid) != settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER:
+            raise ValueError, "Account number does not match"
 
     # special
     if incoming.has_key("url"):

@@ -93,6 +93,7 @@ DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
 SITE_URL = "http://theurl.to.your.arecibo.instance.com"
 
 ANONYMOUS_ACCESS = False
+ANONYMOUS_POSTING = False
 
 CELERY_RESULT_BACKEND = "amqp"
 
