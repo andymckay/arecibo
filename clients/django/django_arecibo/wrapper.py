@@ -64,7 +64,7 @@ class DjangoPost:
         # build out data to send to Arecibo some fields (like timestamp)
         # are automatically added
         self.data = {
-            "account": settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER,
+            "account": getattr(settings, 'ARECIBO_PUBLIC_ACCOUNT_NUMBER', ''),
             "url": request.build_absolute_uri(),
             "ip": request.META.get('REMOTE_ADDR'),
             "traceback": "\n".join(traceback.format_tb(exc_info[2])),
