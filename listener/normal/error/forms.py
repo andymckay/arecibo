@@ -58,7 +58,7 @@ class GroupForm(Filter):
         return super(GroupForm, self).as_query(Group)
 
     def handle_project_url(self, value):
-        return Q(project_curl=value)
+        return Q(project_url=value)
 
 
 class ErrorForm(Filter):
