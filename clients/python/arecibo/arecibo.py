@@ -30,7 +30,6 @@ keys = ["account", "ip", "priority", "uid",
     "url", "status", "server", "timestamp",
     "request", "username"]
 
-required = [ "account", ]
 default_route = "/v/1/"
 
 class post:
@@ -58,9 +57,6 @@ class post:
 
     def send(self):
         """ Sends the data to the arecibo server """
-        for x in required:
-            assert self._data.get(x), "The key %s is required" % x
-
         self._send()
 
     def as_json(self):
