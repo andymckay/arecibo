@@ -65,7 +65,7 @@ def errors_snippet(request, pk=None):
 @arecibo_login_required
 def groups_list(request):
     form, queryset = get_group_filtered(request)
-    paginated = Paginator(queryset, 10)
+    paginated = Paginator(queryset, 50)
     page = get_page(request, paginated)
     return direct_to_template(request, "group.html", extra_context={
         "page": page,

@@ -26,8 +26,14 @@ stats = {
         "count": "type__count",
         "query": (Error.objects.values('type', 'timestamp_date')
                   .order_by('timestamp_date').annotate(Count('type'))),
-    }
-
+    },
+#    "group": {
+#        "title": "By Group",
+#        "column": "group__name",
+#        "count": "group__count", 
+#        "query": (Error.objects.values('group', 'group__name', 'timestamp_date')
+#                  .order_by('timestamp_date').annotate(Count('group'))),
+#    }
 }
 
 

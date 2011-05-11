@@ -10,7 +10,9 @@ from receiving.post import populate
 def post(request):
     """ Add in a post """
     data = request.POST.copy()
-    data["ip"] = request.META.get("REMOTE_ADDR", "")
-    data["user_agent"] = request.META.get("HTTP_USER_AGENT", "")
-    populate.delay(data)
+    if "ip" not in data:
+        data["ip"] = request.META.get("REMOTE_ADDR", "")
+    if "user_agent" not in data:
+        data["user_agent"] = request.META.get("HTTP_USER_AGENT", "")
+    populate(data)#.delay(data)
     return render_plain("Error recorded")

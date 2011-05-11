@@ -11,13 +11,16 @@ import os
 
 class Group(models.Model):
     """ A grouping of errors """
-    uid = models.CharField(max_length=255)
-    timestamp = models.DateTimeField()
-    project_url = models.ForeignKey(ProjectURL, null=True)
-    count = models.IntegerField(default=0)
+    uid = models.CharField(max_length=255, db_index=True)
+    timestamp = models.DateTimeField(db_index=True)
+    project_url = models.ForeignKey(ProjectURL, null=True, db_index=True)
+    count = models.IntegerField(default=0, db_index=True)
+    name = models.CharField(max_length=255)
 
     def __unicode__(self):
-        if self.project_url:
+        if self.name:
+            return name
+        elif self.project_url:
             return "%s: %s..." % (self.project_url, self.uid[:10])
         else:
             return unicode(self.uid)
