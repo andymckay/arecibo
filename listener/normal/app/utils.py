@@ -1,9 +1,12 @@
 # general utils
+import hashlib
+import itertools
 import logging
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import simplejson
 from django.utils.encoding import smart_unicode
+from django.core.cache import cache
 from django.core.urlresolvers import reverse
 
 from urlparse import urlparse, urlunparse
@@ -77,5 +80,27 @@ def break_url(url):
     result["query"] = urlunparse(["",""] + parsed[2:])
     return result
 
+
 def redirect(name):
     return HttpResponseRedirect(reverse(name))
+
+
+def memoize(prefix, time=60):
+    """
+    A simple memoize that caches into memcache, using a simple
+    key based on stringing args and kwargs. Keep args simple.
+    """
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            key = hashlib.md5()
+            for arg in itertools.chain(args, kwargs):
+                key.update(str(arg))
+            key = 'memoize:%s:%s' % (prefix, key.hexdigest())
+            data = cache.get(key)
+            if data is not None:
+                return data
+            data = func(*args, **kwargs)
+            cache.set(key, data, time)
+            return data
+        return wrapper
+    return decorator

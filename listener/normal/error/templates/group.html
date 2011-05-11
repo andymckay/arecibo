@@ -7,10 +7,10 @@
 <table class="listing">
     <thead>
         <tr>
+            <th>Count</th>
             <th>Most recent</th>
             <th>Status</th>
             <th>Type</th>
-            <th>Count</th>
             <th>Path</th>
             <th>Project</th>
             <th>Stage</th>
@@ -18,11 +18,11 @@
     <tbody>
         {% for group in page.object_list %}
         <tr class="{% cycle 'odd' 'even' %}">
-            <td><a href="{% url error-list %}?group={{ group.id }}">{{ group.timestamp|date:"d M, Y P" }}</a></td>
+            <td>{{ group.count }}</td>
+            <td><a href="{% url error-list %}?group={{ group.id }}">{{ group.timestamp|timesince }}</a></td>
             {% with group.sample as sample %}
             <td>{{ sample.status }}</td>
             <td>{{ sample.type|trunc:20 }}</td>
-            <td>{{ group.count }}</td>
             <td>{{ sample.query|trunc:20 }}</td>
             <td>{{ group.project_url.project.name }}</td>
             <td>{{ group.project_url.get_stage_display }}</td>

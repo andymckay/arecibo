@@ -51,9 +51,7 @@ signals.error_created.connect(default_grouping,
                               dispatch_uid="default_grouping")
 
 def default_browser_parsing(instance, **kw):
-    # prevent an infinite loop
     log("Firing signal: default_browser_parsing")
-    
     if instance.user_agent:
         bc = get()
         if bc:

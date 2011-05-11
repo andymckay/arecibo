@@ -4,7 +4,7 @@ from django import forms
 from django.db.models import Q
 
 from app.forms import Form
-from app.utils import safe_int
+from app.utils import memoize, safe_int
 
 from projects.models import ProjectURL
 from error.models import Error, Group
@@ -51,14 +51,34 @@ class Filter(Form):
 
         return data
 
+
+@memoize(prefix='get-project-urls', time=120)
+def get_project_urls():
+    urls = [('', '')]
+    urls.extend([k.pk, k.url] for k in ProjectURL.objects.all())
+    return urls
+
+
 class GroupForm(Filter):
-    project_url = forms.CharField(required=False)
+    project_url = forms.ChoiceField(choices=[],
+                                    widget=forms.Select, required=False)
+
+    def __init__(self, *args, **kw):
+        super(GroupForm, self).__init__(*args, **kw)
+        self.fields['project_url'].choices = get_project_urls()
 
     def as_query(self):
         return super(GroupForm, self).as_query(Group)
 
     def handle_project_url(self, value):
         return Q(project_url=value)
+
+
+@memoize(prefix='get-domains', time=120)
+def get_domains():
+    domains = [('','')]
+    domains.extend([(d, d) for d in Error.objects.values_list('domain', flat=True).distinct()])
+    return domains
 
 
 class ErrorForm(Filter):
@@ -73,7 +93,8 @@ class ErrorForm(Filter):
     end = forms.DateField(required=False, label="End date",
         widget=forms.DateInput(attrs={"class":"date",}))
     query = forms.CharField(required=False, label="Path")
-    domain = forms.CharField(required=False)
+    domain = forms.ChoiceField(choices=[],
+                               widget=forms.Select, required=False)
     uid = forms.CharField(required=False)
     group = forms.ModelChoiceField(queryset=Group.objects.none(),
                                    widget=forms.Select, required=False)
@@ -81,6 +102,7 @@ class ErrorForm(Filter):
     def __init__(self, *args, **kw):
         super(ErrorForm, self).__init__(*args, **kw)
         self.fields['group'].queryset = Group.objects.all()
+        self.fields['domain'].choices = get_domains()
 
     def clean(self):
         data = {}
