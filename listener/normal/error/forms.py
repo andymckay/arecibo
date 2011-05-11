@@ -77,7 +77,7 @@ class GroupForm(Filter):
 @memoize(prefix='get-domains', time=120)
 def get_domains():
     domains = [('','')]
-    domains.extend([(d, d) for d in Error.objects.values_list('domain', flat=True).distinct()])
+    domains.extend([(d, d) for d in Error.objects.order_by().values_list('domain', flat=True).distinct()])
     return domains
 
 

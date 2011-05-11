@@ -1,5 +1,8 @@
 # general utils
-import hashlib
+try:
+    import hashlib
+except ImportError:
+    import md5 as hashlib
 import itertools
 import logging
 from django.conf import settings
