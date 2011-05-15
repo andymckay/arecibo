@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 
 from error.models import Error, Group
-from error.forms import ErrorForm, GroupForm
+from error.forms import ErrorForm, GroupForm, GroupEditForm
 from error.signals import error_created
 
 from app.decorators import arecibo_login_required
@@ -96,5 +96,20 @@ def error_view(request, pk):
 
     return direct_to_template(request, "view.html", extra_context={
         "error":error,
+        "nav": {"selected": "list"},
+        })
+    
+
+@user_passes_test(lambda u: u.is_staff)
+def group_edit(request, pk):
+    group = Group.objects.get(pk=pk)
+    form = GroupEditForm(request.POST or None, instance=group)
+    if request.POST:
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("group-list"))
+
+    return direct_to_template(request, "group-edit.html", extra_context={
+        "form": form,
         "nav": {"selected": "list"},
         })

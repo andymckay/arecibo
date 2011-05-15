@@ -19,7 +19,7 @@ class Group(models.Model):
 
     def __unicode__(self):
         if self.name:
-            return name
+            return self.name
         elif self.project_url:
             return "%s: %s..." % (self.project_url, self.uid[:10])
         else:

@@ -3,7 +3,7 @@ import operator
 from django import forms
 from django.db.models import Q
 
-from app.forms import Form
+from app.forms import Form, ModelForm
 from app.utils import memoize, safe_int
 
 from projects.models import ProjectURL
@@ -73,6 +73,12 @@ class GroupForm(Filter):
     def handle_project_url(self, value):
         return Q(project_url=value)
 
+
+class GroupEditForm(ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name', 'count', 'timestamp']
+        
 
 @memoize(prefix='get-domains', time=120)
 def get_domains():
