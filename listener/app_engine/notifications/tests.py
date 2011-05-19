@@ -7,10 +7,18 @@ from error.models import Error
 from issues.models import Issue
 from notifications.models import Notification
 from appengine_django.auth.models import User as AppUser
-from google.appengine.api.users  import User
+from google.appengine.api.users import User
+from profiles.utils import get_profile
 
 from app.tests import test_data
 from django.core import mail
+
+def create_user():
+    return AppUser(user=User(email="test@foo.com"),
+                    username="test",
+                    email="test@foo.com",
+                    is_staff=True).save()
+
 
 class ErrorTests(TestCase):
     # test the view for writing errors
@@ -41,17 +49,47 @@ class ErrorTests(TestCase):
         assert Error.all().count() == 1
         assert Notification.all().count() == 0
 
+    def testProfile(self):
+        user = create_user()        
+        
+        c = Client()
+        data = test_data.copy()
+        data["priority"] = 6
+        c.post(reverse("error-post"), data)
+        
+        assert Notification.all().count() == 0, Notification.all().count()
+    
+        data["priority"] = 5
+        c.post(reverse("error-post"), data)
+        
+        assert Notification.all().count() == 1
+        
+        profile = get_profile(user)
+        profile.notification = 8
+
+        data["priority"] = 5
+        c.post(reverse("error-post"), data)
+        
+        assert Notification.all().count() == 2
+        
+        data["priority"] = 8
+        c.post(reverse("error-post"), data)
+        
+        assert Notification.all().count() == 2
+
+        data["priority"] = 9
+        c.post(reverse("error-post"), data)
+        
+        assert Notification.all().count() == 2
+
     def testNotificationNoUsers(self):
         c = Client()
         c.post(reverse("error-post"), test_data)
         assert Notification.all().count() == 0
     
     def testIssueAndErrorNotification(self):
-        AppUser(user=User(email="test@foo.com"),
-                username="test",
-                email="test@foo.com",
-                is_staff=True).save()
-
+        user = create_user()
+        
         issue = Issue()
         issue.description = "This is a test"
         issue.save()
@@ -72,10 +110,7 @@ class ErrorTests(TestCase):
         # this is to check that at the moment issue notifications don't get sent
     
     def testIssueNotification(self):
-        AppUser(user=User(email="test@foo.com"),
-                username="test",
-                email="test@foo.com",
-                is_staff=True).save()
+        user = create_user()
     
         issue = Issue()
         issue.description = "This is a test"
@@ -86,10 +121,8 @@ class ErrorTests(TestCase):
         #assert Notification.all()[0].type == "Issue"
     
     def testCron(self):
-        AppUser(user=User(email="test@foo.com"),
-                username="test",
-                email="test@foo.com",
-                is_staff=True).save()
+        user = create_user()
+        
         self.testBasic()
         # now test our sending actually works
         c = Client()

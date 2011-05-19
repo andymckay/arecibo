@@ -93,9 +93,9 @@
     </div>
 </div>
 <div class="span-4 actions last">
-    <p><a href="{% url issues-edit issue.number %}"><div class="button orange">Edit orginal</div></a></p>
-    <p><a href="{% url issues-add-comment issue.number %}"><div class="button green">Update status</div></a></p>
-    <p><a href="{% url issues-add-comment issue.number %}"><div class="button green">Add comment</div></a></p>
-    <p><a href="{% url issues-log-view issue.number %}"><div class="button grey">Full log</div></a></p>
+    <p><a class="button-wrapper" href="{% url issues-edit issue.number %}"><button class="button orange">Edit orginal</button></a></p>
+    <p><a class="button-wrapper" href="{% url issues-add-comment issue.number %}"><button class="button green">Update status</button></a></p>
+    <p><a class="button-wrapper" href="{% url issues-add-comment issue.number %}"><button class="button green">Add comment</button></a></p>
+    <p><a class="button-wrapper" href="{% url issues-log-view issue.number %}"><button class="button grey">Full log</button></a></p>
 </div>
 {% endblock %}

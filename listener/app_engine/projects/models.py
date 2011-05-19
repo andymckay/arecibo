@@ -30,6 +30,5 @@ class ProjectURL(Base):
     def get_stage_display(self):
         return dict(stage_choices).get(self.stage)
 
-
     def __str__(self):
         return self.url

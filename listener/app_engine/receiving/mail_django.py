@@ -79,7 +79,7 @@ def parse_500(body, subject):
     except KeyError:
         pass
     try:
-        data["type"], data["message"] = data["traceback"].strip().split("\n")[-1].split(": ", 2)
+        data["type"], data["message"] = data["traceback"].strip().split("\n")[-1].split(": ", 1)
     except ValueError:
         pass
     return data
@@ -89,10 +89,14 @@ def post(request):
     log("Processing email message")
     mailobj = mail.InboundEmailMessage(request.raw_post_data)
     to = mailobj.to
-    key = to.split("-", 1)[1].split("@")[0]
-    if key != settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER:
-        log("To address does not match account number")
-        return
+
+    if to in settings.ALLOWED_RECEIVING_ADDRESSES:
+        key = settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER
+    else:
+        key = to.split("-", 1)[1].split("@")[0]
+        if key != settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER:
+            log("To address (%s, to %s) does not match account number (%s)" % (key, to, settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER))
+            return        
 
     for content_type, body in mailobj.bodies("text/plain"):
         if mailobj.subject.find(" Broken ") > -1:

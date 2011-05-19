@@ -3,7 +3,7 @@ import operator
 from django import forms
 from django.db.models import Q
 
-from app.forms import Form
+from app.forms import Form, ModelForm
 from app.utils import memoize, safe_int
 
 from projects.models import ProjectURL
@@ -80,6 +80,12 @@ def get_domains():
     domains.extend([(d, d) for d in Error.objects.order_by().values_list('domain', flat=True).distinct()])
     return domains
 
+
+class GroupEditForm(ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name', 'count', 'timestamp']
+        
 
 class ErrorForm(Filter):
     priority = forms.ChoiceField(choices=priority_choices,

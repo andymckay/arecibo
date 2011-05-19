@@ -6,7 +6,8 @@ from django.core.urlresolvers import reverse
 from appengine_django.auth.models import User
 from app.paginator import Paginator, get_page
 
-from users.forms import UserForm
+from users.forms import UserForm, ProfileForm
+from profiles.utils import get_profile
 
 @user_passes_test(lambda u: u.is_staff)
 def user_list(request):
@@ -22,13 +23,16 @@ def user_list(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def user_edit(request, pk):
-    form = UserForm(request.POST or None, instance=User.get(pk))
-    if form.is_valid():
-        obj = form.save(commit=False)
-        obj.save()
+    user = User.get(pk)
+    form = UserForm(request.POST or None, instance=user)
+    profile = ProfileForm(request.POST or None, instance=get_profile(user))
+    if form.is_valid() and profile.is_valid():
+        form.save()
+        profile.save()
         return HttpResponseRedirect(reverse("user-list"))
     return direct_to_template(request, "user_edit.html", extra_context={
         "form": form,
+        "profile": profile,
         "nav": {"selected": "users",},
     })
 

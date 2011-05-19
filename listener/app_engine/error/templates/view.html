@@ -95,8 +95,8 @@
     </form>{% endif %}</p>
 {% endif %}
 {% if user.is_staff %}
-    <a href="{% url issues-add %}?raw={{ error.raw }}&amp;title={{ error.title }}&amp;group={{ error.group.id }}&amp;project={{ error.group.project_url.project.id }}"><div class="button green">Add issue on this</div></a>
-    <p><a href="{% url error-list %}?group={{ error.group.id }}"><div class="button green">Errors in this group</div></p>
+    <p><a class="button-wrapper" href="{% url issues-add %}?raw={{ error.raw }}&amp;title={{ error.title }}&amp;group={{ error.group.id }}&amp;project={{ error.group.project_url.project.id }}"><button class="button green">Add issue on this</button></a></p>
+    <p><a class="button-wrapper" href="{% url error-list %}?group={{ error.group.id }}"><button class="button green">Errors in this group</button></a></p>
 {% endif %}
 </div>
 {% endblock %}

@@ -3,6 +3,10 @@ Release Notes
 
 Version 2.0:
 
+- Nov 2010: cleaning up CSS and the filter form on the project page.
+
+- Nov 2010: posting errors from django now can remove sensitive data (thanks offbyone).
+
 - Sept 7th 2010: test for readthedocs.org
 
 - July 21th 2010: Adding in markdown and a few ui tweaks. Also only show approved users in issues.

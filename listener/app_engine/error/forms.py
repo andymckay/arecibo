@@ -1,5 +1,6 @@
 from django import forms
 
+from app.fields import OurModelChoiceField
 from app.forms import Form
 from app.utils import safe_int
 
@@ -64,17 +65,16 @@ class Filter(Form):
         return data
 
 class GroupForm(Filter):
-    project_url = forms.CharField(required=False)
+    project_url = OurModelChoiceField(required=False,
+                                      model=ProjectURL,
+                                      queryset=ProjectURL.objects.all())
 
     def as_query(self):
         return super(GroupForm, self).as_query("Group")
 
     def handle_project_url(self, value):
-        try:
-            return ProjectURL.get(value).key()
-        except IndexError:
-            pass
-
+        return value.key()
+    
 class ErrorForm(Filter):
     priority = forms.ChoiceField(choices=priority_choices, widget=forms.Select, required=False)
     status = forms.ChoiceField(choices=status_choices, widget=forms.Select, required=False)

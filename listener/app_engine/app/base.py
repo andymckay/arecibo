@@ -8,3 +8,5 @@ class Base(BaseModel):
             return str(self.key())
         except db.NotSavedError:
             pass
+        
+    pk = id
