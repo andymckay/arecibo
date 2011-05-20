@@ -72,7 +72,7 @@ class Error(models.Model):
     request = models.TextField()
     username = models.CharField(max_length=255, db_index=True)
 
-    group = models.ForeignKey(Group, blank=True, null=True)
+    group = models.ForeignKey(Group, blank=True, null=True, on_delete=models.SET_NULL)
 
     read = models.BooleanField(default=False, db_index=True)
 

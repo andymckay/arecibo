@@ -3,23 +3,20 @@ $(document).ready(function(){
         if (history.pushState) {
             history.pushState({path:node.text()}, '', node.attr('href'));
         }
-        $('.content-wrapper').load(node.attr('href') + ' .content-wrapper', function() {
-            $(this).children().unwrap();
+        $('.content-wrapper').load(node.attr('href') + ' .container:eq(2)', function() {
+           // pass 
         });
         return false;
     };
-    $('table.listing tbody tr').each(function() {
+    $('#list-snippet').each(function() {
         if ($(this).find("a").length) {
             $(this).find("td").bind("click", function() {
                 return load($(this).closest('tr').find('a'));
             });
         };
     });
-    /*$(".content-wrapper a").click(function() {
-        return load($(this));
-    });*/
     $(window).bind('popstate', function() {
-        $('.content-wrapper').load(location.pathname + ' .content-wrapper');
+        $('.content-wrapper').load(location.pathname + ' .container:eq(2)');
     });
     $("pre").each(function() {
         $(this).before('<a href="" class="unwrap">Wrap</a><br />');

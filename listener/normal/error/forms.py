@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import operator
 
 from django import forms
@@ -80,6 +81,9 @@ def get_domains():
     domains.extend([(d, d) for d in Error.objects.order_by().values_list('domain', flat=True).distinct()])
     return domains
 
+period_choices = (['last_24', 'Last 24 hours'],
+                  ['today', 'Today'],
+                  ['yesterday', 'Yesterday'])
 
 class GroupEditForm(ModelForm):
     class Meta:
@@ -96,6 +100,8 @@ class ErrorForm(Filter):
                              widget=forms.Select, required=False)
     start = forms.DateField(required=False, label="Start date",
         widget=forms.DateInput(attrs={"class":"date",}))
+    period = forms.ChoiceField(choices=period_choices,
+                               widget=forms.Select, required=False)
     end = forms.DateField(required=False, label="End date",
         widget=forms.DateInput(attrs={"class":"date",}))
     query = forms.CharField(required=False, label="Path")
@@ -117,6 +123,17 @@ class ErrorForm(Filter):
             data[k] = v
 
         return data
+
+    def handle_period(self, period):
+        if period == 'last_24':
+           return Q(timestamp__gte=datetime.now() - timedelta(hours=24))
+        elif period == 'today':
+           return Q(timestamp__gte=datetime.today().date())
+        elif period == 'yesterday':
+           return Q(timestamp__gte=datetime.today().date() - timedelta(days=1),
+                    timestamp__lt=datetime.today())
+        else:
+           raise NotImplementedError
 
     def handle_read(self, value):
         return Q(read={"False":False, "True":True}.get(value, None))

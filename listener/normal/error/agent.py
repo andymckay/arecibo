@@ -168,7 +168,7 @@ class BrowserCapabilities(object):
                 data = urllib.urlopen("http://www.areciboapp.com/static/browscap.ini")
             except (IOError):
                 pass
-            if data and data.getcode() == 200:
+            if data: # and data.code == 200:
                 # that should be one week (1 min > 1 hour > 1 day > 1 week)
                 log("...succeeded")
                 raw = data.read()
