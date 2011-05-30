@@ -125,14 +125,14 @@ class DjangoPost:
                 self.err.server(url=settings.ARECIBO_SERVER_URL)
                 self.err.send()
         except Exception, e:
-            # if you want this to be an explicit fail swap
-            # change the comments on the next two lines around
-            print "Hit an exception sending: {e}"
+            # If you want this to be an explicit, uncomment the raise
+            #print "Hit an exception sending: %s" % error
             #raise
             pass
 
 
 def post(request, status, **kw):
     obj = DjangoPost(request, status, **kw)
-    obj.send()
-    return obj.data.get("uid")
+    if obj:
+        obj.send()
+        return obj.data.get("uid")
