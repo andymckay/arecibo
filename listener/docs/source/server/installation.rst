@@ -1,121 +1,121 @@
-App Engine Installation
+Installation
 ====================================
-
-The default version of Arecibo runs on App Engine and this documentation covers how to install your own Arecibo server on App Engine.
 
 Requirements
 ----------------------------
 
-You will require a App Engine application. These are free to create, or you can run one locally to test. To deploy an instance of Arecibo to App Engine you will need a copy of the App Engine SDK. You will need the *Python* version of the App Engine SDK [1]_.
+The installation has been tested on Ubuntu Linux. It should work on any Linux installation, it might even work on Windows.
 
-You will need git to check out Arecibo from github [2]_.
+You will require:
 
-You will need the current version of Django. At the time of writing, we are supporting Django 1.2.3 [3]_.
+- Connection to a database either locally or remotely. We recommend Postgresql [1]_.
+
+- Access to a Celery queue and a corresponding backend [2]_.
+
+- A working Django 1.3 will be installed, or use an existing one [3]_. Packages are installed via pip [4]_.
+
+- A working Python 2.4 or greater installation [5]_. 
+
+- You will need git to check out Arecibo from github [6]_.
+
+- You will need a web server, this documentation covers Apache [7]_ and mod_wsgi [8]_, but others will work.
+
 
 Installation steps
 ------------------------------------------------
 
-The following steps are done on Mac OS X. Other operating systems may vary.
+The following steps are done on Ubuntu Linux. Other operating systems may vary.
 
-1 a. Create an App Engine instance
+1. Download Arecibo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-At http://appengine.google.com/ create a new App Engine application. Give your new App Engine installation a unique name. This is the **app name** that you will be using in later steps.
-
-1 b. Install the Google App Engine SDK
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Install the Google App Engine SDK. If you already have it installed, you can skip this step.
-
-2. Download Arecibo
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Run the following command::
+Create a directory to install Arecibo too. Run the following command::
 
     ~ $ git clone git://github.com/andymckay/arecibo.git
-    Initialized empty Git repository in /Users/andy/arecibo/.git/
-    remote: Counting objects: 601, done.
-    remote: Compressing objects: 100% (511/511), done.
-    remote: Total 601 (delta 233), reused 209 (delta 40)
-    Receiving objects: 100% (601/601), 260.74 KiB | 275 KiB/s, done.
-    Resolving deltas: 100% (233/233), done.
+    Cloning into arecibo...
+    ... done.   
 
-3 a. Configure Arecibo (easy way)
+2. Install dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Run create.py and follow the prompts::
+You must have at least Python 2.4 as noted above and pip so that you can install the Python dependencies. Virtual environment setup is recommended, but not required. Run the following::
 
-    ~ $ cd arecibo
-    ~/arecibo $ python configure.py
+    ~ $ pip install -r arecibo/config/requirements.txt
+    Downloading/unpacking Django==1.3
+    ... 
 
-3 b. Configure Arecibo (manual way)
+The other dependencies: database, web server, celery backend (eg Rabbit MQ) should be installed now.
+
+3. Configure Arecibo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are at least two things you will need to change: the *app.yaml* file and *local_settings.py* file. There are examples of each of these files in the app_engine, directory. The backup version of these files need to be copied and changed.
+Run::
 
-First *app.yaml*::
+    ~ $ cd arecibo/listener/normal
+    ~/arecibo/listener/normal $ cp local_settings.py.dist local_settings.py
 
-    ~ $ cd arecibo/listener/app_engine
-    ~/arecibo/listener/app_engine $ cp app.yaml.example app.yaml
+Then configure local_settings.py with at least:
 
-Alter the first line of *app.yaml*::
+* the Django database configuration
 
-    application: your_application_error
+* the Django secret key
 
-Replacing *your_application_error* with the **app name** of your application from step 1.
+* any other Django configuration that needs overriding, such as celery.
 
-Second *local_settings.py*::
+Run::
 
-    ~/arecibo/listener/app_engine $ cp local_settings.py.example local_settings.py
+    ~/arecibo/listener/normal $ python manage.py syncdb
 
-Then alter the file as detailed::
+Create your super user. You should now be able to run::
 
-    ARECIBO_PUBLIC_ACCOUNT_NUMBER = "your_public_account_number_here"
-    ARECIBO_PRIVATE_ACCOUNT_NUMBER = "your_private_account_number_here"
+    ~/arecibo/listener/normal $ python manage.py runserver
+    
+And see it all working.
 
-    DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
-    SITE_URL = "http://theurl.to.your.arecibo.instance.com"
-
-The variables ARECIBO_PUBLIC_ACCOUNT_NUMBER and ARECIBO_PRIVATE_ACCOUNT_NUMBER should be unique id that you'll be using to post to your site. This is used in URLs, so try to avoid / and unicode, any combination of 32 letters and numbers normally works.
-
-DEFAULT_FROM_EMAIL is the Google email address you used to setup your App Engine site. This has to be an email that is authorized by App Engine, the simplest is to use the one you created your App Engine site with. For documentation on how to send email from App Engine, see here: http://code.google.com/appengine/docs/python/mail/
-
-SITE_URL the full URL (including protocol) that your site is at.
-
-An example file might be::
-
-    ARECIBO_PUBLIC_ACCOUNT_NUMBER = "wetlwk36524352345y.rutywr5hs.tgywq43w5jy2w35"
-    ARECIBO_PRIVATE_ACCOUNT_NUMBER = "swtqak365qkt6qo45tyh45tq3k5w345qhtr2q75y2"
-
-    DEFAULT_FROM_EMAIL = "some.user@googlemail.com"
-    SITE_URL = "http://my-arecibo-site.appspot.com"
-
-Download and copy over Django (this is not included for licensing reasons). Then we can be sure we use the version of Django that is compatible, not the the one that comes by default with App Engine::
-
-    ~/arecibo/listener/app_engine $ wget http://media.djangoproject.com/releases/1.2/Django-1.2.1.tar.gz
-    ..
-    ~/arecibo/listener/app_engine $ tar zxf Django-1.2.1.tar.gz
-    ~/arecibo/listener/app_engine $ mv Django-1.2.1/django .
-    ~/arecibo/listener/app_engine $ rm -rf Django-1.2.1*
-
-4. Upload to App Engine
+4. Configure Apache
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you don't have the **Python** App Engine SDK you will need to install it at this point.
+Run::
 
-Uploading to App Engine is a simple as::
+    ~/arecibo/listener/normal $ cd config
+    ~/arecibo/listener/normal/config $ cp arecibo.wsgi.sample arecibo.wsgi
+    
+Now link that up in Apache::
 
-    ~/arecibo/listener/app_engine $ appcfg.py update .
+    WSGIScriptAlias / /path/to/arecibo/listener/normal/config/arecibo.wsgi
 
-Follow the prompts for your email and password. You should see quite a few messages scroll past. If you get these messages at the end, then it's worked and you should be able to visit the site in your browser::
+Further configuration options would include mapping *media* to the static media files inside Arecibo *listener/media*.
 
-    Checking if new version is ready to serve.
-    Closing update: new version is ready to start serving.
-    Uploading index definitions.
-    Uploading cron entries
+Restart Apache and you should be able to see Arecibo.
 
-.. [1] http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python
+5. Final test
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. [2] http://git-scm.com/
+Change *local_settings.py*::
 
-.. [3] http://www.djangoproject.com/download/1.2.1/tarball/
+    ANONYMOUS_POSTING = True
+    
+Then hit::
+
+    http://path.to.arecibo/v/1/
+    
+And you should get a response: Error recorded.
+
+Anything else means you need to check your database connection and that Django
+can speak to the celery queue.
+
+.. [1] http://www.postgresql.org/
+
+.. [2] http://ask.github.com/celery/
+
+.. [3] http://www.djangoproject.com/
+
+.. [4] http://pypi.python.org/pypi/pip
+
+.. [5] http://www.python.org/
+
+.. [6] http://git-scm.com/
+
+.. [7] http://httpd.apache.org/
+
+.. [8] http://code.google.com/p/modwsgi/

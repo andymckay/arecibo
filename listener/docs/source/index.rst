@@ -8,6 +8,7 @@ Contents:
 
    introduction.rst
    server/installation.rst
+   server/installation-appengine.rst
    server/useraccess.rst
    server/remoteaccess.rst
    server/customisation.rst

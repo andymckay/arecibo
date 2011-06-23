@@ -1,0 +1,269 @@
+body {
+    padding:0px!important; /*this padding hack fixes things */
+    margin: 0px;
+}
+
+.header-wrapper {
+    background-color: #000044;
+    height: 33px;
+}
+
+.header-wrapper .container {
+    height: 33px;
+}
+
+.subnav-wrapper {
+    margin-bottom: 1em;
+    padding-top: 0.5em;
+    border-bottom: 1px solid lightgrey;
+    height: 20px;
+    background-color: #EBEBEB;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EBEBEB), to(#DEDEDE));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #EBEBEB 100%);
+}
+
+.subnav-wrapper a {
+    text-shadow: 1px 1px 1px white;
+}
+
+.subnav-wrapper a.selected {
+    text-decoration: underline;
+}
+
+.title {
+    padding-top: 4px;
+}
+
+.attributes dt, .attributes dd { margin: 0; padding: 0; }
+.attributes dt { float: left; width: 10em; }
+
+.footer-wrapper {
+    font-size: 90%;
+    padding-top: 1em;
+    border-top: 1px solid grey;
+    color: grey;
+}
+
+.footer-wrapper a {
+    color: grey;
+}
+
+pre {
+    padding-top: 0;
+    margin-top: 0;
+    font-family:  Monaco, Courier, monospaced;
+}
+
+pre.wrapped {
+    font-family:  Monaco, Courier, monospaced;
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+table.listing td {
+}
+
+table.listing tr td {
+    cursor: pointer;
+}
+
+.content-wrapper .container {
+    background-image: url("/media/img/logo-opacity.png");
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    padding-bottom: 3em;
+}
+
+table.listing thead th {
+    background-color: #EBEBEB;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EBEBEB), to(#DEDEDE));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#DEDEDE, #EBEBEB 100%);
+    border-collapse: collapse;
+    text-shadow: 1px 1px 1px white;
+}
+
+table.listing tr.even td {
+    background-color: #e5ecf9;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e5ecf9), to(#ebf0fa));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#ebf0fa, #e5ecf9 100%);
+}
+
+table.listing tr:hover td {
+    background-color: #FAF1B4;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAF1B4), to(#f0e390));
+    background-image: -moz-linear-gradient(19% 75% 90deg,#f0e390, #FAF1B4 100%);
+}
+
+h1, h2, h3 {
+    font-family: 'Droid Serif', arial, serif;
+    border-bottom: 1px solid lightgrey;
+}
+
+.help {
+    color: grey;
+}
+
+.subnav {
+    border-bottom: 2px solid lightgrey;
+}
+
+a {
+    color: rgb(65, 131, 196);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(65, 131, 196);
+    text-decoration: underline;
+}
+
+.top-links {
+    padding-top: 8px;
+}
+
+.top-links a {
+    color: lightgrey;
+    text-decoration: none;
+    border: 0px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 25px;
+    z-index: 100;
+}
+
+.top-links a.selected {
+    color: white;
+    text-decoration: underline;
+}
+
+.top-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+label, dt {
+    color: grey;
+}
+
+.notice a, .success a {
+    color: rgb(65, 131, 196);;
+}
+
+.success h2, .notice h2 {
+    border: none;
+}
+
+#refresh-count, #subnav-note {
+    color: grey;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px white;
+}
+
+.title h1 {
+    color: white;
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: light;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.title a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+textarea {
+    height: 6em;
+    width: 45em;
+}
+
+.field-error {
+    color: red;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.required label {
+    color: black;
+}
+
+.button, .button:visited {
+    background: #222 url('/media/img/alert-overlay.png') repeat-x;
+    display: inline-block;
+    padding: 5px 10px 6px;
+    color: #fff;
+    font: -webkit-small-control;
+    text-decoration: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+    position: relative;
+    cursor: pointer;
+    font-weight: bold
+}
+
+.button:hover {
+    background-color: #111;
+    color: #fff;
+    opacity: 1;
+}
+
+button {
+    border: none;
+    background-color: none;
+    border-style: none;
+}
+
+.actions button {
+    width: 150px;
+    text-align: left;
+}
+
+.actions div.button {
+    width: 130px;
+    text-align: left;
+}
+
+.button {
+    white-space: nowrap;
+    line-height: 1.25;
+    color: #eeeeee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+span.step-links a:hover,
+a.button-wrapper:hover {
+    text-decoration: none;
+}
+
+.green.button, .green.button:visited { background-color: #749a02; }
+.green.button:hover { background-color: #91bd09; }
+.green.button, .green.button:visited { background-color: #749a02; }
+.green.button:hover { background-color: #91bd09; }
+.blue.button, .blue.button:visited { background-color: #007d9a; }
+.blue.button:hover { background-color: #2daebf; }
+.red.button, .red.button:visited { background-color: #872300; }
+.red.button:hover { background-color: #e33100; }
+.magenta.button, .magenta.button:visited { background-color: #630030; }
+.magenta.button:hover { background-color: #a9014b; }
+.orange.button, .orange.button:visited { background-color: #d45500; }
+.orange.button:hover { background-color: #ff5c00; }
+.yellow.button, .yellow.button:visited { background-color: #fc9200; }
+.yellow.button:hover { background-color: #ffb515; }
+.grey.button, .grey.button:visited { background-color: #aaaaaa; }
+.grey.button:hover { background-color: #555555; }
+
+.error {
+    color: black;
+}

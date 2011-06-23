@@ -1,6 +1,22 @@
 Release Notes
 ========================================
 
+Version 3.0:
+
+- June 2010: merging of the none App Engine port in. You can now run Arecibo without App Engine. Following is a summary of the lots of changes made in the none App Engine port.
+
+    - Removing of issues.
+
+    - New model definitions, with some db indexes and denormalisation.
+
+    - Ability to name and alter groups of errors.
+
+    - Updated stats, new charts which are much simpler.
+
+    - Ability for anonymous views and posting of errors, since we can now run the server behind a firewall.
+
+- June 2010: freezing of the App Engine port. There should be no changes to this.
+
 Version 2.0:
 
 - Nov 2010: cleaning up CSS and the filter form on the project page.

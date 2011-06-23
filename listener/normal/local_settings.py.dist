@@ -1,20 +1,36 @@
+# This is an ASCII string so that you can have hard to guess URLs for
+# reading data from Arecibo without authentication, useful for RSS readers
+# for example. It can be any long or short ASCII string.
 ARECIBO_PUBLIC_ACCOUNT_NUMBER = "your_public_account_number_here"
+
+# If you do not allow anonymous posting (below) you will need to set
+# this to a value to ensure that not everyone can post errors to Arecibo.
+# It can be any long ASCII string.
 ARECIBO_PRIVATE_ACCOUNT_NUMBER = "your_private_account_number_here"
 
-DEFAULT_FROM_EMAIL = "you.account@gmail.com.that.is.authorized.for.app_engine"
+# The root domain that the server will be served from, used in emails
+# and other places.
 SITE_URL = "http://theurl.to.your.arecibo.instance.com"
 
-ANONYMOUS_ACCESS = True
+# If true allows anyone to the view the site and errors.
+ANONYMOUS_ACCESS = False
 
+# If true allows anyone to post errors without having the private account
+# number defined above. 
+ANONYMOUS_POSTING = False
+
+# Standard Django database config.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
+# The standard Django secret key, please define.
 SECRET_KEY = ''
+DEBUG = False

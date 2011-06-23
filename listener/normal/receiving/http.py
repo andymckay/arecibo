@@ -14,5 +14,5 @@ def post(request):
         data["ip"] = request.META.get("REMOTE_ADDR", "")
     if "user_agent" not in data:
         data["user_agent"] = request.META.get("HTTP_USER_AGENT", "")
-    populate(data)#.delay(data)
+    populate.delay(data)
     return render_plain("Error recorded")
