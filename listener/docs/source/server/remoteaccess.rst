@@ -1,4 +1,4 @@
-Remote access
+Remote access (App Engine)
 ==========================================
 
 The instance on Google App Engine can be accessed by using the *remote_api*[1]_. A management command has been added to allow you to do this::

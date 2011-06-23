@@ -1,7 +1,7 @@
-App Engine Installation
+Installation (App Engine)
 ====================================
 
-The default version of Arecibo runs on App Engine and this documentation covers how to install your own Arecibo server on App Engine.
+The App Engine installation of Arecibo is no longer recommended and will not be updated. It still works just fine, but I'm not maintaining it. Hopefully someone else will.
 
 Requirements
 ----------------------------

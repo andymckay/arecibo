@@ -3,12 +3,12 @@ Variable documentation
 
 This covers all the variables that can be sent in a post to Arecibo. There is only one required variable: your public API key. All others are optional, leaving it to you to figure out exactly how much you data you want to send to the server.
 
-Required variables
+Required (sort of) variables
 ------------------------------------
 
 account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The public API key for your account on Arecibo. Without it we don't know where to assign the request. This is the public API key as defined in the API key page.
+The public API key for your account on Arecibo. Without it we don't know where to assign the request. This is the public API key as defined in the API key page. If you have *ANONYMOUS_POSTING* set to *True* in your settings, this variable will not be required, it just gets ignored.
 
 ::
 
