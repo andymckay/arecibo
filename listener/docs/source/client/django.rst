@@ -68,6 +68,21 @@ Add into this your post to Arecibo so it reads::
 
 In your 500.html template, you'll now have access to the UID that was posted to Arecibo if you'd like to display that to users.
 
+Using celery
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use celery to delay the posting of Arecibo so that your error page is not dependent upon the Arecibo request. To use a celery version of post, change the following::
+
+    from django_arecibo.wrapper import post
+
+To::
+
+    from django_arecibo.tasks import post
+    
+You must add the following to your Django settings.py so that Celery will correctly import the task::
+
+    CELERY_IMPORTS = ('django_arecibo.tasks',)
+
 Further configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

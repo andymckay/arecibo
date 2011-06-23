@@ -7,6 +7,6 @@ def delayed_send(obj):
 
 def post(request, status, **kw):
     obj = DjangoPost(request, status, **kw)
-    if obj:
+    if obj and hasattr(obj, 'data'):
         delayed_send.delay(obj)
         return obj.data.get("uid")
