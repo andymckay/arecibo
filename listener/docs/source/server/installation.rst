@@ -40,7 +40,7 @@ Create a directory to install Arecibo too. Run the following command::
 
 You must have at least Python 2.4 as noted above and pip so that you can install the Python dependencies. Virtual environment setup is recommended, but not required. Run the following::
 
-    ~ $ pip install -r arecibo/config/requirements.txt
+    ~ $ pip install -r arecibo/listener/normal/requirements.txt
     Downloading/unpacking Django==1.3
     ... 
 
