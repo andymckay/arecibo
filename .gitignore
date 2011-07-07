@@ -1,2 +1,3 @@
 *.pyc
 *.kpf
+listener/normal/local_settings.py
