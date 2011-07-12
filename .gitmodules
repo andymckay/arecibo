@@ -1,0 +1,3 @@
+[submodule "clients/django"]
+	path = clients/django
+	url = git@github.com:andymckay/django-arecibo.git
