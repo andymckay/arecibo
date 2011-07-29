@@ -55,7 +55,7 @@ def format_results(stat, query):
     return data
 
 @arecibo_login_required
-def stats_view(request, key=None):
+def stats_view(request, key="type"):
     data = {
         "stats": zip(stats.keys(), stats.values()),
         "nav": {"selected": "stats"} 

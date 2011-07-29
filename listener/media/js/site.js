@@ -1,22 +1,12 @@
 $(document).ready(function(){
-    function load(node) {
-        if (history.pushState) {
-            history.pushState({path:node.text()}, '', node.attr('href'));
-        }
-        $('.content-wrapper').load(node.attr('href') + ' .container:eq(2)', function() {
-           // pass 
-        });
-        return false;
-    };
     $('#list-snippet').each(function() {
-        if ($(this).find("a").length) {
+        var href = $(this).find("a").attr("href");
+        if (href) {
             $(this).find("td").bind("click", function() {
-                return load($(this).closest('tr').find('a'));
+                window.location = href;
+                return false;
             });
         };
-    });
-    $(window).bind('popstate', function() {
-        $('.content-wrapper').load(location.pathname + ' .container:eq(2)');
     });
     $("pre").each(function() {
         $(this).before('<a href="" class="unwrap">Wrap</a><br />');
