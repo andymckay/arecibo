@@ -6,6 +6,7 @@ from error.models import Error
 class PostTest(TestCase):
 
     def test_post_key(self):
+        settings.ANONYMOUS_POSTING = False
         acc = settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER
         post.populate({'account': acc})
         assert(Error.objects.count() == 1)

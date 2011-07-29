@@ -52,7 +52,7 @@ def format_results(stat, query):
         })
     return data
 
-@arecibo_login_required    
+@arecibo_login_required
 def stats_view(request, key=None):
     data = {
         "stats": zip(stats.keys(), stats.values()),

@@ -8,6 +8,7 @@ from django.core.cache import cache
 
 from app.utils import log
 
+
 class Browser(object):
     def __init__(self, capabilities):
         self.lazy_flag = True
@@ -244,28 +245,3 @@ def get():
         # that should be one week (1 min > 1 hour > 1 day > 1 week)
         cache.set(key, parsed, 60 * 60 * 24 * 7)
     return parsed
-
-
-def test():
-    bc = get()
-    for agent in [
-        "Mozilla/5.0 (compatible; Konqueror/3.5; Linux; X11; de) KHTML/3.5.2 (like Gecko) Kubuntu 6.06 Dapper",
-        "Mozilla/5.0 (X11; U; Linux i686; de; rv:1.8.0.5) Gecko/20060731 Ubuntu/dapper-security Firefox/1.5.0.5",
-        "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.12) Gecko/20060216 Debian/1.7.12-1.1ubuntu2",
-        "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.5) Gecko/20060731 Ubuntu/dapper-security Epiphany/2.14 Firefox/1.5.0.5",
-        "Opera/9.00 (X11; Linux i686; U; en)",
-        "Wget/1.10.2",
-        "Mozilla/5.0 (X11; Linux i686; U;) Gecko/20051128 Kazehakase/0.3.3 Debian/0.3.3-1",
-        "Mozilla/5.0 (X11; U; Linux i386) Gecko/20063102 Galeon/1.3test",
-        "Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_5_4; en-us) AppleWebKit/525.18 (KHTML, like Gecko) Version/3.1.2 Safari/525.20.1",
-        "Mozilla/4.0 (compatible; MSIE 6.0; Windows 98)" # Tested under Wine
-        """Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US;  \r
-rv:1.9.0.5) Gecko/2008120121 Firefox/3.0.5,gzip(gfe)""",
-        "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.5) Gecko/2008120121 Firefox/3.0.5,gzip(gfe)",
-        "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1,gzip(gfe)"
-      ]:
-        b = bc(agent)
-        if not b:
-            print "! Not found", agent
-        else:
-            print b.name(), b.version(), b.get("category", ""), b.features()

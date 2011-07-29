@@ -15,4 +15,10 @@ settings.DEBUG = False
 
 class AreciboRunner(DjangoTestSuiteRunner):
     def setup_test_environment(self, **kwargs):
+        msgs = 'django.contrib.messages.context_processors.messages'
+        if msgs not in settings.TEMPLATE_CONTEXT_PROCESSORS:
+            tcp = list(settings.TEMPLATE_CONTEXT_PROCESSORS)
+            tcp.append(msgs)
+            settings.TEMPLATE_CONTEXT_PROCESSORS = tuple(tcp)
+        settings.DEBUG_PROPAGATE_EXCEPTIONS = True
         super(AreciboRunner, self).setup_test_environment(**kwargs)
