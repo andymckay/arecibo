@@ -3,6 +3,8 @@ try:
 except ImportError:
     from md5 import md5 
 
+from django.db.models import F
+
 from app.utils import safe_string, log
 from error.models import Group, Error
 
@@ -31,15 +33,12 @@ def default_grouping(instance, **kw):
         digest = hsh.hexdigest()
         try:
             created = False
-            group = Group.objects.filter(uid=digest)[0]
-            group.count = Error.objects.filter(group=group).count() + 1
+            group = Group.objects.get(uid=digest)
+            group.count = F('count')+getattr(instance, 'count', 1)
             group.save()
-        except IndexError:
+        except Group.DoesNotExist:
             created = True
-            group = Group()
-            group.uid = digest
-            group.count = 1
-            group.save()
+            group = Group.objects.create(uid=digest, count=getattr(instance, 'count', 1))
 
         instance.group = group
         instance.save()

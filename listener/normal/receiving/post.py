@@ -71,7 +71,7 @@ def populate(incoming):
                 err.errors += "Encoding error on the %s field, ignored.\n" % src
 
     # timestamp handling
-    if incoming.has_key("timestamp"):
+    if "timestamp" in incoming:
         tmstmp = incoming["timestamp"].strip()
         if tmstmp.endswith("GMT"):
             tmstmp = tmstmp[:-3] + "-0000"
@@ -86,4 +86,6 @@ def populate(incoming):
 
     err.timestamp = datetime.now()
     err.timestamp_date = datetime.now().date()
+    if "count" in incoming:
+        err.count = incoming["count"]
     err.save()

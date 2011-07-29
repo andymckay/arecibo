@@ -18,14 +18,16 @@ stats = {
         "column": "priority",
         "count": "priority__count",
         "query": (Error.objects.values('priority', 'timestamp_date')
-                  .order_by('timestamp_date').annotate(Count('priority'))),
+                       .order_by('timestamp_date')
+                       .annotate(Count('priority'))),
     },
     "type": {
         "title": "By Type",
         "column": "type",
         "count": "type__count",
         "query": (Error.objects.values('type', 'timestamp_date')
-                  .order_by('timestamp_date').annotate(Count('type'))),
+                       .order_by('timestamp_date')
+                       .annotate(Count('type'))),
     },
 #    "group": {
 #        "title": "By Group",

@@ -21,4 +21,5 @@ class AreciboRunner(DjangoTestSuiteRunner):
             tcp.append(msgs)
             settings.TEMPLATE_CONTEXT_PROCESSORS = tuple(tcp)
         settings.DEBUG_PROPAGATE_EXCEPTIONS = True
+        settings.CELERY_ALWAYS_EAGER = True
         super(AreciboRunner, self).setup_test_environment(**kwargs)

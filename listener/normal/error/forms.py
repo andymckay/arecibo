@@ -78,10 +78,12 @@ class GroupForm(Filter):
 @memoize(prefix='get-domains', time=120)
 def get_domains():
     domains = [('','')]
-    domains.extend([(d, d) for d in Error.objects.order_by().values_list('domain', flat=True).distinct()])
+    errs = Error.objects.order_by().values_list('domain', flat=True).distinct()
+    domains.extend([(d, d) for d in errs])
     return domains
 
-period_choices = (['last_24', 'Last 24 hours'],
+period_choices = (['', ''],
+                  ['last_24', 'Last 24 hours'],
                   ['today', 'Today'],
                   ['yesterday', 'Yesterday'])
 

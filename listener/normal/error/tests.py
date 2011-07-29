@@ -14,65 +14,58 @@ class ErrorTests(TestCase):
     # test the view for writing errors
     
     def testBasic(self):
-        c = Client()
         assert not Error.objects.count()
-        c.post(reverse("error-post"), data)
+        self.client.post(reverse("error-post"), data)
         assert Error.objects.count() == 1
 
     def testOverPriority(self):
-        c = Client()
         assert not Error.objects.count()
         ldata = data.copy()
         ldata["priority"] = 123
-        c.post(reverse("error-post"), ldata)
+        self.client.post(reverse("error-post"), ldata)
         assert Error.objects.count() == 1
 
     def testStringPriority(self):
-        c = Client()
         assert not Error.objects.count()
         ldata = data.copy()
         ldata["priority"] = "test"
-        c.post(reverse("error-post"), ldata)
+        self.client.post(reverse("error-post"), ldata)
         assert Error.objects.count() == 1
 
     def testNoPriority(self):
-        c = Client()
         assert not Error.objects.count()
         ldata = data.copy()
         del ldata["priority"]
-        c.post(reverse("error-post"), ldata)
+        self.client.post(reverse("error-post"), ldata)
         assert Error.objects.count() == 1
 
     def testGroup(self):
-        c = Client()
-        c.post(reverse("error-post"), data)
+        self.client.post(reverse("error-post"), data)
         assert Group.objects.count() == 1, "Got %s groups, not 1" % Group.objects.count()
-        c.post(reverse("error-post"), data)
+        self.client.post(reverse("error-post"), data)
         assert Group.objects.count() == 1
         new_data = data.copy()
         new_data["status"] = 402
-        c.post(reverse("error-post"), new_data)
+        self.client.post(reverse("error-post"), new_data)
         assert Group.objects.count() == 2
         
         # and test similar
         assert not Error.objects.order_by('pk')[2].get_similar()
         assert len(Error.objects.order_by('pk')[1].get_similar()) == 1
-        assert len(Error.objects.order_by('pk')[1].get_similar()) == 1
+        assert len(Error.objects.order_by('pk')[0].get_similar()) == 1
 
     def testGroupDelete(self):
-        c = Client()
-        c.post(reverse("error-post"), data)
+        self.client.post(reverse("error-post"), data)
         assert Group.objects.count() == 1, "Got %s groups, not 1" % Group.objects.count()
         assert Error.objects.count() == 1
         Error.objects.all()[0].delete()
         assert Group.objects.count() == 0
 
     def testBrowser(self):
-        c = Client()
         assert not Error.objects.count()
         ldata = data.copy()
         ldata["user_agent"] = "Mozilla/5.0 (X11; U; Linux i686; de; rv:1.8.0.5) Gecko/20060731 Ubuntu/dapper-security Firefox/1.5.0.5"
-        c.post(reverse("error-post"), ldata)
+        self.client.post(reverse("error-post"), ldata)
         assert Error.objects.count() == 1
         assert Error.objects.all()[0].user_agent_short == "Firefox"
         assert Error.objects.all()[0].user_agent_parsed == True
@@ -80,20 +73,35 @@ class ErrorTests(TestCase):
 
     # http://github.com/andymckay/arecibo/issues#issue/14
     def testUnicodeTraceback(self):
-        c = Client()
         assert not Error.objects.count()
         ldata = data.copy()
         ldata["traceback"] = "ɷo̚حٍ"
-        c.post(reverse("error-post"), ldata)
+        self.client.post(reverse("error-post"), ldata)
         assert Error.objects.count() == 1
     
+    def testCount(self):
+        ldata = data.copy()
+        ldata["count"] = 5
+        self.client.post(reverse("error-post"), ldata)
+        assert Group.objects.count() == 1
+        assert Group.objects.all()[0].count == 5
+    
+    def testCountUpdate(self):
+        ldata = data.copy()
+        self.client.post(reverse("error-post"), ldata)
+        assert Group.objects.all()[0].count == 1
+
+        ldata["count"] = 5
+        self.client.post(reverse("error-post"), ldata)
+        assert Group.objects.all()[0].count == 6
+
+
 class TagsTests(TestCase):
     def testTrunc(self):
         assert trunc_string("Test123", 5) == "Te..."
         assert trunc_string(None, 5) == ""
         
 class AgentTests(TestCase):
-    
     def setUp(self):
         path = os.path.join(os.path.dirname(__file__), 'fixtures/browscap.ini')
         raw = open(path).read()

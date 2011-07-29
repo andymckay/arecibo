@@ -34,9 +34,9 @@
     {% if error.user_agent %}<dt>Browser:</dt>
     <dd>
         {% if error.user_agent_short %}
-            <abbr title="{{ error.user_agent }}">{{ error.user_agent_short }}
+            <abbr title="{{ error.user_agent }}">{{ error.user_agent|trunc:25 }}</abbr>
         {% else %}
-            {{ error.user_agent }}
+            <abbr title="{{ error.user_agent }}">{{ error.user_agent|trunc:25 }}</abbr>
         {% endif %}
     </dd>
     {% endif %}
