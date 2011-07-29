@@ -16,7 +16,7 @@
             data.addColumn('number', '{{ column }}');
          {% endfor %}
          data.addRows({{ result.rows|length }});
-         {% for date, row in result.rows.items %}
+         {% for date, row in result.rows %}
             data.setValue({{ forloop.counter0 }}, 0, '{{ date|date:"d M, Y" }}');
             {% with forloop.counter0 as k %}
             {% for r in row %}

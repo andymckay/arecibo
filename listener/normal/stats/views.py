@@ -50,6 +50,8 @@ def format_results(stat, query):
             'num': data['columns'].index(column) + 1,
             'count': line[stat['count']],
         })
+    # sigh Python 2.4 compat.
+    data['rows'] = [(k, data['rows'][k]) for k in sorted(data['rows'].iterkeys())]
     return data
 
 @arecibo_login_required
