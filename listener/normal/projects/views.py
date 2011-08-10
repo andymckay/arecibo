@@ -34,7 +34,8 @@ def project_add(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def project_edit(request, pk):
-    form = ProjectForm(request.POST or None, instance=Project.get(pk))
+    form = ProjectForm(request.POST or None,
+                       instance=Project.objects.get(pk=pk))
     if form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse("projects-list"))

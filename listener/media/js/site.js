@@ -2,8 +2,8 @@ $(document).ready(function(){
     $('#list-snippet').each(function() {
         var href = $(this).find("a").attr("href");
         if (href) {
-            $(this).find("td").bind("click", function() {
-                window.location = href;
+            $(this).find("tr").bind("click", function() {
+                window.location = $(this).find('a').attr('href');
                 return false;
             });
         };
