@@ -8,13 +8,24 @@ from projects.models import Project, ProjectURL
 
 from app.tests import test_data
 
+
 class ProjectTests(TestCase):
+    fixtures = ['users.json']
+
     def _addError(self):
         c = Client()
         assert not Error.objects.all().count()
         c.post(reverse("error-post"), test_data)
         assert test_data["priority"] < 5, test_data["priority"]
         assert Error.objects.all().count() == 1
+
+    def testEditProject(self):
+        project = Project(name="test")
+        project.save()
+
+        self.client.login(username='admin', password='password')
+        r = self.client.get(reverse("projects-edit", args=[project.pk]))
+        self.assertEquals(200, r.status_code)
 
     def testAddProject(self):
         project = Project(name="test")
