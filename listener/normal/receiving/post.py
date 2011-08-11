@@ -11,7 +11,7 @@ from email.Utils import parsedate
 
 from celery.task import task
 
-@task
+@task(rate_limit='10/s')
 def populate(incoming):
     """ Populate the error table with the incoming error """
     # special lookup the account
