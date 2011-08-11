@@ -25,7 +25,7 @@ from email.Utils import formatdate
 import smtplib
 import simplejson
 
-keys = ["account", "ip", "priority", "uid",
+keys = ["account", "count", "ip", "priority", "uid",
     "type", "msg", "traceback", "user_agent",
     "url", "status", "server", "timestamp",
     "request", "username"]

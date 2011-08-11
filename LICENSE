@@ -2,11 +2,11 @@ This project is under multiple licenses.
 
 - all work under the clients directory is under the BSD license (see clients/LICENSE)
 
-- all work under the listener directory by ClearWind is under the GPL license (see listener/LICENSE)
+- all work under the listener directory is under the BSD license (see listener/LICENSE)
 
 - the following is under the listener directory is not by ClearWind and has the following licenses:
 
-    - listener/app_engine/markup
+    - listener/lib/markdown
 
 	This work is from:
 
@@ -29,5 +29,3 @@ This project is under multiple licenses.
         This is the work of the Django Software Foundation and is under the BSD license:
         
         http://code.djangoproject.com/browser/django/trunk/LICENSE
-
-Work by ClearWind is available under a commercial license.
