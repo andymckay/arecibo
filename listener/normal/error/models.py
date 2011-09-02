@@ -33,8 +33,8 @@ class Group(models.Model):
 
     def save(self, *args, **kw):
         created = not getattr(self, "id", None)
+        self.timestamp = datetime.now()
         if created:
-            self.timestamp = datetime.now()
             group_created.send(sender=self.__class__, instance=self)
         super(Group, self).save(*args, **kw)
 

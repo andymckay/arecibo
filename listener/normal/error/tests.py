@@ -12,7 +12,7 @@ from error.agent import get
 
 class ErrorTests(TestCase):
     # test the view for writing errors
-    
+
     def testBasic(self):
         assert not Error.objects.count()
         self.client.post(reverse("error-post"), data)
@@ -48,7 +48,7 @@ class ErrorTests(TestCase):
         new_data["status"] = 402
         self.client.post(reverse("error-post"), new_data)
         assert Group.objects.count() == 2
-        
+
         # and test similar
         assert not Error.objects.order_by('pk')[2].get_similar()
         assert len(Error.objects.order_by('pk')[1].get_similar()) == 1
@@ -78,14 +78,14 @@ class ErrorTests(TestCase):
         ldata["traceback"] = "ɷo̚حٍ"
         self.client.post(reverse("error-post"), ldata)
         assert Error.objects.count() == 1
-    
+
     def testCount(self):
         ldata = data.copy()
         ldata["count"] = 5
         self.client.post(reverse("error-post"), ldata)
         assert Group.objects.count() == 1
         assert Group.objects.all()[0].count == 5
-    
+
     def testCountUpdate(self):
         ldata = data.copy()
         self.client.post(reverse("error-post"), ldata)
@@ -95,19 +95,27 @@ class ErrorTests(TestCase):
         self.client.post(reverse("error-post"), ldata)
         assert Group.objects.all()[0].count == 6
 
+    def testGroupTimestampUpdates(self):
+        self.client.post(reverse("error-post"), data)
+        group = Group.objects.all()[0]
+        old = group.timestamp
+        self.client.post(reverse("error-post"), data)
+        group = Group.objects.all()[0]
+        assert group.timestamp != old
+
 
 class TagsTests(TestCase):
     def testTrunc(self):
         assert trunc_string("Test123", 5) == "Te..."
         assert trunc_string(None, 5) == ""
-        
+
 class AgentTests(TestCase):
     def setUp(self):
         path = os.path.join(os.path.dirname(__file__), 'fixtures/browscap.ini')
         raw = open(path).read()
         key = "browser-capabilities-raw"
         cache.set(key, raw)
-        
+
     def testAgent(self):
         bc = get()
         for agent in [
