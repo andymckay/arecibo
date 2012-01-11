@@ -77,9 +77,9 @@ class GroupForm(Filter):
 
 @memoize(prefix='get-domains', time=120)
 def get_domains():
-    domains = [('','')]
     errs = Error.objects.order_by().values_list('domain', flat=True).distinct()
-    domains.extend([(d, d) for d in errs])
+    domains = sorted([(d, d) for d in errs])
+    domains.insert(('', ''))
     return domains
 
 period_choices = (['', ''],
@@ -91,7 +91,7 @@ class GroupEditForm(ModelForm):
     class Meta:
         model = Group
         fields = ['name', 'count', 'timestamp']
-        
+
 
 class ErrorForm(Filter):
     priority = forms.ChoiceField(choices=priority_choices,
