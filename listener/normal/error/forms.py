@@ -79,7 +79,7 @@ class GroupForm(Filter):
 def get_domains():
     errs = Error.objects.order_by().values_list('domain', flat=True).distinct()
     domains = sorted([(d, d) for d in errs])
-    domains.insert(('', ''))
+    domains.insert(0, ('', ''))
     return domains
 
 period_choices = (['', ''],
