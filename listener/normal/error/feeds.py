@@ -37,7 +37,7 @@ def json(request):
     json_serializer.serialize(queryset[:20], ensure_ascii=False, stream=response)
     return response
 
-class gropu(Feed):
+class group(Feed):
     title = "Arecibo Errors by Groups"
     link = "/groups/"
     description = "Arecibo Errors by Groups"
