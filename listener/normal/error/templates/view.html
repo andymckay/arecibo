@@ -21,6 +21,8 @@
     <dd>{{ error.priority }}</dd>{% endif %}
     {% if error.status %}<dt>Status:</dt>
     <dd>{{ error.status }}</dd>{% endif %}
+    {% if error.count > 1 %}<dt>Count:</dt>
+    <dd>{{ error.count }}</dd>{% endif %}
     {% if error.type %}<dt>Type:</dt>
     <dd>{{ error.type }}</dd>{% endif %}
     {% if error.server %}<dt>Server:</dt>
