@@ -80,6 +80,7 @@ class Error(models.Model):
     create_signal_sent = models.BooleanField(default=False)
 
     public = models.BooleanField(default=False, db_index=True)
+    #count = models.IntegerField(default=1, db_index=True)
 
     class Meta:
         ordering = ['-timestamp', '-id']

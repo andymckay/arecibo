@@ -45,6 +45,7 @@ def default_grouping(instance, **kw):
 
         if created:
             signals.group_assigned.send(sender=group.__class__, instance=group)
+        signals.error_assigned.send(sender=instance.__class__, instance=instance)
 
 signals.error_created.connect(default_grouping,
                               dispatch_uid="default_grouping")
