@@ -103,13 +103,28 @@ You can pass through an extra configuration dictionary for filtering or excludin
 
 The options are:
 
-* EXCLUDED_POST_VARS - a list of the fields you'd like not to post to Arecibo
+* EXCLUDED_POST_VARS - a list of the fields you'd like not to post to Arecibo.
 
-* EXCLUDED_FILES - a list of the files you'd like not to send information about to Arecibo
+* EXCLUDED_FILES - a list of the files you'd like not to send information about to Arecibo.
 
-* FILTERED_POST_VARS - instead of sending the value of the field, sends * instead
+* FILTERED_POST_VARS - instead of sending the value of the field, sends * instead.
 
-* FILTERED_FILES -  instead of sending information about the file, sends * instead
+* FILTERED_FILES -  instead of sending information about the file, sends * instead.
+
+* CALLBACKS - a list of Python methods to be called before processing the error so that you could filter out errors that you don't want to send, by whatever logic you'd like. Any method that returns False (or None) stop processing that error. For example let's exclude all 404's from the GoogleBot::
+
+        def stop_google(request, status, **kw):
+            if ('Googlebot' in request.META.get('HTTP_USER_AGENT') and status == 404):
+                return False
+            return True
+
+        ARECIBO_SETTINGS = {
+            'CALLBACKS': [stop_google,]
+        }
+
+* GROUP_POSTS - boolean, True or False to activate grouping of posts. If you do this, then all errors get passed to celery and wait for GROUP_WAIT seconds before sending it. It will then count the number of times this error has occurred in those GROUP_WAIT seconds. It will then send only ONE error, with the count of the number of times it occurred. This is to prevent one problem on the site that causes lots of errors filling up your site with junk. For example if the database goes down, one error will suffice on that subject, not 6,000 per second. *Note*: this requires celery and memcache to be functioning.
+
+* GROUP_WAIT - period to wait for GROUP_POSTS.
 
 Other times
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

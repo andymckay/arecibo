@@ -113,7 +113,7 @@ class post:
 if __name__=='__main__':
     new = post()
     #new.server(url="http://amckay-arecibo.khan.mozilla.org")
-    new.server(url="http://localhost:8000") 
+    new.server(url="http://arecibo1.dmz.sjc1.mozilla.com")
     #new.transport = "smtp"
     #new.smtp_server = "smtp.telus.net"
     #new.server(email="your server")

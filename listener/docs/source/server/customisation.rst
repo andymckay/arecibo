@@ -16,7 +16,9 @@ Arecibo uses Django's signal handling mechanism to deal with customizing. Whenev
 
 * *group_created*: sent when an error grouping is created
 
-* *group_assigned*: sent when an group is created and has an error assigned to it
+* *group_assigned*: sent when a group is created
+
+* *error_assigned*: sent when an error is assigned to group
 
 * *notification_created*: sent when a notification is created
 
