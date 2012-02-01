@@ -4,7 +4,7 @@
     <td>{% if error.priority|stringformat:"s" in "123" %}<img src="/media/img/priority-{{ error.priority }}.jpg" title="Priority {{ error.priority }}" />{% endif %}
         {% if error.read %}{% else %}<img src="/media/img/read.png" title="Unread" />{% endif %}</td>
     <td>{{ error.status }}</td>
-    <td><abbr title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</abbr></td>
+    <td><time datetime="{{ error.timestamp|date:'c' }}" title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</time></td>
     <td><a href="{% url error-view error.id %}">{{ error.type }}</a></td>
     <td>{{ error.domain }}</td>
     <td title="{{ error.query }}">{{ error.query|trunc:25 }}</td>
