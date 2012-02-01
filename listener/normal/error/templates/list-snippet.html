@@ -7,6 +7,6 @@
     <td><abbr title="{{ error.timestamp|date:'d M, Y P' }}">{{ error.timestamp|timesince }}</abbr></td>
     <td><a href="{% url error-view error.id %}">{{ error.type }}</a></td>
     <td>{{ error.domain }}</td>
-    <td>{{ error.query|trunc:25 }}</td>
+    <td title="{{ error.query }}">{{ error.query|trunc:25 }}</td>
 </tr>
 {% endfor %}
