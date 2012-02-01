@@ -120,6 +120,8 @@ The options are:
 
         ARECIBO_SETTINGS = {
             'CALLBACKS': [stop_google,]
+            # These can be any importable function for example:
+            # 'myapp.utils.arecibo_callback'
         }
 
 * GROUP_POSTS - boolean, True or False to activate grouping of posts. If you do this, then all errors get passed to celery and wait for GROUP_WAIT seconds before sending it. It will then count the number of times this error has occurred in those GROUP_WAIT seconds. It will then send only ONE error, with the count of the number of times it occurred. This is to prevent one problem on the site that causes lots of errors filling up your site with junk. For example if the database goes down, one error will suffice on that subject, not 6,000 per second. *Note*: this requires celery and memcache to be functioning.
