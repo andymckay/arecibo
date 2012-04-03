@@ -107,8 +107,9 @@ class ErrorForm(Filter):
     end = forms.DateField(required=False, label="End date",
         widget=forms.DateInput(attrs={"class":"date",}))
     query = forms.CharField(required=False, label="Path")
-    domain = forms.ChoiceField(choices=[],
-                               widget=forms.Select, required=False)
+#    domain = forms.ChoiceField(choices=[],
+#                               widget=forms.Select, required=False)
+    domain = forms.CharField(required=False, label="Domain")
     uid = forms.CharField(required=False)
     group = forms.ModelChoiceField(queryset=Group.objects.none(),
                                    widget=forms.Select, required=False)
@@ -116,7 +117,7 @@ class ErrorForm(Filter):
     def __init__(self, *args, **kw):
         super(ErrorForm, self).__init__(*args, **kw)
         self.fields['group'].queryset = Group.objects.all()
-        self.fields['domain'].choices = get_domains()
+#        self.fields['domain'].choices = get_domains()
 
     def clean(self):
         data = {}
