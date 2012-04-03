@@ -110,7 +110,6 @@ class ErrorForm(Filter):
     query = forms.CharField(required=False, label="Path")
     domain = forms.ChoiceField(choices=[],
                                widget=forms.Select, required=False)
-    domain = forms.CharField(required=False, label="Domain")
     uid = forms.CharField(required=False)
     group = forms.ModelChoiceField(queryset=Group.objects.none(),
                                    widget=forms.Select, required=False)
