@@ -20,7 +20,8 @@ def as_text(error):
     details = ["    Error: %s%s" % (settings.SITE_URL, error.get_absolute_url()), ]
     if error.raw:
         details.append("    URL: %s" % error.raw)
-    for key in ("timestamp", "status", "priority", "type", "server"):
+    details.append("    Error: %s, %s" % (error.type, error.msg))
+    for key in ("timestamp", "status", "server"):
         value = getattr(error, key)
         if value:
             details.append("    %s: %s" % (key.capitalize(), value))
