@@ -108,6 +108,7 @@ class ErrorForm(Filter):
     end = forms.DateField(required=False, label="End date",
         widget=forms.DateInput(attrs={"class":"date",}))
     query = forms.CharField(required=False, label="Path")
+    ip = forms.CharField(required=False, label="IP")
     domain = forms.ChoiceField(choices=[],
                                widget=forms.Select, required=False)
     uid = forms.CharField(required=False)
