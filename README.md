@@ -1,6 +1,6 @@
 This project is dead.
 
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)
+[No Maintenance Intended](http://unmaintained.tech/badge.svg)
 
 I'm also sad to see that [Arceibo itself will be demolished](https://www.sciencenews.org/article/arecibo-telescope-observatory-icon-puerto-rico-science-demolished).
 
